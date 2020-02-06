@@ -21,6 +21,9 @@ If you need to make a general inquiry to the entire team, please email us at <pr
 
 Additionally, you can reach individual students via:
 Tiffany Lai: <tlai7@uw.edu> 
+
 Brian Uyeda: <uyedacb@uw.edu>
+
 Olivia Tang: <tango2@uw.edu>
+
 Joanna Tan: <joatan@uw.edu>
