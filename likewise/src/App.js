@@ -1,5 +1,4 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
 import './App.css';
 import Navbar from './components/navbar/Navbar';
 import Significance from './components/section2/Significance';
@@ -17,5 +16,4 @@ function App() {
     </div>
   );
 }
-
 export default App;
