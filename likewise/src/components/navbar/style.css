@@ -1,0 +1,33 @@
+a {
+    color: #222222;
+    text-decoration: none;
+}
+.MuiToolbar-gutters {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.menuButton {
+    margin-right: 2px;
+}
+
+.title {
+    flex-grow: 1;
+    font-weight: bold !important;
+    color: #5C5C5C;
+    font-size: 24px !important;
+    font-family: "Roboto", sans-serif !important;
+    margin-right: 1rem;
+}
+
+.bar {
+    height: 64px;
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+    box-shadow: none !important;
+}
+
+#login {
+    margin-right: 1rem;
+}
