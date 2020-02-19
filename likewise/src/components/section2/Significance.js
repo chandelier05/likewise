@@ -1,5 +1,6 @@
 import React from 'react';
-import {makeStyles, Container} from '@material-ui/core';
+import {makeStyles, Container, Button, Grid} from '@material-ui/core';
+import './style.css';
 
 const useStyles = makeStyles(theme => ({
     purple: {
@@ -52,6 +53,15 @@ export default function Significance(props) {
                     </Container>
                 </div>
             </div>
+                <Grid container className={classes.purple} style={{textAlign: "center"}} justify="center">
+                    <Grid item spacing={4}>
+                        <h2 style={{display: "inline-flex"}}>
+                            Are you ready to start sharing?
+                        </h2>
+                    </Grid>
+                        <Button variant="contained" style={{display: "inline-flex",
+                            color: "#FFFFFF", backgroundColor: "#000000"}}>Join the community</Button>
+                </Grid>
         </div>
     );
 }
