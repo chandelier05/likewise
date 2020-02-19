@@ -12,9 +12,9 @@ function App() {
         <Navbar/>
         <Section1/>
       </header>
-      <Container className="homepage">
+      <div className="homepage">
         <Significance/>
-      </Container>
+      </div>
     </div>
   );
 }
