@@ -54,15 +54,15 @@ export default function Significance(props) {
                 </div>
             </div>
                 <Grid container className={classes.purple} style={{textAlign: "center", height: "100%"}} justify="center">
-                    <Grid item spacing={4}>
+                    <Grid item spacing={4} style={{padding: "0px 40px"}}>
                         <h2 style={{display: "inline-flex"}}>
                             Are you ready to start sharing?
                         </h2>
                     </Grid>
-                    <Grid item spacing={4}>
+                    <Grid item spacing={4} style={{padding: "10px 0px 40px"}}>
                         <Button variant="contained" style={{display: "inline-flex",
                             color: "#FFFFFF", backgroundColor: "#000000"}}>Join the community</Button>
-                            </Grid>
+                    </Grid>
                 </Grid>
         </div>
     );
