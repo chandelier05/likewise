@@ -25,7 +25,6 @@ a {
     display: flex;
     justify-content: center;
     flex-grow: 1;
-    box-shadow: none !important;
 }
 
 #login {

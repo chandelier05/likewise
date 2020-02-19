@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 class index extends Component {
     render() {
         return (
-            <div className="navbar" style={{background: "#DCCF5FC"}}>
+            <div className="navbar" style={{background: "#E3EAEF"}}>
             <AppBar position="static" className="bar page-container" style={{background: "#D4DFEC"}} >
                 <Toolbar>
                     <Typography variant="h5" className="title">
