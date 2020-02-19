@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import './App.css';
 import Navbar from './components/navbar/Navbar';
+import Section1 from './components/section1/index';
 import Significance from './components/section2/Significance';
-import {Container} from '@material-ui/core';
+
 
 function App() {
   return (
@@ -10,9 +11,13 @@ function App() {
       <header>
         <Navbar/>
       </header>
-      <Container className="homepage">
+      <div className="homepage">
+        <Section1/>
         <Significance/>
-      </Container>
+      </div>
+      <footer>
+        
+      </footer>
     </div>
   );
 }

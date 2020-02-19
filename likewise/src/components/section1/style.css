@@ -1,0 +1,38 @@
+.connect{
+    background-color: #E3EAEF;
+    height: 608px;
+    padding: 1rem;
+    
+}
+
+.connect h1{
+    text-align: left;
+    margin-top: 15%;
+    margin-right: 18%;
+    margin-left: 18%;
+    font-size: 56px;
+}
+
+.connect Button{
+    float: left;
+    text-align: center;
+    margin-left: 18%;
+    margin-top: 2rem;
+    background-color: #8481E2;
+    color: white;
+    
+}
+
+.icons {
+    display: flex;
+    flex-direction: row;
+    flex-basis: 100%;
+    flex: 1;
+    justify-content: center;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+
+.icons img {
+    margin-right: 47px;
+}
