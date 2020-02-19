@@ -1,17 +1,21 @@
 import React, {Component} from 'react';
 import './App.css';
-import NavBar from "./components/navbar/index";
-import Section1 from "./components/section1/index";
+import Navbar from './components/navbar/Navbar';
+import Section1 from './components/section1/index';
+import Significance from './components/section2/Significance';
+import {Container} from '@material-ui/core';
 
-class App extends Component {
-  render() {
-    return (
-      <>
-        <NavBar/>
+function App() {
+  return (
+    <div>
+      <header>
+        <Navbar/>
         <Section1/>
-        
-      </>
-    );
-  }
+      </header>
+      <Container className="homepage">
+        <Significance/>
+      </Container>
+    </div>
+  );
 }
 export default App;
