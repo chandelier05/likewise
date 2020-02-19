@@ -1,5 +1,5 @@
 import React from 'react';
-import {makeStyles, Container, Button, Grid, Box} from '@material-ui/core';
+import {makeStyles, Grid, Box} from '@material-ui/core';
 import './style.css';
 import circle from "../../assets/circle.PNG";
 

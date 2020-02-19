@@ -7,3 +7,23 @@ h1, h2, h3, p {
         flex-basis: 5.333333% !important;
     }
 }
+
+#feelings{
+    clear: both;
+}
+
+.purple{
+    flex-grow: 1;
+    background-color: #8481E2;
+    color: #FFF;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 20px 40px;
+}
+
+.white {
+    flex-grow: 1;
+    background-color: #F6F6F2;
+    color: #000000;
+    padding: 20px 40px;
+}
