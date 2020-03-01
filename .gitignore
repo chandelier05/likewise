@@ -1,1 +1,5 @@
 node_modules
+server-likewise/go.mod
+server-likewise/go.sum
+
+
