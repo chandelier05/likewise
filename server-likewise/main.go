@@ -4,6 +4,7 @@ import (
     "log"
     "net/http"
     "os"
+    "rsc.io/quote"
 )
 
 //HelloHandler handles requests for the `/hello` resource
