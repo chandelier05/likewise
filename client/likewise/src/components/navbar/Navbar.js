@@ -26,6 +26,7 @@ class Navbar extends Component {
                 buttonText="LOGIN WITH GOOGLE"
                 onSuccess={responseGoogle}
                 onFailure={responseGoogle}
+                cookiePolicy={'single_host_origin'}
                 />
 
                 </Toolbar>
