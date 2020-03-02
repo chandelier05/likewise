@@ -27,6 +27,11 @@ a {
     flex-grow: 1;
 }
 
+#dropdown {
+    height: 315px;
+    width: 522px;
+}
+
 #login {
     margin-right: 1rem;
     padding-top: 0.5rem;

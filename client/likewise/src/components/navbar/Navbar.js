@@ -5,15 +5,38 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 //import Button from '@material-ui/core/Button';
 
-import GoogleLogin from 'react-google-login';
+import {GoogleLogin, useGoogleLogin} from 'react-google-login';
 
 //just in case
 //<Button variant="contained" id="login">Login</Button>
 class Navbar extends Component {
+    
     render() {
         const responseGoogle = (response) => {
             console.log(response);
           }
+
+          const { signIn, loaded } = useGoogleLogin({
+            onSuccess,
+            clientId,
+            cookiePolicy,
+            loginHint,
+            hostedDomain,
+            autoLoad,
+            isSignedIn,
+            fetchBasicProfile,
+            redirectUri,
+            discoveryDocs,
+            onFailure,
+            uxMode,
+            scope,
+            accessType,
+            responseType,
+            jsSrc,
+            onRequest,
+            prompt
+          })
+          
         return (
             <div className="navbar" style={{background: "#8481E2"}}>
             <AppBar position="static" className="bar page-container" style={{background: "#8481E2"}} >
@@ -32,6 +55,17 @@ class Navbar extends Component {
                 </Toolbar>
             </AppBar>
         </div>
+        );
+    }
+}
+
+class Dropdown extends Component {
+    render() {
+        return (
+           <div id="dropdown">
+
+            </div>
+
         );
     }
 }
