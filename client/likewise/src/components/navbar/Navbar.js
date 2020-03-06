@@ -12,50 +12,51 @@ import {GoogleLogin, useGoogleLogin} from 'react-google-login';
 class Navbar extends Component {
     
     render() {
-        const responseGoogle = (response) => {
-            console.log(response);
-          }
+        return
+        // const responseGoogle = (response) => {
+        //     console.log(response);
+        //   }
 
-          const { signIn, loaded } = useGoogleLogin({
-            onSuccess,
-            clientId,
-            cookiePolicy,
-            loginHint,
-            hostedDomain,
-            autoLoad,
-            isSignedIn,
-            fetchBasicProfile,
-            redirectUri,
-            discoveryDocs,
-            onFailure,
-            uxMode,
-            scope,
-            accessType,
-            responseType,
-            jsSrc,
-            onRequest,
-            prompt
-          })
+        //   const { signIn, loaded } = useGoogleLogin({
+        //     onSuccess,
+        //     clientId,
+        //     cookiePolicy,
+        //     loginHint,
+        //     hostedDomain,
+        //     autoLoad,
+        //     isSignedIn,
+        //     fetchBasicProfile,
+        //     redirectUri,
+        //     discoveryDocs,
+        //     onFailure,
+        //     uxMode,
+        //     scope,
+        //     accessType,
+        //     responseType,
+        //     jsSrc,
+        //     onRequest,
+        //     prompt
+        //   })
           
-        return (
-            <div className="navbar" style={{background: "#8481E2"}}>
-            <AppBar position="static" className="bar page-container" style={{background: "#8481E2"}} >
-                <Toolbar>
-                    <Typography variant="h5" className="title">
-                        LIKEWISE
-                    </Typography>
-                    <GoogleLogin
-                clientId="691783787003-ec0rhkknvm5708q8bdgdae87qv9h29nc.apps.googleusercontent.com"
-                buttonText="LOGIN WITH GOOGLE"
-                onSuccess={responseGoogle}
-                onFailure={responseGoogle}
-                cookiePolicy={'single_host_origin'}
-                />
+        // return (
+        //     <div className="navbar" style={{background: "#8481E2"}}>
+        //     <AppBar position="static" className="bar page-container" style={{background: "#8481E2"}} >
+        //         <Toolbar>
+        //             <Typography variant="h5" className="title">
+        //                 LIKEWISE
+        //             </Typography>
+        //             <GoogleLogin
+        //         clientId="691783787003-ec0rhkknvm5708q8bdgdae87qv9h29nc.apps.googleusercontent.com"
+        //         buttonText="LOGIN WITH GOOGLE"
+        //         onSuccess={responseGoogle}
+        //         onFailure={responseGoogle}
+        //         cookiePolicy={'single_host_origin'}
+        //         />
 
-                </Toolbar>
-            </AppBar>
-        </div>
-        );
+        //         </Toolbar>
+        //     </AppBar>
+        // </div>
+        // );
     }
 }
 

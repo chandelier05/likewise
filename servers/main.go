@@ -13,7 +13,7 @@ import (
 	"../servers/gateway/sessions"
 
 	"github.com/go-redis/redis"
-	_ "github.com/go-sql-driver/mysql"
+	 "github.com/go-sql-driver/mysql"
 )
 
 //main is the main entry point for the server
