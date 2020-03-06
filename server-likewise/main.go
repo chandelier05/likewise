@@ -12,6 +12,11 @@ func HelloHandler(w http.ResponseWriter, r *http.Request) {
     w.Write([]byte("Hello, Web!\n"))
 }
 
+//authHandler handles display of sign-in page and auth functionality
+func authHandler(w http.ResponseWriter, r *http.Request) {
+    
+}
+
 func main() {
     //get the value of the ADDR environment variable
     addr := os.Getenv("ADDR")
