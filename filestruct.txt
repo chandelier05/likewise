@@ -1,0 +1,18 @@
+/src
+    /assets
+        <imgs>
+    /components
+        PostPreview
+        DetailedPost
+        Comment
+        Navbar
+        Searchbar
+        TopUser
+        TopUserHeader
+        /LandingComps
+            Section1
+            Section2
+            Section3
+    PostNavigationPage
+    DetailedPostPage
+    LandingPage
