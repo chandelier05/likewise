@@ -14,7 +14,7 @@ h1, h2, h3, p {
 
 .purple{
     flex-grow: 1;
-    background-color: #8481E2;
+    background: linear-gradient(247.92deg, #88B5E1 0.6%, #9188AB 100%);
     color: #FFF;
     margin-right: auto;
     margin-left: auto;

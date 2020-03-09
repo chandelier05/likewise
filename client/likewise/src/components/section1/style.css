@@ -1,5 +1,6 @@
+
 .connect{
-    background-color: #E3EAEF;
+    background: linear-gradient(247.92deg, #88B5E1 0.6%, #9188AB 100%);
     height: 608px;
     padding: 1rem;
     
@@ -11,6 +12,7 @@
     margin-right: 18%;
     margin-left: 17%;
     font-size: 56px;
+    color: white;
 }
 
 .connect Button{
@@ -18,7 +20,7 @@
     text-align: center;
     margin-left: 18%;
     margin-top: 2rem;
-    background-color: #8481E2;
+    background-color: black;
     color: white;
     padding: 1rem;
     

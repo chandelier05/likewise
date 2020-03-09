@@ -6,6 +6,7 @@ import Significance from './components/section2/Significance';
 import Footer from './components/footer/Footer';
 
 
+
 function App() {
   return (
     <div>

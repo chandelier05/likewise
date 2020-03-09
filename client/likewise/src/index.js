@@ -4,6 +4,23 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+//import and configure firebase here
+import firebase from 'firebase/app';
+import 'firebase/database';
+import 'firebase/auth'; 
+
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyD52Aj5zVWvvbmjJpOTQqluhPPIC_BrDuQ",
+    authDomain: "likewise-269823.firebaseapp.com",
+    databaseURL: "https://likewise-269823.firebaseio.com",
+    projectId: "likewise-269823",
+    storageBucket: "likewise-269823.appspot.com",
+    messagingSenderId: "691783787003",
+    appId: "1:691783787003:web:af2e818be76bfa9cfbeb5e"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

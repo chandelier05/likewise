@@ -8,10 +8,10 @@ import feature3 from '../../assets/Feature3.png';
 class index extends Component {
     render(){
         return(
-            <div>
+            <div className="container">
                 <div className="connect">
                     <h1>Connect with fellow UW students and see what they're experiencing</h1>
-                    <Button variant="contained" id="signup" size="large" >Join the Community</Button>
+                    <Button variant="contained" id="signup" size="large" >Browse Posts</Button>
                 </div>
                 <div className="icons">
                     <img src= {feature1} alt="first feature"/>
