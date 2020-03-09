@@ -16,3 +16,5 @@
     PostNavigationPage
     DetailedPostPage
     LandingPage
+    index.css #most if not all of our css should go in here
+    App.css
