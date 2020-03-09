@@ -1,0 +1,10 @@
+users
+    UID
+posts
+    postID
+        preview
+        body
+        comments
+            cID
+                body
+                UID
