@@ -7,6 +7,7 @@ import Footer from './components/footer/Footer';
 import GoogleLogin from 'react-google-login';
 import Container from '@material-ui/core/Container';
 import PostNavigationPage from './PostNavigationPage';
+import CreatePostPage from './CreatePostPage';
 // function App() {
 //   return (
 //     <div>
@@ -27,8 +28,6 @@ export default function App() {
     console.log(response);
   }
   return (
-    <Container maxWidth="sm">
-      <PostNavigationPage/>
-    </Container>
+      <CreatePostPage/>
   )
 }

@@ -21,3 +21,23 @@ code {
 .homepage {
   padding: 0 !important;
 }
+
+#createDescription {
+  height: 20rem;
+  width: 70rem;
+}
+
+#createSummary {
+  height: 5rem;
+  width: 70rem;
+}
+
+#createTags {
+  padding: 0rem;
+}
+
+#createPostTitle {
+  background: -webkit-linear-gradient(#88B5E1, #9188AB);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
