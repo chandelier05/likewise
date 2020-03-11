@@ -8,6 +8,10 @@ import GoogleLogin from 'react-google-login';
 import Container from '@material-ui/core/Container';
 import PostNavigationPage from './PostNavigationPage';
 import CreatePostPage from './CreatePostPage';
+import UserPicture from './components/UserPicture';
+import circle from './assets/userImg.PNG';
+import DetailedPostPage from './DetailedPostPage';
+
 // function App() {
 //   return (
 //     <div>
@@ -28,6 +32,6 @@ export default function App() {
     console.log(response);
   }
   return (
-      <CreatePostPage/>
+    <DetailedPostPage/>
   )
 }
