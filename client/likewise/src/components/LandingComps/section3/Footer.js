@@ -1,7 +1,7 @@
 import React from 'react';
 import {makeStyles, Grid, Box} from '@material-ui/core';
 import './style.css';
-import circle from "../../assets/circle.PNG";
+import circle from "../../../assets/circle.PNG";
 
 const useStyles = makeStyles(theme => ({
     root: {

@@ -9,3 +9,17 @@ html, body {
   width: 100%;
   margin: 0;
 }
+
+.searchbar{
+  background :linear-gradient(247.92deg, #88B5E1 0.6%, #9188AB 100%);
+  padding: 1rem;
+}
+
+
+.searchbar div div{
+  background-color: white;
+}
+
+.searchbar #barcontain{
+  margin-left:5rem;
+}

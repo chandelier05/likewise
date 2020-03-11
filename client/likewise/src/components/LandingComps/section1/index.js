@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import './style.css';
 import Button from '@material-ui/core/Button';
-import feature1 from '../../assets/Feature1.png';
-import feature2 from '../../assets/Feature2.png';
-import feature3 from '../../assets/Feature3.png';
+import feature1 from '../../../assets/Feature1.png';
+import feature2 from '../../../assets/Feature2.png';
+import feature3 from '../../../assets/Feature3.png';
 
 class index extends Component {
     render(){
