@@ -46,19 +46,53 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     margin: "0rem 1rem",
+  },
+  button: {
+    margin: "10px"
   }
 }))
 
 export default function CreatePostPage(props) {
-    const db = firebase.firestore();
-    const classes = useStyles();
-    const [anchorEl, setAnchorEl] = useState(null);
-    const handleClick = event => {
-      setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-      setAnchorEl(null);
-    };
+  const db = firebase.firestore();
+  const classes = useStyles();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [postData, setPost] = useState({
+    summary: "",
+    description: "",
+    tags: ""
+  });
+  const handleClick = event => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleSubmit = event => {
+    db.collection('posts').add({
+      body: postData.description,
+      preview: postData.summary,
+      uid: "TEMPORARY PLACEHOLDER",
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      likes: 0
+    })
+  };
+  const handleCancel = event => {
+
+  };
+  const handleChange = (event) => {
+    const value = event.target.value;
+    setPost({
+      ...postData,
+      [event.target.name]: value
+    });
+    // console.log(postData);
+    // console.log("postdata is being modified");
+  }
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  useEffect(() => {
+
+  }, []);
+
   return (
     <div>
       <Grid container style={{flexDirection: "column"}}>
@@ -88,17 +122,33 @@ export default function CreatePostPage(props) {
             <div class={classes.inputBlock}/>
             <div class={classes.inputBlock}>
               <label for="summary" class={classes.field}>Summary of Post</label>
-              <textarea id="createSummary" name="summary" class={classes.fieldInput}></textarea>
+              <textarea id="createSummary" name="summary" value={postData.summary}
+              class={classes.fieldInput} onChange={handleChange}></textarea>
             </div>
             <div class={classes.inputBlock}>
               <label for="description" class={classes.field}>Description</label>
-              <textarea id="createDescription" name="descsription" class={classes.fieldInput}></textarea>
+              <textarea id="createDescription" name="description" value={postData.description} 
+              class={classes.fieldInput} onChange={handleChange}></textarea>
             </div>
             <div class={classes.inputBlock}>
               <label for="tags" class={classes.field}>Tags</label>
-              <input type="text" id="createTags" name="tags" class={classes.fieldInput}/>
+              <input type="text" id="createTags" name="tags" value={postData.tags} 
+              onChange={handleChange} class={classes.fieldInput}/>
             </div>
           </form>
+        </Grid>
+      </Grid>
+      <Grid container>
+        <Grid item xs={7}>
+        </Grid>
+        <Grid item xs={1} spacing={0} class={classes.button}>
+          <Button name="cancel" onClick={handleCancel} variant="contained">Cancel</Button>
+        </Grid>
+        <Grid item xs={1} spacing={0} class={classes.button}>
+          <Button name="submit" onClick={handleSubmit} variant="contained">Submit</Button>
+        </Grid>
+        <Grid item xs={3} spacing={0}>
+
         </Grid>
       </Grid>
     </div>
