@@ -6,9 +6,6 @@ import './App.css';
 import Navbar from './components/navbar/Navbar';
 import GoogleLogin from 'react-google-login';
 
-import Section1 from './components/LandingComps/section1/index';
-import Significance from './components/LandingComps/section2/Significance';
-import Footer from './components/LandingComps/section3/Footer';
 import SearchBar from "./components/Searchbar/searchbar";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 
@@ -18,6 +15,9 @@ import CreatePostPage from './CreatePostPage';
 import UserPicture from './components/UserPicture';
 import circle from './assets/userImg.PNG';
 import DetailedPostPage from './DetailedPostPage';
+import HomePage from './HomePage';
+import {Switch, Route} from 'react-router-dom';
+import DetailedPost from './components/DetailedPost';
 
 // function App() {
 //   return (
@@ -33,58 +33,99 @@ import DetailedPostPage from './DetailedPostPage';
 //   );
 // }
 // export default App;
+const responseGoogle = (response) => {
+  console.log(response);
+}
+export default class App extends Component {
+  state = { isSignedIn: false};
+  uiConfig = { 
+    signInFlow: "popup", 
+    SignInOptions: [
+      firebase.auth.GoogleAuthProvider.PROVIDER_ID
+    ], 
+    callbacks: {
+      signInSuccess: () => false
+    }
+  };
 
-export default function App() {
-  const responseGoogle = (response) => {
-    console.log(response);
+  componentDidMount = () =>{
+
+    firebase.auth().onAuthStateChanged(user => {
+      this.setState({isSignedIn:!!user})
+      console.log("user", user)
+    })
   }
-  return (
-    <DetailedPostPage/>
-  )
+  render() {
+    return (
+      <div>
+        <header>
+          <Navbar/>
+          <StyledFirebaseAuth
+          uiConfig={this.uiConfig}
+          firebaseAuth={firebase.auth()}/>
+          <SearchBar/>
+        </header>
+        <Switch>
+          <Route exact path="/">
+            <HomePage isSignedIn={this.state.isSignedIn}/>
+          </Route>
+          <Route exact path="/posts">
+            <PostNavigationPage/>
+          </Route>
+          <Route path="/createPost">
+            <CreatePostPage/>
+          </Route>
+          <Route path="/posts/:pid">
+            <DetailedPostPage/>
+          </Route>
+        </Switch>
+      </div>
+    )
+  }
 }
 
 
 // class App extends Component {
-//   state = { isSignedIn: false};
-//   uiConfig = { 
-//     signInFlow: "popup", 
-//     SignInOptions: [
-//       firebase.auth.GoogleAuthProvider.PROVIDER_ID
-//     ], 
-//     callbacks: {
-//       signInSuccess: () => false
-//     }
-//   };
+  // state = { isSignedIn: false};
+  // uiConfig = { 
+  //   signInFlow: "popup", 
+  //   SignInOptions: [
+  //     firebase.auth.GoogleAuthProvider.PROVIDER_ID
+  //   ], 
+  //   callbacks: {
+  //     signInSuccess: () => false
+  //   }
+  // };
 
-//   componentDidMount = () =>{
+  // componentDidMount = () =>{
 
-//     firebase.auth().onAuthStateChanged(user => {
-//       this.setState({isSignedIn:!!user})
-//       console.log("user", user)
-//     })
-//   }
+  //   firebase.auth().onAuthStateChanged(user => {
+  //     this.setState({isSignedIn:!!user})
+  //     console.log("user", user)
+  //   })
+  // }
 
 //   render(){
 //     return (
 //       <div>
-//         <header>
-//           <Navbar/>
-//           <StyledFirebaseAuth
-//           uiConfig={this.uiConfig}
-//           firebaseAuth={firebase.auth()}/>
-//           <SearchBar/>
-//         </header>
-//         {this.state.isSignedIn ? (
-//           <div>Signed In!</div>
-//         ) : (<>
-//           <div className="homepage">
-//           <Section1/>
-//           <Significance/>
-//           </div>
-//           <footer>
-//           <Footer/>
-//           </footer>
-//           </>)}
+        // <header>
+        //   <Navbar/>
+        //   <StyledFirebaseAuth
+        //   uiConfig={this.uiConfig}
+        //   firebaseAuth={firebase.auth()}/>
+        //   <SearchBar/>
+        // </header>
+        // {this.state.isSignedIn ? (
+        //   <div>Signed In!</div>
+        // ) : (<>
+        //   <div className="homepage">
+        //   <Section1/>
+        //   <Significance/>
+        //   </div>
+        //   <footer>
+        //   <Footer/>
+        //   </footer>
+        //   </>)}
 //       </div>
 //     );
 //   }

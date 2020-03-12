@@ -8,6 +8,7 @@ import DetailedPost from './components/DetailedPost';
 import Comment from './components/Comment';
 import CreateReply from'./components/CreateReply';
 import { useCollection } from 'react-firebase-hooks/firestore';
+import {useParams} from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   root : {
@@ -31,10 +32,11 @@ export default function DetailedPostPage(props) {
   const [comments, setComments] = useState([{}]);
   const db = firebase.firestore();
   const [mainReply, setMainReply] = useState(false);
+  let { pid } = useParams();
   const handleMainReply = () => {
     setMainReply(!mainReply);
   }
-  const commentsDB = db.collection("posts").doc("testpid").collection("comments").orderBy("timestamp", "desc")
+  const commentsDB = db.collection("posts").doc(pid).collection("comments").orderBy("timestamp", "desc")
   //TO-DO: FIX BUG WHERE EMPTY COMMENT IS SHOWN BY APPENDAGING FIRST ELEMENT
   // LOOK UP HOW TO USE EVENT LISTENERS FIRESTORE (PROBABLY WILL FIX ISSUE)
   // OR HOTFIX AND REUPDATE DB INSTANCE???
@@ -74,7 +76,7 @@ export default function DetailedPostPage(props) {
             <DetailedPost setParent={handleMainReply}/>
           </Box>
           <Box>
-            {mainReply ? <CreateReply firstName="test" lastName="again" pid="testpid" setParent={handleMainReply} timesp={firebase.firestore}/> : <div></div>}
+            {mainReply ? <CreateReply firstName="test" lastName="again" pid={pid} setParent={handleMainReply} timesp={firebase.firestore}/> : <div></div>}
           </Box>
           <Box>
           <h1>Replies</h1>
