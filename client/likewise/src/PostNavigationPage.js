@@ -19,7 +19,7 @@ export default function PostNavigationPage(props) {
   // Similar to componentDidMount and componentDidUpdate:
   // TODO: change functionality to look for most recent posts? and compile into list
   useEffect(() => {
-    var docRef = db.collection("posts").orderBy("likes", "desc")
+    var docRef = db.collection("posts").orderBy("likes", "asc")
     
     docRef.get().then((QuerySnapshot) => {
       let newArr = [];
