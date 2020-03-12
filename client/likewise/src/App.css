@@ -12,14 +12,22 @@ html, body {
 
 .searchbar{
   background :linear-gradient(247.92deg, #88B5E1 0.6%, #9188AB 100%);
-  padding: 1rem;
+  display:flex;
+  flex-direction:column;
+  
 }
 
-
-.searchbar div div{
-  background-color: white;
+#searchbutton{
+  margin-top: 2.3rem;
 }
 
-.searchbar #barcontain{
-  margin-left:5rem;
+.searchcontain{
+  margin-left: 4rem;
 }
+
+#sortdrop{
+  display:flex;
+  flex-direction:row;
+
+}
+
