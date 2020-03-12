@@ -5,11 +5,36 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
+import firebase, { app } from "firebase";
+import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
+
 import Paw from "../../assets/paw.png"
 
-//just in case
-//<Button variant="contained" id="login">Login</Button>
 class Navbar extends Component {
+    
+    state = { isSignedIn: false}
+    //resources
+    //https://github.com/firebase/firebaseui-web-react
+    //https://github.com/lingonsaft/React-FirebaseUi-Authentication/blob/master/src/App.js
+    uiConfig = { 
+        signInFlow: "redirect", 
+        SignInSuccessUrl: './pages/PostNavigationPage/PostNavigationPage', 
+        SignInOptions: [
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID
+        ], 
+        callbacks: {
+        signInSuccess: () => false
+        }
+    };
+
+    componentDidMount = () =>{
+
+        firebase.auth().onAuthStateChanged(user => {
+          this.setState({isSignedIn:!!user})
+          console.log("user", user)
+        })
+    }
+
     render() {
         return (
             <div className="navbar">
@@ -19,7 +44,9 @@ class Navbar extends Component {
                         <Typography variant="h5" className="title">
                             LIKEWISE
                         </Typography>
-                        <Button variant="contained" color="primary" id="login">Login with Google</Button> 
+                        <StyledFirebaseAuth 
+                        uiConfig={this.uiConfig} 
+                        firebaseAuth={firebase.auth()}/>
                     </Toolbar>
                 </AppBar>
             </div>

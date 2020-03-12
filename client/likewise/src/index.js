@@ -12,7 +12,7 @@ import 'firebase/auth';
   // Your web app's Firebase configuration
   var firebaseConfig = {
     apiKey: "AIzaSyD52Aj5zVWvvbmjJpOTQqluhPPIC_BrDuQ",
-    authDomain: "localhost",
+    authDomain: "chandelier05.github.io",
     databaseURL: "https://likewise-269823.firebaseio.com",
     projectId: "likewise-269823",
     storageBucket: "likewise-269823.appspot.com",

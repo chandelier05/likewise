@@ -7,20 +7,9 @@ import Footer from './components/LandingComps/section3/Footer';
 import SearchBar from "./components/Searchbar/searchbar";
 
 import firebase, { app } from "firebase";
-import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 
 
 class App extends Component {
-  state = { isSignedIn: false};
-  uiConfig = { 
-    signInFlow: "popup", 
-    SignInOptions: [
-      firebase.auth.GoogleAuthProvider.PROVIDER_ID
-    ], 
-    callbacks: {
-      signInSuccess: () => false
-    }
-  };
 
   componentDidMount = () =>{
 
@@ -35,24 +24,17 @@ class App extends Component {
       <div>
         <header>
           <Navbar/>
-          <StyledFirebaseAuth
-          uiConfig={this.uiConfig}
-          firebaseAuth={firebase.auth()}/>
           <SearchBar/>
         </header>
-        {this.state.isSignedIn ? (
-          <div>Signed In!</div>
-        ) : (<>
-          <div className="homepage">
+        <div className="homepage">
           <Section1/>
           <Significance/>
           </div>
           <footer>
           <Footer/>
           </footer>
-          </>)}
       </div>
     );
   }
 }
-export default app
+export default App
