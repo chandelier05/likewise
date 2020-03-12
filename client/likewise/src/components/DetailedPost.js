@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
   },
   postOutline: {
     border: "1px solid #9188AB",
-
+    padding: "1rem"
   },
   post: {
     display: "flex",
