@@ -27,8 +27,7 @@ a {
 }
 
 Button {
-    background:linear-gradient(247.92deg, #88B5E1 0.6%, #9188AB 100%);
-    text-decoration-color: white;
+    
 }
 
 .bar {
@@ -47,4 +46,6 @@ Button {
     margin-right: 1rem;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
+    background:linear-gradient(247.92deg, #88B5E1 0.6%, #9188AB 100%);
+    text-decoration-color: white;
 }

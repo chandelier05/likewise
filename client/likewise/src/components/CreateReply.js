@@ -47,17 +47,19 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function CreateReply(props) {
-  const db = firebase.firestore();
   const classes = useStyles();
   const [comment, setComment] = useState("");
   const handleSubmit = (event) => {
-    db.collection('posts').doc(props.pid).collection("comments").add({
+    let timeObject = {
       body: comment,
       uid: "TEMPORARY PLACEHOLDER",
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      timestamp: props.timesp.FieldValue.serverTimestamp(),
       firstName: props.firstName,
       lastName: props.lastName
-    }).then(() => {
+    };
+    firebase.firestore().collection('posts').doc(props.pid).collection("comments").add(timeObject).then(() => {
+      console.log("WRITE FINISHED");
+      console.log("MAIN REPLY BEING RESET")
       props.setParent();
     })
   };
@@ -69,9 +71,6 @@ export default function CreateReply(props) {
     // console.log(postData);
     // console.log("postdata is being modified");
   }
-  useEffect(() => {
-
-  }, []);
 
   return (
     <div class={classes.root}>

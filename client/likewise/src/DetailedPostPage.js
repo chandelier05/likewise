@@ -7,6 +7,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import DetailedPost from './components/DetailedPost';
 import Comment from './components/Comment';
 import CreateReply from'./components/CreateReply';
+import { useCollection } from 'react-firebase-hooks/firestore';
 
 const useStyles = makeStyles(theme => ({
   root : {
@@ -33,16 +34,24 @@ export default function DetailedPostPage(props) {
   const handleMainReply = () => {
     setMainReply(!mainReply);
   }
+  const commentsDB = db.collection("posts").doc("testpid").collection("comments").orderBy("timestamp", "desc")
   //TO-DO: FIX BUG WHERE EMPTY COMMENT IS SHOWN BY APPENDAGING FIRST ELEMENT
   // LOOK UP HOW TO USE EVENT LISTENERS FIRESTORE (PROBABLY WILL FIX ISSUE)
   // OR HOTFIX AND REUPDATE DB INSTANCE???
   useEffect(() => {
-    let newArr = [...comments];
-    db.collection("posts").doc("testpid").collection("comments").orderBy("timestamp", "desc")
-    .get().then((querySnapshot) => {
+    commentsDB.onSnapshot((querySnapshot) => {
+      let newArr = [];
+      console.log(mainReply)
+      console.log("listener has been updated?")
+      console.log(querySnapshot);
       querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
+        // prevent listener from updating comments if new doc created has not been fully written to server
+        if (doc.metadata.hasPendingWrites) {
+          return;
+        }
         var data = doc.data();
+        // var source = doc.metadata.hasPendingWrites ? "Local" : "Server";
+        // console.log(source, " data: ", doc.data());
         var newComment = {
           body: data["body"],
           firstName: data["firstName"],
@@ -52,14 +61,11 @@ export default function DetailedPostPage(props) {
         };
         //console.log(data["timestamp"].toDate());
         newArr.push(newComment);
-      });
+    });
+      console.log(newArr);
       setComments(newArr);
-      console.log("comments retrieved");
-    }).catch(function(error) {
-      console.log("Error getting document:", error);
-    }) 
-  }, mainReply);
-  console.log(comments);
+    })
+  }, []);
   return (
     <Container maxWidth="sm">
       <Grid container>
@@ -68,7 +74,7 @@ export default function DetailedPostPage(props) {
             <DetailedPost setParent={handleMainReply}/>
           </Box>
           <Box>
-            {mainReply ? <CreateReply firstName="test" lastName="again" pid="testpid" setParent={handleMainReply}/> : <div></div>}
+            {mainReply ? <CreateReply firstName="test" lastName="again" pid="testpid" setParent={handleMainReply} timesp={firebase.firestore}/> : <div></div>}
           </Box>
           <Box>
           <h1>Replies</h1>

@@ -13,6 +13,7 @@
     "jss": "^10.0.4",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "react-firebase-hooks": "^2.1.1",
     "react-firebaseui": "^4.1.0",
     "react-google-login": "^5.1.1",
     "react-scripts": "3.3.1"
