@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
+import firebase from "firebase";
+import 'firebase/auth';
+import 'firebase/database';
 import './App.css';
 import Navbar from './components/navbar/Navbar';
-import Section1 from './components/section1/index';
-import Significance from './components/section2/Significance';
-import Footer from './components/footer/Footer';
 import GoogleLogin from 'react-google-login';
 // import Container from '@material-ui/core/Container';
 // import PostNavigationPage from './PostNavigationPage';
@@ -40,8 +40,6 @@ import Section1 from './components/LandingComps/section1/index';
 import Significance from './components/LandingComps/section2/Significance';
 import Footer from './components/LandingComps/section3/Footer';
 import SearchBar from "./components/Searchbar/searchbar";
-
-import firebase, { app } from "firebase";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 
 
@@ -90,5 +88,4 @@ class App extends Component {
     );
   }
 }
-export default app
->>>>>>> dd834f2ffc5560e223676a289a669efbe9e40179
+export default App
