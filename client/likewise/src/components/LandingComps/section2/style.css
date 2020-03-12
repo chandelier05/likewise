@@ -1,0 +1,29 @@
+h1, h2, h3, p {
+    padding: 10px;
+}
+
+@media (min-width: 600px) {
+    #line {
+        flex-basis: 5.333333% !important;
+    }
+}
+
+#feelings{
+    clear: both;
+}
+
+.purple{
+    flex-grow: 1;
+    background: linear-gradient(247.92deg, #88B5E1 0.6%, #9188AB 100%);
+    color: #FFF;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 20px 40px;
+}
+
+.white {
+    flex-grow: 1;
+    background-color: #F6F6F2;
+    color: #000000;
+    padding: 20px 40px;
+}

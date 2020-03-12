@@ -5,33 +5,90 @@ import Section1 from './components/section1/index';
 import Significance from './components/section2/Significance';
 import Footer from './components/footer/Footer';
 import GoogleLogin from 'react-google-login';
-import Container from '@material-ui/core/Container';
-import PostNavigationPage from './PostNavigationPage';
-import CreatePostPage from './CreatePostPage';
-import UserPicture from './components/UserPicture';
-import circle from './assets/userImg.PNG';
-import DetailedPostPage from './DetailedPostPage';
+// import Container from '@material-ui/core/Container';
+// import PostNavigationPage from './PostNavigationPage';
+// import CreatePostPage from './CreatePostPage';
+// import UserPicture from './components/UserPicture';
+// import circle from './assets/userImg.PNG';
+// import DetailedPostPage from './DetailedPostPage';
 
-// function App() {
+// // function App() {
+// //   return (
+// //     <div>
+// //       <header>
+// //         <Navbar/>
+// //       </header>
+// //      
+// //       <footer>
+// //         <Footer/>
+// //       </footer>
+// //     </div>
+// //   );
+// // }
+// // export default App;
+
+// export default function App() {
+//   const responseGoogle = (response) => {
+//     console.log(response);
+//   }
 //   return (
-//     <div>
-//       <header>
-//         <Navbar/>
-//       </header>
-//      
-//       <footer>
-//         <Footer/>
-//       </footer>
-//     </div>
-//   );
+//     <DetailedPostPage/>
+//   )
 // }
-// export default App;
 
-export default function App() {
-  const responseGoogle = (response) => {
-    console.log(response);
+import Section1 from './components/LandingComps/section1/index';
+import Significance from './components/LandingComps/section2/Significance';
+import Footer from './components/LandingComps/section3/Footer';
+import SearchBar from "./components/Searchbar/searchbar";
+
+import firebase, { app } from "firebase";
+import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
+
+
+class App extends Component {
+  state = { isSignedIn: false};
+  uiConfig = { 
+    signInFlow: "popup", 
+    SignInOptions: [
+      firebase.auth.GoogleAuthProvider.PROVIDER_ID
+    ], 
+    callbacks: {
+      signInSuccess: () => false
+    }
+  };
+
+  componentDidMount = () =>{
+
+    firebase.auth().onAuthStateChanged(user => {
+      this.setState({isSignedIn:!!user})
+      console.log("user", user)
+    })
   }
-  return (
-    <DetailedPostPage/>
-  )
+
+  render(){
+    return (
+      <div>
+        <header>
+          <Navbar/>
+          <StyledFirebaseAuth
+          uiConfig={this.uiConfig}
+          firebaseAuth={firebase.auth()}/>
+          <SearchBar/>
+        </header>
+        {this.state.isSignedIn ? (
+          <div>Signed In!</div>
+        ) : (<>
+          <div className="homepage">
+          <Section1/>
+          <Significance/>
+          </div>
+          <footer>
+          <Footer/>
+          </footer>
+          </>)}
+      </div>
+    );
+  }
 }
+export default app
+>>>>>>> dd834f2ffc5560e223676a289a669efbe9e40179

@@ -10,3 +10,25 @@ html, body {
   margin: 0;
   font-size: 10px;
 }
+
+.searchbar{
+  background :linear-gradient(247.92deg, #88B5E1 0.6%, #9188AB 100%);
+  display:flex;
+  flex-direction:column;
+  
+}
+
+#searchbutton{
+  margin-top: 2.3rem;
+}
+
+.searchcontain{
+  margin-left: 4rem;
+}
+
+#sortdrop{
+  display:flex;
+  flex-direction:row;
+
+}
+

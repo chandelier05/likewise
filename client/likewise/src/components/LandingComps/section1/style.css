@@ -1,0 +1,41 @@
+
+.connect{
+    background: linear-gradient(247.92deg, #88B5E1 0.6%, #9188AB 100%);
+    height: 608px;
+    padding: 1rem;
+    
+}
+
+.connect h1{
+    text-align: left;
+    margin-top: 15%;
+    margin-right: 18%;
+    margin-left: 17%;
+    font-size: 56px;
+    color: white;
+}
+
+.connect Button{
+    float: left;
+    text-align: center;
+    margin-left: 18%;
+    margin-top: 2rem;
+    background-color: black;
+    color: white;
+    padding: 1rem;
+    
+}
+
+.icons {
+    display: flex;
+    flex-direction: row;
+    flex-basis: 100%;
+    flex: 1;
+    justify-content: center;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+
+.icons img {
+    margin-right: 47px;
+}
