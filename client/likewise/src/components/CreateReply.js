@@ -64,7 +64,7 @@ export default function CreateReply(props) {
     })
   };
   const handleCancel = event => {
-
+    props.setParent();
   };
   const handleChange = (event) => {
     setComment(event.target.value);

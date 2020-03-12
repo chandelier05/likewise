@@ -28,6 +28,7 @@ export default function DetailedPost(props) {
     const userImg = examplePicture;
     const major = "Informatics";
     const points = 1200;
+    //console.log(props.postData);
     const handleClick = () => {
       props.setParent();
     };
@@ -41,21 +42,12 @@ export default function DetailedPost(props) {
             <Grid item xs={10}>
             <Box class={classes.postOutline}>
                 <h3 class={classes.summary}>
-                Lorem ipsum dolor sit amet, ea erat accusamus vix. Duo ea exerci propriae constituto, 
-                tation intellegebat ne mel. 
-                Cum iuvaret tibique splendide et, in elit fierent maiestatis mei. 
-                Ius te novum officiis assueverit.
+                  {props.postData.preview}
                 </h3>
                 <p>
-                Lorem ipsum dolor sit amet, ea erat accusamus vix. Duo ea exerci propriae constituto, 
-                tation intellegebat ne mel. Cum iuvaret tibique splendide et, in elit fierent maiestatis mei. 
-                Ius te novum officiis assueverit.
-                Nam dicta solet delicatissimi et, id vel tantas appareat assueverit, 
-                ad possit integre docendi ius. Eu qui platonem persequeris. Ei corpora detracto vis, 
-                eum ea scaevola temporibus. Has aliquip tibique facilisis ad, movet laoreet persequeris at pri, 
-                novum offendit eloquentiam duo ne.
+                  {props.postData.body}
                 </p>
-                <p>Jan 1, 2020    1:39AM      Winter Quarter</p>
+                <p>{}</p>
                 <Button variant="outlined" style={{border: "solid 1px #9188AB", margin: "0rem 1rem"}} onClick={handleClick}>Reply</Button>
                 <Button variant="contained" style={{backgroundColor: "#9188AB", margin: "0rem 1rem"}}>Report</Button>
             </Box>

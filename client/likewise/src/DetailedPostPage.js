@@ -30,6 +30,14 @@ const useStyles = makeStyles(theme => ({
 
 export default function DetailedPostPage(props) {
   const [comments, setComments] = useState([{}]);
+  const [postData, setPostData] = useState({
+    body: "",
+    preview: "",
+    uid: "",
+    timestamp: "",
+    likes: 0
+  });
+  const [loading, setLoad] = useState(true);
   const db = firebase.firestore();
   const [mainReply, setMainReply] = useState(false);
   let { pid } = useParams();
@@ -41,11 +49,22 @@ export default function DetailedPostPage(props) {
   // LOOK UP HOW TO USE EVENT LISTENERS FIRESTORE (PROBABLY WILL FIX ISSUE)
   // OR HOTFIX AND REUPDATE DB INSTANCE???
   useEffect(() => {
+    db.collection("posts").doc(pid).get().then((doc) => {
+      let data = doc.data();
+      let obj = {};
+      for (const key in data) {
+        obj = {
+          ...obj,
+          [key]: data[key]
+        }
+      }
+      setPostData(obj);
+      setLoad(false);
+    }).catch((e) => {
+      console.log(e);
+    })
     commentsDB.onSnapshot((querySnapshot) => {
       let newArr = [];
-      console.log(mainReply)
-      console.log("listener has been updated?")
-      console.log(querySnapshot);
       querySnapshot.forEach((doc) => {
         // prevent listener from updating comments if new doc created has not been fully written to server
         if (doc.metadata.hasPendingWrites) {
@@ -64,16 +83,17 @@ export default function DetailedPostPage(props) {
         //console.log(data["timestamp"].toDate());
         newArr.push(newComment);
     });
-      console.log(newArr);
       setComments(newArr);
     })
   }, []);
+  console.log(postData);
   return (
     <Container maxWidth="sm">
       <Grid container>
         <Grid item xs={8}>
           <Box>
-            <DetailedPost setParent={handleMainReply}/>
+            {!loading ? <DetailedPost setParent={handleMainReply} postData={postData}/> : <DetailedPost setParent={handleMainReply} postData={postData}/>}
+            
           </Box>
           <Box>
             {mainReply ? <CreateReply firstName="test" lastName="again" pid={pid} setParent={handleMainReply} timesp={firebase.firestore}/> : <div></div>}
