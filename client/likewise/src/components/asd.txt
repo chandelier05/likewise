@@ -1,0 +1,39 @@
+/* <div class={classes.root}>
+      <div class={classes.textSection}>
+          <div>
+            <label for="commentBox">Create reply</label>
+          </div>
+          <div>
+            <textarea name="commentBox" class={classes.fieldInput}></textarea>
+          </div>  
+      </div>
+      <div class={classes.buttons}>
+        <Button variant="outlined" style={{border: "solid 1px #9188AB", margin: "0rem 1rem"}}>Cancel</Button>
+        <Button variant="contained" style={{backgroundColor: "#9188AB", margin: "0rem 1rem"}}>Post</Button>      
+      </div>
+    </div>\
+
+    root: {
+    display: "table",
+    justifyContent: "flex-end",
+    flexDirection: "column",
+    textAlign: "left"
+  },
+  fieldInput: {
+    padding: "1.2rem 0rem",
+    flex: "1 0 auto",
+    resize:"none",
+    border: "1px solid #88B5E1",
+  },
+  textSection: {
+    display: "flex",
+    justifyContent: "flex-end",
+    flexDirection: "column",
+    textAlign: "center"
+  },
+  buttons: {
+    float: "left",
+    display: "flex",
+    justifyContent: "flex-end",
+    justifyItems: "end",
+  }

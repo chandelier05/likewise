@@ -28,6 +28,9 @@ export default function DetailedPost(props) {
     const userImg = examplePicture;
     const major = "Informatics";
     const points = 1200;
+    const handleClick = () => {
+      props.setParent();
+    };
     return (
         <div>
         <h1>Reflection (or Question)</h1>
@@ -53,7 +56,7 @@ export default function DetailedPost(props) {
                 novum offendit eloquentiam duo ne.
                 </p>
                 <p>Jan 1, 2020    1:39AM      Winter Quarter</p>
-                <Button variant="outlined" style={{border: "solid 1px #9188AB", margin: "0rem 1rem"}}>Reply</Button>
+                <Button variant="outlined" style={{border: "solid 1px #9188AB", margin: "0rem 1rem"}} onClick={handleClick}>Reply</Button>
                 <Button variant="contained" style={{backgroundColor: "#9188AB", margin: "0rem 1rem"}}>Report</Button>
             </Box>
             </Grid>

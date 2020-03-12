@@ -29,8 +29,15 @@ const useStyles = makeStyles(theme => ({
 export default function DetailedPostPage(props) {
   const [comments, setComments] = useState([{}]);
   const db = firebase.firestore();
+  const [mainReply, setMainReply] = useState(false);
+  const handleMainReply = () => {
+    setMainReply(!mainReply);
+  }
+  //TO-DO: FIX BUG WHERE EMPTY COMMENT IS SHOWN BY APPENDAGING FIRST ELEMENT
+  // LOOK UP HOW TO USE EVENT LISTENERS FIRESTORE (PROBABLY WILL FIX ISSUE)
+  // OR HOTFIX AND REUPDATE DB INSTANCE???
   useEffect(() => {
-    let newArr = [];
+    let newArr = [...comments];
     db.collection("posts").doc("testpid").collection("comments").orderBy("timestamp", "desc")
     .get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
@@ -47,20 +54,21 @@ export default function DetailedPostPage(props) {
         newArr.push(newComment);
       });
       setComments(newArr);
+      console.log("comments retrieved");
     }).catch(function(error) {
       console.log("Error getting document:", error);
-    })     
-  }, []);
+    }) 
+  }, mainReply);
   console.log(comments);
   return (
     <Container maxWidth="sm">
       <Grid container>
         <Grid item xs={8}>
           <Box>
-            <DetailedPost/>
+            <DetailedPost setParent={handleMainReply}/>
           </Box>
           <Box>
-            <CreateReply/>
+            {mainReply ? <CreateReply firstName="test" lastName="again" pid="testpid" setParent={handleMainReply}/> : <div></div>}
           </Box>
           <Box>
           <h1>Replies</h1>

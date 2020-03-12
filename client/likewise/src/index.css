@@ -2,7 +2,7 @@ body {
   margin: 0;
   font-family:  'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+    sans-serif!important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -40,4 +40,10 @@ code {
   background: -webkit-linear-gradient(#88B5E1, #9188AB);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+#labelRow {
+  background-image: linear-gradient(to right, #88B5E1, #9188AB);
+  color: white;
+  font-weight: 450;
 }
