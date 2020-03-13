@@ -1,23 +1,33 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import './style.css';
 import Button from '@material-ui/core/Button';
 import feature1 from '../../../assets/Feature1.png';
 import feature2 from '../../../assets/Feature2.png';
 import feature3 from '../../../assets/Feature3.png';
+import {Redirect} from 'react-router-dom';
 
-class index extends Component {
-    render(){
+function Section1(props) {
+    const [redirect, setRedirect] = useState(false);
+    const handleClick = () => {
+        setRedirect(true);
+    }
+
+    if (redirect) {
+        return (
+            <Redirect to="/posts"/>
+        )
+    } else {
         return(
             <div className="container">
                 <div className="connect">
                     <h1>Connect with fellow UW students and see what they're experiencing</h1>
-                    <Button variant="contained" id="signup" size="large" >Browse Posts</Button>
+                    <Button variant="contained" id="signup" size="large" onClick={handleClick}>Browse Posts</Button>
                 </div>
                 <div className="icons">
                     <img src= {feature1} alt="first feature"/>
                     <img src= {feature2} alt="first feature"/>
                     <img src= {feature3} alt="first feature"/>
-             
+                
                 </div>
             </div>
             
@@ -26,4 +36,4 @@ class index extends Component {
     }
 }
 
-export default index;
+export default Section1;

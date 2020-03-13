@@ -38,16 +38,6 @@ const responseGoogle = (response) => {
 }
 export default class App extends Component {
   state = { isSignedIn: false};
-  uiConfig = { 
-    signInFlow: "popup", 
-    SignInOptions: [
-      firebase.auth.GoogleAuthProvider.PROVIDER_ID
-    ], 
-    callbacks: {
-      signInSuccess: () => false
-    }
-  };
-
   componentDidMount = () =>{
 
     firebase.auth().onAuthStateChanged(user => {
@@ -60,9 +50,6 @@ export default class App extends Component {
       <div>
         <header>
           <Navbar/>
-          <StyledFirebaseAuth
-          uiConfig={this.uiConfig}
-          firebaseAuth={firebase.auth()}/>
           <SearchBar/>
         </header>
         <Switch>
@@ -83,51 +70,3 @@ export default class App extends Component {
     )
   }
 }
-
-
-// class App extends Component {
-  // state = { isSignedIn: false};
-  // uiConfig = { 
-  //   signInFlow: "popup", 
-  //   SignInOptions: [
-  //     firebase.auth.GoogleAuthProvider.PROVIDER_ID
-  //   ], 
-  //   callbacks: {
-  //     signInSuccess: () => false
-  //   }
-  // };
-
-  // componentDidMount = () =>{
-
-  //   firebase.auth().onAuthStateChanged(user => {
-  //     this.setState({isSignedIn:!!user})
-  //     console.log("user", user)
-  //   })
-  // }
-
-//   render(){
-//     return (
-//       <div>
-        // <header>
-        //   <Navbar/>
-        //   <StyledFirebaseAuth
-        //   uiConfig={this.uiConfig}
-        //   firebaseAuth={firebase.auth()}/>
-        //   <SearchBar/>
-        // </header>
-        // {this.state.isSignedIn ? (
-        //   <div>Signed In!</div>
-        // ) : (<>
-        //   <div className="homepage">
-        //   <Section1/>
-        //   <Significance/>
-        //   </div>
-        //   <footer>
-        //   <Footer/>
-        //   </footer>
-        //   </>)}
-//       </div>
-//     );
-//   }
-// }
-// export default App
