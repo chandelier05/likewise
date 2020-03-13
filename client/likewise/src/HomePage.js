@@ -6,9 +6,6 @@ import Footer from './components/LandingComps/section3/Footer';
 export default function HomePage(props) {
   return (
     <div>
-    {props.isSignedIn ? (
-      <div>Signed In!</div>
-      ) : (<>
       <div className="homepage">
       <Section1/>
       <Significance/>
@@ -16,8 +13,6 @@ export default function HomePage(props) {
       <footer>
       <Footer/>
       </footer>
-      </>
-    )}
     </div>
   )
 }

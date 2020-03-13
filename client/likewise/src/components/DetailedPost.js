@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from 'react';
-import firebase from 'firebase'
+import React from 'react';
 import UserPicture from './UserPicture';
 import examplePicture from '../assets/userImg.PNG';
-import {Grid, Container, Box, Button} from '@material-ui/core';
+import {Grid, Box, Button} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
@@ -21,6 +20,9 @@ const useStyles = makeStyles(theme => ({
   },
   post: {
     display: "flex",
+  },
+  timestamp: {
+    fontSize: "0.6rem"
   }
 }));
 
@@ -33,12 +35,19 @@ export default function DetailedPost(props) {
     const handleClick = () => {
       props.setParent();
     };
-    return (
+    if (props.test) {
+      return (
+        <div></div>
+      )
+    } else {
+      let timestamp = props.postData.timestamp;
+      timestamp = timestamp.toDate().toString();
+      return (
         <div>
         <h1>Reflection (or Question)</h1>
             <Grid container class={classes.post}>
             <Grid item xs={2} style={{margin: "1rem"}}>
-                <UserPicture imgSrc={userImg} major={major} points={points} />
+                <UserPicture imgSrc={userImg} major={major} points={points} username={props.postData.firstName + " " + props.postData.lastName}/>
             </Grid>
             <Grid item xs={10}>
             <Box class={classes.postOutline}>
@@ -48,7 +57,7 @@ export default function DetailedPost(props) {
                 <p>
                   {props.postData.body}
                 </p>
-                <p>{}</p>
+                <p class={classes.timestamp}>{timestamp}</p>
                 <Button variant="outlined" style={{border: "solid 1px #9188AB", margin: "0rem 1rem"}} onClick={handleClick}>Reply</Button>
                 <Button variant="contained" style={{backgroundColor: "#9188AB", margin: "0rem 1rem"}}>Report</Button>
             </Box>
@@ -56,4 +65,6 @@ export default function DetailedPost(props) {
             </Grid>
             </div>
     )
+    }
+    
 }

@@ -4,67 +4,85 @@ import 'firebase/auth';
 import 'firebase/database';
 import './App.css';
 import Navbar from './components/navbar/Navbar';
-import GoogleLogin from 'react-google-login';
-
 import SearchBar from "./components/Searchbar/searchbar";
-import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
-
-import Container from '@material-ui/core/Container';
 import PostNavigationPage from './PostNavigationPage';
 import CreatePostPage from './CreatePostPage';
-import UserPicture from './components/UserPicture';
-import circle from './assets/userImg.PNG';
 import DetailedPostPage from './DetailedPostPage';
 import HomePage from './HomePage';
 import {Switch, Route} from 'react-router-dom';
-import DetailedPost from './components/DetailedPost';
 
-// function App() {
-//   return (
-//     <div>
-//       <header>
-//         <Navbar/>
-//       </header>
-//      
-//       <footer>
-//         <Footer/>
-//       </footer>
-//     </div>
-//   );
-// }
-// export default App;
-const responseGoogle = (response) => {
-  console.log(response);
-}
+
 export default class App extends Component {
-  state = { 
-    isSignedIn: false,
-    user: ""
-  };
-  componentDidMount = () =>{
+  constructor(props) {
+    super(props);
+    //this.signedIn = this.signedIn.bind(this);
+    //var user = new LoginController(this.signedIn);
+    this.state = {
+      user: null,
+      loading: false,
+      firstName: "",
+      lastName: ""
+    }
+  }
 
-    firebase.auth().onAuthStateChanged(user => {
-      this.setState({isSignedIn:!!user, user:user})
-      let nameArr = user.displayName.split(' ');
-      firebase.firestore().collection('users').doc(user.uid).set(
+  handleSignIn = () => {
+   
+  }
+
+  handleSignOut = () => {
+    firebase.auth().signOut().then(function() {
+      console.log("sign out successfull")
+    }).catch(function(error) {
+      // An error happened.
+    });
+  }
+  componentDidMount() {
+    this.authUnsubFunction = firebase.auth().onAuthStateChanged((firebaseUser) => {
+      if (firebaseUser) {
+        let nameArr = firebaseUser.displayName.split(' ');
+      firebase.firestore().collection('users').doc(firebaseUser.uid).set(
         {
           firstName: nameArr[0],
           lastName: nameArr[nameArr.length - 1],
-          email: user.email,
+          email: firebaseUser.email,
         }
       ).then(() => {
         console.log('finished');
+        let nameArr = firebaseUser.displayName.split(' ');
+        this.setState({user: firebaseUser, loading: false, firstName: nameArr[0], lastName: nameArr[nameArr.length - 1]});
       }).catch((e) => {
         console.log(e);
       })
-      console.log("user", user)
-    })
+      } else {
+        this.setState({user: null, loading: false});
+      }
+    });
   }
+
+  componentWillUnmount() {
+    this.authUnsubFunction();
+    this.setState({errorMessage: null});
+    firebase.auth().signOut().then(function() {
+      console.log("sign out successfull")}).catch(
+      (error) => {
+        this.setState({errorMessage : error.message});
+      }
+    );
+  }
+
   render() {
+    let signedIn = false;
+    let navbar = (
+      <Navbar loggedIn={false} handleSignOut={this.handleSignOut}/>
+    );
+    if (this.state.user) {
+      navbar = <Navbar loggedIn={true} handleSignOut={this.handleSignOut}/>
+      signedIn = true;
+    }
     return (
       <div>
         <header>
-          <Navbar/>
+          {navbar}
           <SearchBar/>
         </header>
         <Switch>
@@ -78,7 +96,7 @@ export default class App extends Component {
             <CreatePostPage user={this.state.user}/>
           </Route>
           <Route path="/posts/:pid">
-            <DetailedPostPage user={this.state.user}/>
+            <DetailedPostPage user={this.state.user} firstName={this.state.firstName} lastName={this.state.lastName}/>
           </Route>
         </Switch>
       </div>

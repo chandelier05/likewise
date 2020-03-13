@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from 'react';
-import firebase from 'firebase'
+import React from 'react';
 import UserPicture from './UserPicture';
 import examplePicture from '../assets/userImg.PNG';
-import {Grid, Container, Box, Button} from '@material-ui/core';
+import {Grid, Box, Button} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({

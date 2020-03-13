@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import React, { useState} from 'react';
+import { makeStyles} from '@material-ui/core/styles';
 import firebase from 'firebase';
-import { Typography, MenuItem, Menu, Grid, Button, Container } from '@material-ui/core';
-import { Link, Redirect } from 'react-router-dom';
+import { MenuItem, Menu, Grid, Button} from '@material-ui/core';
+import { Redirect } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   root: {

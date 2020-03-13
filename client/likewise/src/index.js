@@ -15,7 +15,7 @@ require("firebase/firestore");
   // Your web app's Firebase configuration
   var firebaseConfig = {
     apiKey: "AIzaSyD52Aj5zVWvvbmjJpOTQqluhPPIC_BrDuQ",
-    authDomain: "chandelier05.github.io",
+    authDomain: "likewise-269823.firebaseapp.com",
     databaseURL: "https://likewise-269823.firebaseio.com",
     projectId: "likewise-269823",
     storageBucket: "likewise-269823.appspot.com",

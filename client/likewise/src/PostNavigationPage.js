@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PostPreview from './components/PostPreview';
 import UserPicture from './assets/userImg.PNG';
 import Grid from '@material-ui/core/Grid';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles} from '@material-ui/core/styles';
 import firebase from 'firebase';
 
 const useStyles = makeStyles(theme => ({

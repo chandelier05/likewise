@@ -1,13 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import firebase from 'firebase'
-import UserPicture from './components/UserPicture';
-import examplePicture from './assets/userImg.PNG';
-import {Grid, Container, Box, Button, ListItem, ListItemText} from '@material-ui/core';
+import {Grid, Container, Box, ListItem, ListItemText} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import DetailedPost from './components/DetailedPost';
 import Comment from './components/Comment';
 import CreateReply from'./components/CreateReply';
-import { useCollection } from 'react-firebase-hooks/firestore';
 import {useParams} from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
@@ -35,7 +32,9 @@ export default function DetailedPostPage(props) {
     preview: "",
     uid: "",
     timestamp: "",
-    likes: 0
+    likes: 0,
+    firstName: "",
+    lastName: ""
   });
   const [loading, setLoad] = useState(true);
   const db = firebase.firestore();
@@ -58,8 +57,23 @@ export default function DetailedPostPage(props) {
           [key]: data[key]
         }
       }
+      db.collection("users").doc(data.uid).get().then((doc) => {
+        if (doc.exists) {
+          data = doc.data();
+          for (const key in data) {
+            
+            obj = {
+              ...obj,
+              [key]: data[key]
+            }
+            console.log(obj)
+          }
+        }
       setPostData(obj);
       setLoad(false);
+      }).catch((e) => {
+        console.log(e);
+      })
     }).catch((e) => {
       console.log(e);
     })
@@ -92,11 +106,11 @@ export default function DetailedPostPage(props) {
       <Grid container>
         <Grid item xs={8}>
           <Box>
-            {!loading ? <DetailedPost setParent={handleMainReply} postData={postData}/> : <DetailedPost setParent={handleMainReply} postData={postData}/>}
+            {!loading ? <DetailedPost setParent={handleMainReply} postData={postData}/> : <DetailedPost setParent={handleMainReply} test={true}/>}
             
           </Box>
           <Box>
-            {mainReply ? <CreateReply firstName="test" lastName="again" pid={pid} setParent={handleMainReply} timesp={firebase.firestore}
+            {mainReply ? <CreateReply firstName={props.firstName} lastName={props.lastName} pid={pid} setParent={handleMainReply} timesp={firebase.firestore}
             uid={props.user.uid} /> : <div></div>}
           </Box>
           <Box>
