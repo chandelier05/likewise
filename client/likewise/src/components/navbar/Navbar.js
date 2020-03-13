@@ -44,9 +44,14 @@ class Navbar extends Component {
                         <Typography variant="h5" className="title">
                             LIKEWISE
                         </Typography>
-                        <StyledFirebaseAuth 
-                        uiConfig={this.uiConfig} 
-                        firebaseAuth={firebase.auth()}/>
+                        {this.state.isSignedIn ? (
+                        <Button onClick={() => firebase.auth().signOut()} style={{color:"white"}}>Sign out!</Button>) 
+                        : (
+                            <StyledFirebaseAuth 
+                            uiConfig={this.uiConfig} 
+                            firebaseAuth={firebase.auth()}/>
+                        )}
+
                     </Toolbar>
                 </AppBar>
             </div>
@@ -55,3 +60,5 @@ class Navbar extends Component {
 }
 
 export default Navbar;
+
+

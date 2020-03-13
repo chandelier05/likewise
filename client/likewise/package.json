@@ -2,7 +2,6 @@
   "name": "likewise",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://chandelier05.github.io/likewise",
   "dependencies": {
     "@material-ui/core": "^4.9.3",
     "@testing-library/jest-dom": "^4.2.4",
