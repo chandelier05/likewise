@@ -43,13 +43,14 @@ export default function Navbar(props) {
                             LIKEWISE
                         </Typography>
                     </Link>
+                    <div className="loginFunc">
                     {
                         props.loggedIn ?  
                         <Button variant="contained" id="logout" size="large" onClick={props.handleSignOut}>Logout</Button>
                         :
                         <Button variant="contained" id="signin" size="large" onClick={handleLogin}>Sign In</Button>
                     }
-                    
+                    </div>
                 </Toolbar>
             </AppBar>
         </div>

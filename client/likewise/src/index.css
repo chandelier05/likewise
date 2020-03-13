@@ -40,10 +40,19 @@ code {
   background: -webkit-linear-gradient(#88B5E1, #9188AB);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  font-size: 3rem;
 }
 
 #labelRow {
   background-image: linear-gradient(to right, #88B5E1, #9188AB);
   color: white;
   font-weight: 450;
+}
+
+.loginFunc {
+  justify-content: flex-end;
+  display: flex;
+  
+  flex: 1 0 auto;
+  margin: 0rem 2rem;
 }

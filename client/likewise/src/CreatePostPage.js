@@ -106,25 +106,6 @@ export default function CreatePostPage(props) {
           </Grid>
           <Grid item xs={12} class={classes.root}>
             <form class={classes.form}>
-              <div class={classes.menu}/>
-                <label for="postType" class={classes.field} style={{padding:0}}>
-                    Type of post
-                </label>
-                <Button name="postType" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-                Open Menu
-                </Button>
-                <Menu
-                  id="simple-menu"
-                  anchorEl={anchorEl}
-                  keepMounted
-                  open={Boolean(anchorEl)}
-                  onClose={handleClose}
-                >
-                  <MenuItem onClick={handleClose}>Profile</MenuItem>
-                  <MenuItem onClick={handleClose}>My account</MenuItem>
-                  <MenuItem onClick={handleClose}>Logout</MenuItem>
-                </Menu>
-              <div class={classes.inputBlock}/>
               <div class={classes.inputBlock}>
                 <label for="summary" class={classes.field}>Summary of Post</label>
                 <textarea id="createSummary" name="summary" value={postData.summary}
@@ -160,3 +141,24 @@ export default function CreatePostPage(props) {
     );
   }
 }
+
+
+// <div class={classes.menu}/>
+// <label for="postType" class={classes.field} style={{padding:0}}>
+//     Type of post
+// </label>
+// <Button name="postType" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+// Open Menu
+// </Button>
+// <Menu
+//   id="simple-menu"
+//   anchorEl={anchorEl}
+//   keepMounted
+//   open={Boolean(anchorEl)}
+//   onClose={handleClose}
+// >
+//   <MenuItem onClick={handleClose}>Profile</MenuItem>
+//   <MenuItem onClick={handleClose}>My account</MenuItem>
+//   <MenuItem onClick={handleClose}>Logout</MenuItem>
+// </Menu>
+// <div class={classes.inputBlock}/>
