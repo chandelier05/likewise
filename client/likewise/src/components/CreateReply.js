@@ -52,14 +52,12 @@ export default function CreateReply(props) {
   const handleSubmit = (event) => {
     let timeObject = {
       body: comment,
-      uid: "TEMPORARY PLACEHOLDER",
+      uid: props.uid,
       timestamp: props.timesp.FieldValue.serverTimestamp(),
       firstName: props.firstName,
       lastName: props.lastName
     };
     firebase.firestore().collection('posts').doc(props.pid).collection("comments").add(timeObject).then(() => {
-      console.log("WRITE FINISHED");
-      console.log("MAIN REPLY BEING RESET")
       props.setParent();
     })
   };

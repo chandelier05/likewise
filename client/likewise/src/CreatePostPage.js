@@ -71,7 +71,7 @@ export default function CreatePostPage(props) {
     db.collection('posts').add({
       body: postData.description,
       preview: postData.summary,
-      uid: "TEMPORARY PLACEHOLDER",
+      uid: props.user.uid,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       likes: 0
     }).then(() => {

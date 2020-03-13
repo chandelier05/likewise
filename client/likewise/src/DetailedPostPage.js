@@ -96,7 +96,8 @@ export default function DetailedPostPage(props) {
             
           </Box>
           <Box>
-            {mainReply ? <CreateReply firstName="test" lastName="again" pid={pid} setParent={handleMainReply} timesp={firebase.firestore}/> : <div></div>}
+            {mainReply ? <CreateReply firstName="test" lastName="again" pid={pid} setParent={handleMainReply} timesp={firebase.firestore}
+            uid={props.user.uid} /> : <div></div>}
           </Box>
           <Box>
           <h1>Replies</h1>

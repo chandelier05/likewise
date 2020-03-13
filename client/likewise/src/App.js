@@ -37,11 +37,26 @@ const responseGoogle = (response) => {
   console.log(response);
 }
 export default class App extends Component {
-  state = { isSignedIn: false};
+  state = { 
+    isSignedIn: false,
+    user: ""
+  };
   componentDidMount = () =>{
 
     firebase.auth().onAuthStateChanged(user => {
-      this.setState({isSignedIn:!!user})
+      this.setState({isSignedIn:!!user, user:user})
+      let nameArr = user.displayName.split(' ');
+      firebase.firestore().collection('users').doc(user.uid).set(
+        {
+          firstName: nameArr[0],
+          lastName: nameArr[nameArr.length - 1],
+          email: user.email,
+        }
+      ).then(() => {
+        console.log('finished');
+      }).catch((e) => {
+        console.log(e);
+      })
       console.log("user", user)
     })
   }
@@ -60,10 +75,10 @@ export default class App extends Component {
             <PostNavigationPage/>
           </Route>
           <Route path="/createPost">
-            <CreatePostPage/>
+            <CreatePostPage user={this.state.user}/>
           </Route>
           <Route path="/posts/:pid">
-            <DetailedPostPage/>
+            <DetailedPostPage user={this.state.user}/>
           </Route>
         </Switch>
       </div>
