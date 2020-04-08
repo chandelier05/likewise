@@ -27,7 +27,10 @@ a {
 }
 
 Button {
-    
+    position: absolute;
+    height: 25px;
+    left: 18px;
+    right: 19px;
 }
 
 .bar {
