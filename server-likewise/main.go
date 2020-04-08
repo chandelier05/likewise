@@ -4,12 +4,18 @@ import (
     "log"
     "net/http"
     "os"
-    //"rsc.io/quote"
+    "database/sql"
+    "time"
 )
 
 //HelloHandler handles requests for the `/hello` resource
 func HelloHandler(w http.ResponseWriter, r *http.Request) {
     w.Write([]byte("Hello, Web!\n"))
+}
+
+//authHandler handles display of sign-in page and auth functionality
+func authHandler(w http.ResponseWriter, r *http.Request) {
+    
 }
 
 func main() {

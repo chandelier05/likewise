@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {makeStyles, Container, Button, Grid} from '@material-ui/core';
+import {Container, Button, Grid} from '@material-ui/core';
 import './style.css';
 
 export default class Significance extends Component{

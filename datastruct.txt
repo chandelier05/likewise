@@ -1,0 +1,12 @@
+users
+    UID
+posts
+    postID
+        preview
+        body
+        timePosted
+        likes
+        comments
+            cID
+                body
+                UID
