@@ -117,7 +117,8 @@ export default function DetailedPostPage(props) {
           <h1>Replies</h1>
             {comments.length > 0 ? comments.map((item) => {
 							return (
-								<Comment username={item.firstName + " " + item.lastName} body={item.body} timestamp={item.timestamp}/>
+                <Comment username={item.firstName + " " + item.lastName} 
+                body={item.body} timestamp={item.timestamp}/>
 							);}) 
 							: 
 							<ListItem button>

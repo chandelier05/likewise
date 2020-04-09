@@ -79,7 +79,7 @@ export default function CreateReply(props) {
         <textarea id="replyBox" name="replyBox" class={classes.fieldInput} value={comment} onChange={handleChange}></textarea>
       </div>
       <div class={classes.rowButton} >
-        <div class={classes.buttons} style={{width: "20rem" }}>
+        <div class={classes.buttons} style={{width: "10rem" }}>
 
         </div>
         <Button variant="outlined" style={{border: "solid 1px #9188AB", backgroundColor:"#FFFFFF"}} 
