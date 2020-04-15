@@ -7,7 +7,6 @@ import Button from '@material-ui/core/Button';
 import {Link} from 'react-router-dom';
 
 import firebase, { app } from "firebase";
-import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 
 import Paw from "../../assets/paw.png"
 
