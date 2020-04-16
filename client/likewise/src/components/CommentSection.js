@@ -9,6 +9,7 @@ export default function CommentSection(props) {
   const [comments, setComments] = useState([]);
   const [loading, setLoad] = useState(true);
   const db = firebase.firestore();
+  //TODO change commentsDB selection from posts collection to comments collection with cid's in post's comment collection
   const commentsDB = db.collection("posts").doc(props.pid).collection("comments").orderBy("timestamp", "desc");
   useEffect(() => {
     try {
@@ -55,12 +56,13 @@ export default function CommentSection(props) {
           return (
             <div>
               <Comment lastName={item.firstName} firstName={item.lastName} 
-              body={item.body} timestamp={item.timestamp} parentId={props.pid} uid={props.uid} timesp={props.timesp}/>
+              body={item.body} timestamp={item.timestamp} parentId={props.pid} uid={props.uid} timesp={props.timesp} postReply={true}/>
               <div>
                 {!loading && !Array.isArray(item.replies) && !item.replies.length ? item.replies.map((subItem) => {
                     return (
                       <Comment lastName={item.firstName} firstName={item.lastName}
-                      body={subItem.body} timestamp={subItem.timestamp} parentId={item.cid} uid={props.uid} timesp={props.timesp}/>
+                      body={subItem.body} timestamp={subItem.timestamp} parentId={item.cid} 
+                      uid={props.uid} timesp={props.timesp} postReply={false}/>
                     )
                   }) : <div></div>
                 }
