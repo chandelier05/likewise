@@ -7,7 +7,9 @@ const useStyles = makeStyles(theme => ({
   root: {
     textAlign: "center",
     border: "1px solid #9188AB",
-    margin: "2rem"
+    margin: "2rem",
+    display: "block",
+    overflow: "hidden"
   },
   fieldInput: {
     resize: "none",
@@ -27,7 +29,6 @@ const useStyles = makeStyles(theme => ({
   },
   buttons: {
     margin: "1rem 0rem 0rem 2rem",
-    width: "50px",
     borderRadius: "5px",
     borderStyle: "none",
     fontSize: "0.7rem",
@@ -57,9 +58,21 @@ export default function CreateReply(props) {
       firstName: props.firstName,
       lastName: props.lastName
     };
-    firebase.firestore().collection('posts').doc(props.pid).collection("comments").add(timeObject).then(() => {
+    const docRef = firebase.firestore().collection("comments").doc()
+    docRef.add(timeObject).then(() => {
       props.setParent();
     })
+    if (props.postReply) {
+      firebase.firestore().collection("posts").doc(props.parentId).collection("comments").doc(docRef.id).set({
+        uid: props.uid,
+        timestamp: props.timesp.FieldValue.serverTimestamp()
+      })
+    } else {
+      firebase.firestore().collection("comments").doc(props.parentId).collection("replies").doc(docRef.id).set({
+        uid: props.uid,
+        timestamp: props.timesp.FieldValue.serverTimestamp()
+      })
+    }
   };
   const handleCancel = event => {
     props.setParent();

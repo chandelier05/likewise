@@ -35,6 +35,7 @@ export default function DetailedPost(props) {
     const handleClick = () => {
       props.setParent();
     };
+    // TO-DO replace empty div with loading screen
     if (props.test) {
       return (
         <div></div>

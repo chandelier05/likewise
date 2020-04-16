@@ -31,7 +31,7 @@ export default class App extends Component {
 
   handleSignOut = () => {
     firebase.auth().signOut().then(function() {
-      console.log("sign out successfull")
+      //console.log("sign out successfull")
     }).catch(function(error) {
       // An error happened.
     });
@@ -63,7 +63,8 @@ export default class App extends Component {
     this.authUnsubFunction();
     this.setState({errorMessage: null});
     firebase.auth().signOut().then(function() {
-      console.log("sign out successfull")}).catch(
+      //console.log("sign out successfull")
+    }).catch(
       (error) => {
         this.setState({errorMessage : error.message});
       }
