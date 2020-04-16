@@ -62,8 +62,6 @@ const ButtonStyles = makeStyles(theme =>({
 
 }));
 
-
-
 export default function CustomizedSelects() {
   const classes = useStyles();
   const [quarter, setQuarter] = React.useState('');
@@ -118,7 +116,7 @@ export default function CustomizedSelects() {
           id="demo-customized-select-native"
           value={sort}
           onChange={handleSortChange}
-          input={<BootstrapInput />}
+          input={<BootstrapInput/>}
         >
           <option value="" />
           <option value={1}>Year</option>
