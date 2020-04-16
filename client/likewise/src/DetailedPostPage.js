@@ -86,7 +86,7 @@ export default function DetailedPostPage(props) {
             parentId={pid} setParent={handleMainReply} timesp={firebase.firestore} postReply={true}
             uid={props.user.uid} /> : <div></div>}
           </Box>
-          <CommentSection pid={pid}/>
+          <CommentSection pid={pid} timesp={firebase.firestore} uid={props.user.uid}/>
         </Grid>
         <Grid item xs={4}>
 

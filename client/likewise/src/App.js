@@ -62,13 +62,6 @@ export default class App extends Component {
   componentWillUnmount() {
     this.authUnsubFunction();
     this.setState({errorMessage: null});
-    firebase.auth().signOut().then(function() {
-      //console.log("sign out successfull")
-    }).catch(
-      (error) => {
-        this.setState({errorMessage : error.message});
-      }
-    );
   }
 
   render() {

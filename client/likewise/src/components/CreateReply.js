@@ -54,24 +54,28 @@ export default function CreateReply(props) {
     let timeObject = {
       body: comment,
       uid: props.uid,
-      timestamp: props.timesp.FieldValue.serverTimestamp(),
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       firstName: props.firstName,
       lastName: props.lastName
     };
     const docRef = firebase.firestore().collection("comments").doc()
-    docRef.add(timeObject).then(() => {
-      props.setParent();
+    docRef.set(timeObject).then(() => {
+      
     })
     if (props.postReply) {
       firebase.firestore().collection("posts").doc(props.parentId).collection("comments").doc(docRef.id).set({
         uid: props.uid,
-        timestamp: props.timesp.FieldValue.serverTimestamp()
-      })
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      }).then(() => {
+        props.setParent();
+      });
     } else {
       firebase.firestore().collection("comments").doc(props.parentId).collection("replies").doc(docRef.id).set({
         uid: props.uid,
-        timestamp: props.timesp.FieldValue.serverTimestamp()
-      })
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      }).then(() => {
+        props.setParent();
+      });
     }
   };
   const handleCancel = event => {

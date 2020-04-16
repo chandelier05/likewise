@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import UserPicture from './UserPicture';
 import examplePicture from '../assets/userImg.PNG';
 import {Grid, Box, Button} from '@material-ui/core';
@@ -30,34 +30,44 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Comment(props) {
-    const classes = useStyles();
-    const userImg = examplePicture;
-    const major = "Informatics";
-    const points = 1200;
-    return (
-      <div class={classes.root}>
-        <Grid container class={classes.post}>
-          <Grid item xs={2} style={{margin: "1rem"}}>
-            <UserPicture imgSrc={userImg} major={major} points={points} username={props.username}/>
-          </Grid>
-          <Grid item xs={10}>
-            <Box class={classes.postOutline}>
-                <p>
-                    {props.body}
-                </p>
-                <p style={{fontSize: "0.6rem"}}>{props.timestamp}</p>
-                <div style={{display: "inline-block"}}>
-                  <Button variant="outlined" style={{border: "solid 1px #9188AB", margin: "0rem 1rem", letterSpacing: "0"}}>Reply</Button>
-                  <Button variant="contained" style={{backgroundColor: "#9188AB", margin: "0rem 1rem", letterSpacing: "0"}}>Report</Button>
-                </div>
-            </Box>
+  const [closeReply, setReply] = useState(true);
+  const classes = useStyles();
+  const userImg = examplePicture;
+  const major = "Informatics";
+  const points = 1200;
+  const username = props.firstName + " " + props.lastName;
+  const handleReply = () => {
+    setReply(!closeReply);
+  }
+  const handleReport = () => {};
+  return (
+    <div class={classes.root}>
+      <Grid container class={classes.post}>
+        <Grid item xs={2} style={{margin: "1rem"}}>
+          <UserPicture imgSrc={userImg} major={major} points={points} username={username}/>
+        </Grid>
+        <Grid item xs={10}>
+          <Box class={classes.postOutline}>
+              <p>
+                  {props.body}
+              </p>
+              <p style={{fontSize: "0.6rem"}}>{props.timestamp}</p>
+              <div style={{display: "inline-block"}}>
+                <Button variant="outlined" style={{border: "solid 1px #9188AB", margin: "0rem 1rem", letterSpacing: "0"}} onClick={handleReply}>Reply</Button>
+                <Button variant="contained" style={{backgroundColor: "#9188AB", margin: "0rem 1rem", letterSpacing: "0"}} onClick={handleReport}>Report</Button>
+              </div>
+          </Box>
+        </Grid>
+      </Grid>
+        <Grid container class={classes.reply}>
+          <Grid item xs={12}>
+            {
+              closeReply ? <div></div> : 
+              <CreateReply parentId={props.parentId} setParent={handleReply} 
+              firstName={props.firstName} lastName={props.lastName} uid={props.uid}/>
+            }
           </Grid>
         </Grid>
-          <Grid container class={classes.reply}>
-            <Grid item xs={12}>
-              <CreateReply/>
-            </Grid>
-          </Grid>
-        </div>
-    )
+      </div>
+  )
 }

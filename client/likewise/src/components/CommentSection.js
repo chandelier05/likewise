@@ -7,7 +7,6 @@ import Comment from './Comment';
 
 export default function CommentSection(props) {
   const [comments, setComments] = useState([]);
-  const [commentsWithReplies, setReplies] = useState([]);
   const [loading, setLoad] = useState(true);
   const db = firebase.firestore();
   const commentsDB = db.collection("posts").doc(props.pid).collection("comments").orderBy("timestamp", "desc");
@@ -31,7 +30,7 @@ export default function CommentSection(props) {
             timestamp: data["timestamp"].toDate().toString(),
             uid: data["uid"],
             cid: doc.id,
-            replies : ""
+            replies : []
           };
           //console.log(data["timestamp"].toDate());
           newArr.push(newComment);
@@ -53,16 +52,15 @@ export default function CommentSection(props) {
     <Box>
       <h1>Replies</h1>
       {!loading && comments.length > 0 ? comments.map((item) => {
-        console.log(comments);
           return (
             <div>
-              <Comment username={item.firstName + " " + item.lastName} 
-              body={item.body} timestamp={item.timestamp} parentId={props.pid}/>
+              <Comment lastName={item.firstName} firstName={item.lastName} 
+              body={item.body} timestamp={item.timestamp} parentId={props.pid} uid={props.uid} timesp={props.timesp}/>
               <div>
-                {!loading && !Array.isArray(item.replies) ? item.replies.map((subItem) => {
+                {!loading && !Array.isArray(item.replies) && !item.replies.length ? item.replies.map((subItem) => {
                     return (
-                      <Comment username={subItem.firstName + " " + subItem.lastName} 
-                      body={subItem.body} timestamp={subItem.timestamp} parentId={item.cid}/>
+                      <Comment lastName={item.firstName} firstName={item.lastName}
+                      body={subItem.body} timestamp={subItem.timestamp} parentId={item.cid} uid={props.uid} timesp={props.timesp}/>
                     )
                   }) : <div></div>
                 }
@@ -98,4 +96,5 @@ function getReplies(db, comments) {
     commentItem.replies = list;
     newArr.push(commentItem);
   }
+  return newArr;
 }
