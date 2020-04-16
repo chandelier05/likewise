@@ -2,9 +2,9 @@ import React, {useEffect, useState} from 'react';
 import firebase from 'firebase'
 import {Grid, Container, Box, ListItem, ListItemText} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
-import DetailedPost from './components/DetailedPost';
-import Comment from './components/Comment';
-import CreateReply from'./components/CreateReply';
+import DetailedPost from '../../components/DetailedPost';
+import Comment from '../../components/Comment';
+import CreateReply from'../../components/CreateReply';
 import {useParams} from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({

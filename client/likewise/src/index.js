@@ -4,7 +4,7 @@ import firebase from 'firebase';
 
 import './index.css';
 import App from './App';
-import * as serviceWorker from './serviceWorker';
+//import * as serviceWorker from './serviceWorker';
 import {BrowserRouter} from 'react-router-dom';
 require('firebase/app');
 require('firebase/auth');
@@ -15,7 +15,7 @@ require("firebase/firestore");
   // Your web app's Firebase configuration
   var firebaseConfig = {
     apiKey: "AIzaSyD52Aj5zVWvvbmjJpOTQqluhPPIC_BrDuQ",
-    authDomain: "likewise-269823.firebaseapp.com",
+    authDomain: "http://localhost:3000/",
     databaseURL: "https://likewise-269823.firebaseio.com",
     projectId: "likewise-269823",
     storageBucket: "likewise-269823.appspot.com",
@@ -30,4 +30,4 @@ ReactDOM.render(<BrowserRouter><App /></BrowserRouter>, document.getElementById(
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+//serviceWorker.unregister();
