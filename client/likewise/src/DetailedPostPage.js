@@ -33,7 +33,8 @@ export default function DetailedPostPage(props) {
     timestamp: "",
     likes: 0,
     firstName: "",
-    lastName: ""
+    lastName: "",
+    commentCount: 0
   });
   const [loading, setLoad] = useState(true);
   const db = firebase.firestore();
@@ -85,7 +86,7 @@ export default function DetailedPostPage(props) {
           </Box>
           <Box>
             {mainReply ? <CreateReply firstName={props.firstName} lastName={props.lastName} 
-            parentId={pid} setParent={handleMainReply} timesp={firebase.firestore} postReply={true}
+            parentId={pid} setParent={handleMainReply} timesp={firebase.firestore} postId={pid} commentCount={postData.commentCount}
             uid={props.user.uid} /> : <div></div>}
           </Box>
           <CommentSection pid={pid} timesp={firebase.firestore} uid={uid}/>

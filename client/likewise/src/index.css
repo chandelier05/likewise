@@ -58,3 +58,14 @@ code {
   flex: 1 0 auto;
   margin: 0rem 2rem;
 }
+
+/* DetailedPostPage */
+
+.postPreview {
+  margin: 2rem 2rem;
+}
+
+.postPreview:first-of-type {
+  margin: 1.5rem 2rem 2rem;
+} 
+

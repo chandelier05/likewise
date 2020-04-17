@@ -68,7 +68,8 @@ export default function CommentSection(props) {
             <div>
               <Comment lastName={item.firstName} firstName={item.lastName} 
               body={item.body} timestamp={item.timestamp} parentId={item.cid} 
-              setParent={rerenderPage} uid={props.uid} timesp={props.timesp} postReply={true}/>
+              setParent={rerenderPage} uid={props.uid} timesp={props.timesp} postId={props.pid}
+              commentCount={props.commentCount}/>
               <div>
               {
                 !loading && replies[item.cid].length !== 0 ? replies[item.cid].map((subItem) => {
@@ -76,7 +77,8 @@ export default function CommentSection(props) {
                     <div className={classes.commentReply}>
                       <Comment lastName={subItem.firstName} firstName={subItem.lastName}
                       body={subItem.body} timestamp={subItem.timestamp} parentId={subItem.parentId} 
-                      uid={subItem.uid} timesp={props.timesp} postReply={false} setParent={rerenderPage}/>
+                      uid={subItem.uid} timesp={props.timesp} postReply={false} setParent={rerenderPage}
+                      postId={props.pid} commentCount={props.commentCount}/>
                     </div>
                   )
                 }) : <div></div>
@@ -98,7 +100,7 @@ function getReplies(comments, handleLoad) {
   let tempReplies = {};
   try {
     const db = firebase.firestore();
-    console.log("testing rerender")
+    //console.log("testing rerender")
     let promiseArr = [];
     for (let i = 0; i < comments.length; i++) {
       tempReplies[comments[i].cid] = [];
@@ -126,7 +128,7 @@ function getReplies(comments, handleLoad) {
   } catch (error) {
 
   } finally {
-    handleLoad();
+    //handleLoad();
   }
   return tempReplies;
 }

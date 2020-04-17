@@ -52,6 +52,14 @@ export default function CreateReply(props) {
   const [comment, setComment] = useState("");
   let uid = "4nPvDFfV9rXXwCkQEBohdQUH3Mb2";
   const handleSubmit = (event) => {
+    firebase.firestore().collection("posts").doc(props.postId).update({
+      commentCount: props.commentCount + 1
+    }).then(function() {
+        console.log("Document successfully updated!");
+    }).catch(function(error) {
+        // The document probably doesn't exist.
+        console.error("Error updating document: ", error);
+    });
     const docRef = firebase.firestore().collection("comments").doc()
     let timeObject = {
       body: comment,
@@ -63,15 +71,9 @@ export default function CreateReply(props) {
       parentId: props.parentId
     };
     docRef.set(timeObject).then(() => {
-      
-    })
-    firebase.firestore().collection("comments").doc(props.parentId).collection("replies").doc(docRef.id).set({
-      uid: uid,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp()
-    }).then(() => {
       console.log("set parent should be called!");
       props.setParent();
-    });
+    })
   };
   const handleCancel = event => {
     props.setParent();
