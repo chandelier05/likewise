@@ -25,7 +25,7 @@ export default function UserPicture(props) {
     const classes = useStyles();
     return (
         <div className={classes.root}>
-            <img src={props.imgSrc} class={classes.image}/>
+            <img src={props.imgSrc} className={classes.image}/>
             <p className={classes.text} style={{color: "#88B5E1"}}>{props.username}</p>
             <p className={classes.text} style={{color: "#dddddd"}}>{props.points} POINTS</p>
             <p className={classes.text} style={{color: "#dddddd"}}>{props.major}</p>

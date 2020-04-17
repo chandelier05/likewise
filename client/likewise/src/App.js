@@ -21,7 +21,8 @@ export default class App extends Component {
       user: null,
       loading: false,
       firstName: "",
-      lastName: ""
+      lastName: "",
+      loading: false
     }
   }
 
@@ -37,6 +38,7 @@ export default class App extends Component {
     });
   }
   componentDidMount() {
+    this.setState({loading: true})
     this.authUnsubFunction = firebase.auth().onAuthStateChanged((firebaseUser) => {
       if (firebaseUser) {
         let nameArr = firebaseUser.displayName.split(' ');
@@ -47,7 +49,6 @@ export default class App extends Component {
           email: firebaseUser.email,
         }
       ).then(() => {
-        console.log('finished');
         let nameArr = firebaseUser.displayName.split(' ');
         this.setState({user: firebaseUser, loading: false, firstName: nameArr[0], lastName: nameArr[nameArr.length - 1]});
       }).catch((e) => {
@@ -60,11 +61,18 @@ export default class App extends Component {
   }
 
   componentWillUnmount() {
-    this.authUnsubFunction();
+    //this.authUnsubFunction();
     this.setState({errorMessage: null});
   }
 
   render() {
+    if (this.state.loading) {
+      return (
+        <div>
+          I'm Loading!
+        </div>
+      )
+    }
     let signedIn = false;
     let navbar = (
       <Navbar loggedIn={false} handleSignOut={this.handleSignOut}/>

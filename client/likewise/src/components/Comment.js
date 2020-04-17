@@ -9,7 +9,8 @@ const useStyles = makeStyles(theme => ({
   root : {
     margin: "1rem",
     flexDirection: "column",
-    display: "flex"
+    display: "flex",
+    overflow: "auto"
   },
   summary: {
     fontWeight: "bold",
@@ -41,13 +42,13 @@ export default function Comment(props) {
   }
   const handleReport = () => {};
   return (
-    <div class={classes.root}>
-      <Grid container class={classes.post}>
-        <Grid item xs={2} style={{margin: "1rem"}}>
+    <div className={classes.root}>
+      <Grid container className={classes.post} style={{flexWrap:"noWrap"}}>
+        <Grid item xs={2} style={{margin:"0rem 1rem 0rem 0rem"}}>
           <UserPicture imgSrc={userImg} major={major} points={points} username={username}/>
         </Grid>
-        <Grid item xs={10}>
-          <Box class={classes.postOutline}>
+        <Grid item xs={12}>
+          <Box className={classes.postOutline}>
               <p>
                   {props.body}
               </p>
@@ -59,7 +60,7 @@ export default function Comment(props) {
           </Box>
         </Grid>
       </Grid>
-        <Grid container class={classes.reply}>
+        <Grid container className={classes.reply}>
           <Grid item xs={12}>
             {
               closeReply ? <div></div> : 

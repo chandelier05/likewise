@@ -1,54 +1,65 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import firebase from 'firebase';
 import {Grid, Box, ListItem, ListItemText} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import CreateReply from'./CreateReply';
 import Comment from './Comment';
 
+//TODO change margin on replies to comments automatically depending on nested level
+const useStyles = makeStyles(theme => ({
+  commentReply: {
+    marginLeft: "7rem",
+  }
+}));
+
 export default function CommentSection(props) {
+  const classes = useStyles();
+  const _isMounted = useRef(true);
   const [comments, setComments] = useState([]);
-  const [loading, setLoad] = useState(true);
+  const [replies, setReplies] = useState({});
+  const [loading, setLoad] = useState(false);
+  const [madeComment, setMadeComment] = useState(false);
   const db = firebase.firestore();
-  //TODO change commentsDB selection from posts collection to comments collection with cid's in post's comment collection
-  const commentsDB = db.collection("posts").doc(props.pid).collection("comments").orderBy("timestamp", "desc");
+  const commentsList = db.collection("comments").where("parentId", "==", props.pid).orderBy("timestamp", "desc");
+  const rerenderPage = () => {
+    console.log("rerenderPage has been called")
+    setMadeComment(!madeComment);
+  }
+  const handleLoading = () => {
+    setLoad(false);
+  }
   useEffect(() => {
     try {
-      commentsDB.onSnapshot((querySnapshot) => {
-        let newArr = [];
+      setLoad(true);
+      commentsList.onSnapshot((querySnapshot) => {
+        let tempComments = [];
         querySnapshot.forEach((doc) => {
           // prevent listener from updating comments if new doc created has not been fully written to server
           if (doc.metadata.hasPendingWrites) {
             return;
           }
           var data = doc.data();
-          
-          // var source = doc.metadata.hasPendingWrites ? "Local" : "Server";
-          // console.log(source, " data: ", doc.data());
-          var newComment = {
+          var comment = {
+            cid: doc.id,
+            timestamp: data["timestamp"].toDate().toString(),
             body: data["body"],
             firstName: data["firstName"],
             lastName: data["lastName"],
-            timestamp: data["timestamp"].toDate().toString(),
-            uid: data["uid"],
-            cid: doc.id,
-            replies : []
+            uid: data["uid"]
           };
-          //console.log(data["timestamp"].toDate());
-          newArr.push(newComment);
+          tempComments.push(comment);
         });
-          newArr = getReplies(db, newArr);
-          setComments(newArr);    
-      })
+        setReplies(getReplies(tempComments), handleLoading);
+        setComments(tempComments); 
+      });
     } catch (error) {
-
+      
     } finally {
-      setLoad(false);
+      return () => { // ComponentWillUnmount in Class Component
+        _isMounted.current = false;
+      }
     }
-  }, []);
-  // useEffect(() => {
-  //   let newArr = getReplies(db, comments, setLoad);
-  //   setReplies(newArr);
-  // }, [loading]);
+  }, [madeComment]);
   return (
     <Box>
       <h1>Replies</h1>
@@ -56,16 +67,20 @@ export default function CommentSection(props) {
           return (
             <div>
               <Comment lastName={item.firstName} firstName={item.lastName} 
-              body={item.body} timestamp={item.timestamp} parentId={props.pid} uid={props.uid} timesp={props.timesp} postReply={true}/>
+              body={item.body} timestamp={item.timestamp} parentId={item.cid} 
+              setParent={rerenderPage} uid={props.uid} timesp={props.timesp} postReply={true}/>
               <div>
-                {!loading && !Array.isArray(item.replies) && !item.replies.length ? item.replies.map((subItem) => {
-                    return (
-                      <Comment lastName={item.firstName} firstName={item.lastName}
-                      body={subItem.body} timestamp={subItem.timestamp} parentId={item.cid} 
-                      uid={props.uid} timesp={props.timesp} postReply={false}/>
-                    )
-                  }) : <div></div>
-                }
+              {
+                !loading && replies[item.cid].length !== 0 ? replies[item.cid].map((subItem) => {
+                  return (
+                    <div className={classes.commentReply}>
+                      <Comment lastName={subItem.firstName} firstName={subItem.lastName}
+                      body={subItem.body} timestamp={subItem.timestamp} parentId={subItem.parentId} 
+                      uid={subItem.uid} timesp={props.timesp} postReply={false} setParent={rerenderPage}/>
+                    </div>
+                  )
+                }) : <div></div>
+              }
               </div>            
             </div>
           );
@@ -74,29 +89,71 @@ export default function CommentSection(props) {
           <ListItemText primary="loading" />
         </ListItem>
       }
+      <input type="button" onClick={rerenderPage} value="test"/>
     </Box>
   )
 }
 
-function getReplies(db, comments) {
-  let newArr = [];
-  for (let i = 0; i < comments.length; i++) {
-    let commentItem = comments[i];
-    let list = [];
-    db.collection("comments")
-      .doc(commentItem.cid).collection("replies").get()
-      .then((querySnapshot) => {
-        console.log("querysnapshot: ");
-        console.log(querySnapshot);
-        querySnapshot.forEach((doc) => {
-          list.push(doc.data());
-          console.log(doc.data());
-        })
-      }).catch((e) => {
-        console.log(e);
+function getReplies(comments, handleLoad) {
+  let tempReplies = {};
+  try {
+    const db = firebase.firestore();
+    console.log("testing rerender")
+    let promiseArr = [];
+    for (let i = 0; i < comments.length; i++) {
+      tempReplies[comments[i].cid] = [];
+      promiseArr.push(db.collection("comments").where("parentId", "==", comments[i].cid).orderBy("timestamp", "desc").get());
+    }
+    Promise.all(promiseArr).then((queryArr) => {
+      for (let i = 0; i < queryArr.length; i++) {
+        queryArr[i].forEach((doc) => {
+          if (doc.metadata.hasPendingWrites) {
+            return;
+          }
+          var data = doc.data();
+          var comment = {
+            cid: doc.id,
+            timestamp: data["timestamp"].toDate().toString(),
+            body: data["body"],
+            firstName: data["firstName"],
+            lastName: data["lastName"],
+            uid: data["uid"]
+          };
+          tempReplies[data["parentId"]].push(comment);
+        });
+      }
     });
-    commentItem.replies = list;
-    newArr.push(commentItem);
+  } catch (error) {
+
+  } finally {
+    handleLoad();
   }
-  return newArr;
+  return tempReplies;
 }
+// .get()
+//       .then((querySnapshot) => {
+//         querySnapshot.forEach((doc) => {
+//           var data = doc.data();
+//           if (doc.metadata.hasPendingWrites) {
+//             return;
+//           }
+//           // var source = doc.metadata.hasPendingWrites ? "Local" : "Server";
+//           // console.log(source, " data: ", doc.data());
+//           var newComment = {
+//             body: data["body"],
+//             firstName: data["firstName"],
+//             lastName: data["lastName"],
+//             timestamp: data["timestamp"].toDate().toString(),
+//             uid: data["uid"],
+//             cid: doc.id
+//           };
+//           list.push(newComment);
+//         })
+//       }).catch((e) => {
+//         console.log(e);
+//     });
+//     commentItem.replies = list;
+//     newArr.push(commentItem);
+
+
+// 

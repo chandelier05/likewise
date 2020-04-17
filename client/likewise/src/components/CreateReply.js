@@ -50,33 +50,28 @@ const useStyles = makeStyles(theme => ({
 export default function CreateReply(props) {
   const classes = useStyles();
   const [comment, setComment] = useState("");
+  let uid = "4nPvDFfV9rXXwCkQEBohdQUH3Mb2";
   const handleSubmit = (event) => {
+    const docRef = firebase.firestore().collection("comments").doc()
     let timeObject = {
       body: comment,
-      uid: props.uid,
+      uid: uid,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       firstName: props.firstName,
-      lastName: props.lastName
+      lastName: props.lastName,
+      cid: docRef.id,
+      parentId: props.parentId
     };
-    const docRef = firebase.firestore().collection("comments").doc()
     docRef.set(timeObject).then(() => {
       
     })
-    if (props.postReply) {
-      firebase.firestore().collection("posts").doc(props.parentId).collection("comments").doc(docRef.id).set({
-        uid: props.uid,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      }).then(() => {
-        props.setParent();
-      });
-    } else {
-      firebase.firestore().collection("comments").doc(props.parentId).collection("replies").doc(docRef.id).set({
-        uid: props.uid,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      }).then(() => {
-        props.setParent();
-      });
-    }
+    firebase.firestore().collection("comments").doc(props.parentId).collection("replies").doc(docRef.id).set({
+      uid: uid,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(() => {
+      console.log("set parent should be called!");
+      props.setParent();
+    });
   };
   const handleCancel = event => {
     props.setParent();
@@ -102,7 +97,7 @@ export default function CreateReply(props) {
         <Button variant="outlined" style={{border: "solid 1px #9188AB", backgroundColor:"#FFFFFF"}} 
         onClick={handleCancel} class={classes.buttons}>Cancel</Button>
         <Button variant="contained" style={{border: "solid 1px #9188AB", backgroundColor: "#9188AB", color:"#FFFFFF"}} 
-        onClick={handleSubmit} class={classes.buttons}>Post</Button>      
+        onClick={handleSubmit} class={classes.buttons}>Reply</Button>      
       </div>
     </div>
   )
