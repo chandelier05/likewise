@@ -55,6 +55,7 @@ export default function CommentSection(props) {
     } catch (error) {
       
     } finally {
+      setLoad(false);
       return () => { // ComponentWillUnmount in Class Component
         _isMounted.current = false;
       }
@@ -91,7 +92,6 @@ export default function CommentSection(props) {
           <ListItemText primary="loading" />
         </ListItem>
       }
-      <input type="button" onClick={rerenderPage} value="test"/>
     </Box>
   )
 }

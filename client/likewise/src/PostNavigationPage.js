@@ -21,7 +21,10 @@ const useStyles = makeStyles(theme => ({
     background: "rgb(136,181,225)",
     background: "linear-gradient(90deg, rgba(136,181,225,1) 0%, rgba(145,136,171,1) 25%)",
     WebkitTextFillColor: "transparent",
-    WebkitBackgroundClip: "text"
+    WebkitBackgroundClip: "text",
+    fontFamily: "Roboto",
+    fontStyle: "normal",
+    fontWeight: "900"
   }
 }))
 

@@ -65,7 +65,7 @@ export default function Comment(props) {
             {
               closeReply ? <div></div> : 
               <CreateReply parentId={props.parentId} setParent={handleReply} 
-              firstName={props.firstName} lastName={props.lastName} uid={props.uid}/>
+              firstName={props.firstName} lastName={props.lastName} uid={props.uid} postId={props.postId}/>
             }
           </Grid>
         </Grid>
