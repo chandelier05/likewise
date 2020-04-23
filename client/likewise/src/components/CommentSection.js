@@ -1,9 +1,8 @@
 import React, {useEffect, useState, useRef} from 'react';
 import firebase from 'firebase';
-import {Grid, Box, ListItem, ListItemText} from '@material-ui/core';
+import {Box, ListItem, ListItemText} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
-import CreateReply from'./CreateReply';
-import Comment from './Comment';
+import MainComment from './MainComment';
 
 //TODO change margin on replies to comments automatically depending on nested level
 const useStyles = makeStyles(theme => ({
@@ -49,53 +48,29 @@ export default function CommentSection(props) {
           };
           tempComments.push(comment);
         });
-        setReplies(getReplies(tempComments, handleLoading));
+        //setReplies(getReplies(tempComments, handleLoading));
         setComments(tempComments); 
       });
     } catch (error) {
       
     } finally {
+      setLoad(false);
       return () => { // ComponentWillUnmount in Class Component
         _isMounted.current = false;
       }
     }
   }, [madeComment]);
-  var setRepliesList = () => {
-    if (!loading && replies.length) {
-      return comments.map((item) => {
-        replies[item.cid].map((subItem) => {
-          return replies[item.cid].length !== 0 ? 
-            (
-              <div className={classes.commentReply}>
-                <Comment lastName={subItem.firstName} firstName={subItem.lastName}
-                body={subItem.body} timestamp={subItem.timestamp} parentId={subItem.parentId} 
-                uid={subItem.uid} timesp={props.timesp} postReply={false} setParent={rerenderPage}
-                postId={props.pid} commentCount={props.commentCount}/>
-              </div>
-            ) : (<div></div>)
-        });
-      });
-    } else {
-      return (
-        <div></div>
-      )
-    }
-  };
+  
   return (
     <Box>
       <h1>Replies</h1>
       {!loading && comments.length > 0 ? comments.map((item) => {
-          console.log("testing replies inside of conditiona;")
+          //console.log("testing replies inside of conditiona;")
           return (
-            <div>
-              <Comment lastName={item.firstName} firstName={item.lastName} 
-              body={item.body} timestamp={item.timestamp} parentId={item.cid} 
-              setParent={rerenderPage} uid={props.uid} timesp={props.timesp} postId={props.pid}
-              commentCount={props.commentCount}/>
-              <div>
-                {setRepliesList()}
-              </div>            
-            </div>
+            <MainComment lastName={item.firstName} firstName={item.lastName} 
+            body={item.body} timestamp={item.timestamp} parentId={item.cid} 
+            setParent={rerenderPage} uid={props.uid} timesp={props.timesp} postId={props.pid}
+            commentCount={props.commentCount}/>
           );
         }) : 
         <ListItem button>
