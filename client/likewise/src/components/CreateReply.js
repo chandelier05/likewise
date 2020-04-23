@@ -51,7 +51,6 @@ export default function CreateReply(props) {
   const classes = useStyles();
   const [comment, setComment] = useState("");
   const _isMounted = useRef(true);
-  let uid = "4nPvDFfV9rXXwCkQEBohdQUH3Mb2";
   const handleSubmit = (event) => {
     firebase.firestore().collection("posts").doc(props.postId).update({
       commentCount: props.commentCount + 1
@@ -64,7 +63,7 @@ export default function CreateReply(props) {
     const docRef = firebase.firestore().collection("comments").doc()
     let timeObject = {
       body: comment,
-      uid: uid,
+      uid: props.uid,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       firstName: props.firstName,
       lastName: props.lastName,

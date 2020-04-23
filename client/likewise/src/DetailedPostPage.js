@@ -40,8 +40,6 @@ export default function DetailedPostPage(props) {
   const db = firebase.firestore();
   const [mainReply, setMainReply] = useState(false);
   let { pid } = useParams();
-  
-  let uid = "4nPvDFfV9rXXwCkQEBohdQUH3Mb2";
   const handleMainReply = () => {
     setMainReply(!mainReply);
   }
@@ -77,6 +75,7 @@ export default function DetailedPostPage(props) {
     })
     
   }, []);
+  console.log(props.uid);
   return (
     <Container maxWidth="md">
       <Grid container>
@@ -89,7 +88,7 @@ export default function DetailedPostPage(props) {
             parentId={pid} setParent={handleMainReply} timesp={firebase.firestore} postId={pid} commentCount={postData.commentCount}
             uid={props.user.uid} /> : <div></div>}
           </Box>
-          <CommentSection pid={pid} timesp={firebase.firestore} uid={uid}/>
+          <CommentSection pid={pid} timesp={firebase.firestore} uid={props.uid}/>
         </Grid>
         <Grid item xs={4}>
           {/*for scoreboard*/}

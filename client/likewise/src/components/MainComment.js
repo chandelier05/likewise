@@ -51,8 +51,8 @@ export default function MainComment(props) {
     <div>
       <Comment lastName={props.firstName} firstName={props.lastName} 
       body={props.body} timestamp={props.timestamp} parentId={props.parentId} 
-      setParent={rerenderPage} uid={props.uid} timesp={props.timesp} postId={props.postId}
-      commentCount={props.commentCount}/>
+      setParent={rerenderPage} posterId={props.posterId} timesp={props.timesp} postId={props.postId}
+      commentCount={props.commentCount} uid={props.uid}/>
       <div>
         {!loading && replies.length ?
           replies.map((subItem) => {
@@ -60,7 +60,7 @@ export default function MainComment(props) {
               <div className={classes.commentReply}>
                 <Comment lastName={subItem.firstName} firstName={subItem.lastName}
                 body={subItem.body} timestamp={subItem.timestamp} parentId={subItem.parentId} 
-                uid={subItem.uid} timesp={props.timesp} postReply={false} setParent={rerenderPage}
+                uid={props.uid} posterId={subItem.uid} timesp={props.timesp} postReply={false} setParent={rerenderPage}
                 postId={props.postId} commentCount={props.commentCount}/>
               </div>
             );

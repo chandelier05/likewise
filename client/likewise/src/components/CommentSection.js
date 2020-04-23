@@ -70,7 +70,7 @@ export default function CommentSection(props) {
             <MainComment lastName={item.firstName} firstName={item.lastName} 
             body={item.body} timestamp={item.timestamp} parentId={item.cid} 
             setParent={rerenderPage} uid={props.uid} timesp={props.timesp} postId={props.pid}
-            commentCount={props.commentCount}/>
+            commentCount={props.commentCount} posterId={item.uid}/>
           );
         }) : 
         <ListItem button>
