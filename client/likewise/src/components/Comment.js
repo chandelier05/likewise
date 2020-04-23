@@ -40,6 +40,10 @@ export default function Comment(props) {
   const handleReply = () => {
     setReply(!closeReply);
   }
+  const commentReply = () => {
+    setReply(!closeReply);
+    props.setParent();
+  }
   const handleReport = () => {};
   return (
     <div className={classes.root}>
@@ -64,7 +68,7 @@ export default function Comment(props) {
           <Grid item xs={12}>
             {
               closeReply ? <div></div> : 
-              <CreateReply parentId={props.parentId} setParent={handleReply} 
+              <CreateReply parentId={props.parentId} setParent={commentReply} 
               firstName={props.firstName} lastName={props.lastName} uid={props.uid} postId={props.postId}/>
             }
           </Grid>
