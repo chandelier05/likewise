@@ -7,6 +7,8 @@ import CommentSection from './components/CommentSection';
 import CreateReply from'./components/CreateReply';
 import {useParams} from 'react-router-dom';
 
+import SearchBar, { TagInput } from "../../components/Searchbar/searchbar";
+
 const useStyles = makeStyles(theme => ({
   root : {
 
@@ -78,6 +80,8 @@ export default function DetailedPostPage(props) {
     
   }, []);
   return (
+    <div>
+      <SearchBar/>
     <Container maxWidth="md">
       <Grid container>
         <Grid item xs={8}>
@@ -96,5 +100,7 @@ export default function DetailedPostPage(props) {
         </Grid>
       </Grid>
     </Container>
+    </div>
+    
   );
 }

@@ -1,0 +1,67 @@
+body{
+    font-family: Montserrat;
+font-style: normal;
+font-weight: normal;
+font-size: 14px;
+line-height: 22px;
+/* identical to box height, or 157% */
+
+
+color: #747D88;
+}
+.likewise-searchbar{
+    display: flex; /* 2. display flex to the rescue */
+    flex-direction: row;
+    padding: 1rem;
+    background: linear-gradient(193.9deg, #9188AB 1.55%, #88B5E1 95.8%);
+}
+
+.likewise-tagbar{
+    margin-right: 7px;
+    margin-left: 177px;
+}
+
+.likewise-quarter-select{
+    margin-right: 7px;
+}
+
+.likewise-yearinput{
+    margin-right:7px;
+}
+
+.likewise-yearinput .ant-input{
+    border-radius: 3px;
+    width: 171px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.likewise-button .ant-btn{
+    margin-right: 7px;
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+    height: 32px;
+}
+
+.likewise-button .ant-btn:hover{
+    margin-right: 7px;
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+    height: 32px;
+}
+
+.likewise-tagbar .ant-input {
+    width: 423px;
+    border-radius: 3px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.ant-select{
+    border-radius: 3px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.likewise-sort-select{
+    margin-left: 75px;
+}

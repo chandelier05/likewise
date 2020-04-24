@@ -1,8 +1,11 @@
-import React, { useState} from 'react';
-import { makeStyles} from '@material-ui/core/styles';
+import React, { useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import firebase from 'firebase';
-import { MenuItem, Menu, Grid, Button} from '@material-ui/core';
+import { MenuItem, Menu, Grid, Button } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
+
+import SearchBar, { TagInput } from "../../components/Searchbar/searchbar";
+import TagsInput from "../../components/TagsInput/TagsInput";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -18,13 +21,13 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     padding: "1.2rem 0rem",
     flex: "1 0 auto",
-    resize:"none",
+    resize: "none",
   },
   fieldInput: {
     display: "flex",
     padding: "1.2rem 0rem",
     flex: "1 0 auto",
-    resize:"none",
+    resize: "none",
     border: "1px solid #9188AB",
   },
   form: {
@@ -54,16 +57,25 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function CreatePostPage(props) {
+
   const db = firebase.firestore();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [postData, setPost] = useState({
     summary: "",
-    description: "",
-    tags: ""
+    description: ""
   });
+  const[tags, setTags] = useState([]);
   const [redirect, setRedirect] = useState(false);
-  
+  const selectedTags = theseTags => {
+    console.log(theseTags);
+    setTags({
+      ...tags,
+      theseTags
+    })
+    console.log(tags);
+  };
+
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
@@ -73,7 +85,8 @@ export default function CreatePostPage(props) {
       preview: postData.summary,
       uid: props.user.uid,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-      likes: 0
+      likes: 0,
+      tags: tags
     }).then(() => {
       setRedirect(true);
     })
@@ -87,7 +100,7 @@ export default function CreatePostPage(props) {
       ...postData,
       [event.target.name]: value
     });
-    // console.log(postData);
+    console.log(postData);
     // console.log("postdata is being modified");
   }
   const handleClose = () => {
@@ -95,13 +108,14 @@ export default function CreatePostPage(props) {
   };
   if (redirect) {
     return (
-      <Redirect to="/posts"/>
+      <Redirect to="/posts" />
     )
   } else {
     return (
       <div>
-        <Grid container style={{flexDirection: "column"}}>
-          <Grid item xs={12} class={classes.title}>        
+        <SearchBar />
+        <Grid container style={{ flexDirection: "column" }}>
+          <Grid item xs={12} class={classes.title}>
             <h1 id="createPostTitle">Create Post</h1>
           </Grid>
           <Grid item xs={12} class={classes.root}>
@@ -109,17 +123,16 @@ export default function CreatePostPage(props) {
               <div class={classes.inputBlock}>
                 <label for="summary" class={classes.field}>Summary of Post</label>
                 <textarea id="createSummary" name="summary" value={postData.summary}
-                class={classes.fieldInput} onChange={handleChange}></textarea>
+                  class={classes.fieldInput} onChange={handleChange}></textarea>
               </div>
               <div class={classes.inputBlock}>
                 <label for="description" class={classes.field}>Description</label>
-                <textarea id="createDescription" name="description" value={postData.description} 
-                class={classes.fieldInput} onChange={handleChange}></textarea>
+                <textarea id="createDescription" name="description" value={postData.description}
+                  class={classes.fieldInput} onChange={handleChange}></textarea>
               </div>
               <div class={classes.inputBlock}>
                 <label for="tags" class={classes.field}>Tags</label>
-                <input type="text" id="createTags" name="tags" value={postData.tags} 
-                onChange={handleChange} class={classes.fieldInput}/>
+                <TagsInput id="createTags" selectedTags={selectedTags} />
               </div>
             </form>
           </Grid>
@@ -128,10 +141,10 @@ export default function CreatePostPage(props) {
           <Grid item xs={7}>
           </Grid>
           <Grid item xs={1} spacing={0} class={classes.button}>
-              <Button name="cancel" onClick={handleCancel} variant="contained">Cancel</Button>
+            <Button name="cancel" onClick={handleCancel} variant="contained">Cancel</Button>
           </Grid>
           <Grid item xs={1} spacing={0} class={classes.button}>
-              <Button name="submit" onClick={handleSubmit} variant="contained">Submit</Button>
+            <Button name="submit" onClick={handleSubmit} variant="contained">Submit</Button>
           </Grid>
           <Grid item xs={3} spacing={0}>
 
