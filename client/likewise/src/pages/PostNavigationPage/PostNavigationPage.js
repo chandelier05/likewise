@@ -5,6 +5,8 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles} from '@material-ui/core/styles';
 import firebase from 'firebase';
 
+import SearchBar, { TagInput } from "../../components/Searchbar/searchbar";
+
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
@@ -46,7 +48,9 @@ export default function PostNavigationPage(props) {
     });
   }, []);
   return (
-  <Grid container className={classes.root}>
+    <div>
+      <SearchBar/>
+        <Grid container className={classes.root}>
     <Grid item xs={12}>
       {posts.length > 0 ? 
           posts.map((item) => {
@@ -57,5 +61,7 @@ export default function PostNavigationPage(props) {
       }
     </Grid>
   </Grid>   
+    </div>
+
   )
 }

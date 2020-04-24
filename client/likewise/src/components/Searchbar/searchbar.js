@@ -1,23 +1,28 @@
 import React, { Component } from "react";
-import { Input, Menu, Select, Dropdown, message, Button, AutoComplete } from 'antd';
+import { Input, Menu, Select, Button } from 'antd';
+
 import { DownOutlined, UserOutlined } from '@ant-design/icons';
 import './searchbar.css';
+import "antd/dist/antd.css";
 
 const { Option } = Select;
 
 export default class SearchBar extends Component {
+
   render() {
     return (
       <div className="likewise-searchbar">
-        <Input.Group>
-        <TagInput/>
-        </Input.Group>
+        <TagSearch />
+        <QuarterSelect />
+        <YearInput />
+        <SearchButton />
+        <SortSelect/>
       </div>
     )
   }
 }
 
-function TagInput(props) {
+function TagSearch(props) {
   return (
     <div className="likewise-tagbar">
       <Input placeholder="Search Tags..." />
@@ -26,30 +31,44 @@ function TagInput(props) {
 }
 
 function QuarterSelect(props) {
- return(
-  <div className='likewise-quarter-select'>
-          <Select defaultValue="Sign Up" style={{ width: '30%' }}>
-        <Option value="Sign Up">Sign Up</Option>
-        <Option value="Sign In">Sign In</Option>
+  return (
+    <div className='likewise-quarter-select'>
+      <Select placeholder="Quarter">
+        <Option value="Autumn">Autumn</Option>
+        <Option value="Winter">Winter</Option>
+        <Option value="Autumn">Spring</Option>
+        <Option value="Winter">Summer</Option>
       </Select>
-  </div>
- )
+    </div>
+  )
 }
 
 function YearInput(props) {
   return (
-    <div>
-
+    <div className="likewise-yearinput">
+      <Input placeholder="Year" />
     </div>
   )
 }
 
 function SearchButton(props) {
   return (
-    <div>
-
+    <div className="likewise-button">
+      <Button>Search</Button>
     </div>
   )
 }
 
-export { TagInput, QuarterSelect, YearInput, SearchButton };
+function SortSelect(props) {
+  return (
+    <div className="likewise-sort-select">
+
+      <Select placeholder="Sort By">
+        <Option value="1">Date</Option>
+        <Option value="2">Major</Option>
+      </Select>
+    </div>
+  )
+}
+
+export { TagSearch, QuarterSelect, YearInput, SearchButton, SortSelect };

@@ -6,11 +6,12 @@ import './App.css';
 import Navbar from './components/navbar/Navbar';
 import SearchBar from "./components/Searchbar/searchbar";
 import PostNavigationPage from "./pages/PostNavigationPage/PostNavigationPage";
-import CreatePostPage from "./pages/CreatePostpage/CreatePostPage";
+import CreatePostPage from "./pages/CreatePostPage/CreatePostPage";
 import DetailedPostPage from './pages/DetailedPostPage/DetailedPostPage'
 import HomePage from './pages/HomePage/HomePage';
 import TestPage from './pages/TestPage/TestPage';
 import {Switch, Route} from 'react-router-dom';
+
 
 
 export default class App extends Component {
@@ -22,7 +23,8 @@ export default class App extends Component {
       user: null,
       loading: false,
       firstName: "",
-      lastName: ""
+      lastName: "",
+      loading: false
     }
   }
 
