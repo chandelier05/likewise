@@ -1,5 +1,7 @@
 body {
   margin: 0;
+  padding: 0;
+  width: 100%;
   font-family:  'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif!important;
@@ -56,3 +58,14 @@ code {
   flex: 1 0 auto;
   margin: 0rem 2rem;
 }
+
+/* DetailedPostPage */
+
+.postPreview {
+  margin: 2rem 2rem;
+}
+
+.postPreview:first-of-type {
+  margin: 1.5rem 2rem 2rem;
+} 
+

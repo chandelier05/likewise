@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import firebase from 'firebase'
-import {Grid, Container, Box, ListItem, ListItemText} from '@material-ui/core';
+import {Grid, Container, Box} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
-import DetailedPost from '../../components/DetailedPost';
-import Comment from '../../components/Comment';
-import CreateReply from'../../components/CreateReply';
+import DetailedPost from './components/DetailedPost';
+import CommentSection from './components/CommentSection';
+import CreateReply from'./components/CreateReply';
 import {useParams} from 'react-router-dom';
 
 import SearchBar, { TagInput } from "../../components/Searchbar/searchbar";
@@ -28,7 +28,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function DetailedPostPage(props) {
-  const [comments, setComments] = useState([{}]);
   const [postData, setPostData] = useState({
     body: "",
     preview: "",
@@ -36,16 +35,18 @@ export default function DetailedPostPage(props) {
     timestamp: "",
     likes: 0,
     firstName: "",
-    lastName: ""
+    lastName: "",
+    commentCount: 0
   });
   const [loading, setLoad] = useState(true);
   const db = firebase.firestore();
   const [mainReply, setMainReply] = useState(false);
   let { pid } = useParams();
+  
+  let uid = "4nPvDFfV9rXXwCkQEBohdQUH3Mb2";
   const handleMainReply = () => {
     setMainReply(!mainReply);
   }
-  const commentsDB = db.collection("posts").doc(pid).collection("comments").orderBy("timestamp", "desc")
   //TO-DO: FIX BUG WHERE EMPTY COMMENT IS SHOWN BY APPENDAGING FIRST ELEMENT
   // LOOK UP HOW TO USE EVENT LISTENERS FIRESTORE (PROBABLY WILL FIX ISSUE)
   // OR HOTFIX AND REUPDATE DB INSTANCE???
@@ -68,70 +69,34 @@ export default function DetailedPostPage(props) {
               ...obj,
               [key]: data[key]
             }
-            console.log(obj)
           }
         }
       setPostData(obj);
       setLoad(false);
       }).catch((e) => {
-        console.log(e);
       })
     }).catch((e) => {
-      console.log(e);
     })
-    commentsDB.onSnapshot((querySnapshot) => {
-      let newArr = [];
-      querySnapshot.forEach((doc) => {
-        // prevent listener from updating comments if new doc created has not been fully written to server
-        if (doc.metadata.hasPendingWrites) {
-          return;
-        }
-        var data = doc.data();
-        // var source = doc.metadata.hasPendingWrites ? "Local" : "Server";
-        // console.log(source, " data: ", doc.data());
-        var newComment = {
-          body: data["body"],
-          firstName: data["firstName"],
-          lastName: data["lastName"],
-          timestamp: data["timestamp"].toDate().toString(),
-          uid: data["uid"]
-        };
-        //console.log(data["timestamp"].toDate());
-        newArr.push(newComment);
-    });
-      setComments(newArr);
-    })
+    
   }, []);
-  console.log(postData);
   return (
     <div>
       <SearchBar/>
-      <Container maxWidth="sm">
+    <Container maxWidth="md">
       <Grid container>
         <Grid item xs={8}>
           <Box>
             {!loading ? <DetailedPost setParent={handleMainReply} postData={postData}/> : <DetailedPost setParent={handleMainReply} test={true}/>}
-            
           </Box>
           <Box>
-            {mainReply ? <CreateReply firstName={props.firstName} lastName={props.lastName} pid={pid} setParent={handleMainReply} timesp={firebase.firestore}
+            {mainReply ? <CreateReply firstName={props.firstName} lastName={props.lastName} 
+            parentId={pid} setParent={handleMainReply} timesp={firebase.firestore} postId={pid} commentCount={postData.commentCount}
             uid={props.user.uid} /> : <div></div>}
           </Box>
-          <Box>
-          <h1>Replies</h1>
-            {comments.length > 0 ? comments.map((item) => {
-							return (
-								<Comment username={item.firstName + " " + item.lastName} body={item.body} timestamp={item.timestamp}/>
-							);}) 
-							: 
-							<ListItem button>
-								<ListItemText primary="loading" />
-							</ListItem>
-						}
-          </Box>
+          <CommentSection pid={pid} timesp={firebase.firestore} uid={uid}/>
         </Grid>
         <Grid item xs={4}>
-
+          {/*for scoreboard*/}
         </Grid>
       </Grid>
     </Container>

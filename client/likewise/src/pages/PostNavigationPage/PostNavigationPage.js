@@ -10,18 +10,33 @@ import SearchBar, { TagInput } from "../../components/Searchbar/searchbar";
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    padding: "1.2rem",
+    padding: "1.2rem"
+  },
+  postSection: {
+    "&:first-child" : {
+      margin: "0rem 2rem 1rem 2rem"
+    }
+  },
+  header : {
+    margin: "0rem 1rem",
+    fontSize: "3rem",
+    background: "rgb(136,181,225)",
+    background: "linear-gradient(90deg, rgba(136,181,225,1) 0%, rgba(145,136,171,1) 25%)",
+    WebkitTextFillColor: "transparent",
+    WebkitBackgroundClip: "text"
   }
 }))
 
 export default function PostNavigationPage(props) {
   const db = firebase.firestore();
   const classes = useStyles();
-  const [posts, setPosts] = useState([])
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoad] = useState(false);
   // Similar to componentDidMount and componentDidUpdate:
   // TODO: change functionality to look for most recent posts? and compile into list
   useEffect(() => {
-    var docRef = db.collection("posts").orderBy("likes", "asc")
+    setLoad(true);
+    var docRef = db.collection("posts").orderBy("likes", "asc");
     
     docRef.get().then((QuerySnapshot) => {
       let newArr = [];
@@ -34,7 +49,8 @@ export default function PostNavigationPage(props) {
               uid: doc.data()["uid"],
               likes: doc.data()["likes"],
               timestamp: doc.data()["timestamp"].toDate().toString(),
-              pid: doc.id
+              pid: doc.id,
+              commentCount: doc.data()["commentCount"]
             }
           newArr.push(postData);
         } else {
@@ -43,21 +59,23 @@ export default function PostNavigationPage(props) {
         }
       });
       setPosts(newArr);
+      setLoad(false);
     }).catch(function(error) {
       console.log("Error getting document:", error);
     });
   }, []);
   return (
-    <div>
-      <SearchBar/>
-        <Grid container className={classes.root}>
-    <Grid item xs={12}>
-      {posts.length > 0 ? 
+  <Grid container className={classes.root}>
+
+    <Grid item xs={12} id="postSectionPreview">
+    <h1 className={classes.header}>Browse posts</h1>
+      {!loading && posts.length > 0 ? 
           posts.map((item) => {
-            return <PostPreview preview={item.preview} pid={item.pid} userImg={UserPicture}/>
+            console.log(item);
+            return <PostPreview className="postPreview" postData={item} userImg={UserPicture}/>
           })
         : 
-          <PostPreview preview="loading" userImg={UserPicture}/>
+          <h2>loading</h2>
       }
     </Grid>
   </Grid>   

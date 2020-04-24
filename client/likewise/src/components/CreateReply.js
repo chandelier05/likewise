@@ -7,7 +7,9 @@ const useStyles = makeStyles(theme => ({
   root: {
     textAlign: "center",
     border: "1px solid #9188AB",
-    margin: "2rem"
+    margin: "2rem",
+    display: "block",
+    overflow: "hidden"
   },
   fieldInput: {
     resize: "none",
@@ -27,7 +29,6 @@ const useStyles = makeStyles(theme => ({
   },
   buttons: {
     margin: "1rem 0rem 0rem 2rem",
-    width: "50px",
     borderRadius: "5px",
     borderStyle: "none",
     fontSize: "0.7rem",
@@ -49,15 +50,28 @@ const useStyles = makeStyles(theme => ({
 export default function CreateReply(props) {
   const classes = useStyles();
   const [comment, setComment] = useState("");
+  let uid = "4nPvDFfV9rXXwCkQEBohdQUH3Mb2";
   const handleSubmit = (event) => {
+    firebase.firestore().collection("posts").doc(props.postId).update({
+      commentCount: props.commentCount + 1
+    }).then(function() {
+        console.log("Document successfully updated!");
+    }).catch(function(error) {
+        // The document probably doesn't exist.
+        console.error("Error updating document: ", error);
+    });
+    const docRef = firebase.firestore().collection("comments").doc()
     let timeObject = {
       body: comment,
-      uid: props.uid,
-      timestamp: props.timesp.FieldValue.serverTimestamp(),
+      uid: uid,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       firstName: props.firstName,
-      lastName: props.lastName
+      lastName: props.lastName,
+      cid: docRef.id,
+      parentId: props.parentId
     };
-    firebase.firestore().collection('posts').doc(props.pid).collection("comments").add(timeObject).then(() => {
+    docRef.set(timeObject).then(() => {
+      console.log("set parent should be called!");
       props.setParent();
     })
   };
@@ -79,13 +93,13 @@ export default function CreateReply(props) {
         <textarea id="replyBox" name="replyBox" class={classes.fieldInput} value={comment} onChange={handleChange}></textarea>
       </div>
       <div class={classes.rowButton} >
-        <div class={classes.buttons} style={{width: "20rem" }}>
+        <div class={classes.buttons} style={{width: "10rem" }}>
 
         </div>
         <Button variant="outlined" style={{border: "solid 1px #9188AB", backgroundColor:"#FFFFFF"}} 
         onClick={handleCancel} class={classes.buttons}>Cancel</Button>
         <Button variant="contained" style={{border: "solid 1px #9188AB", backgroundColor: "#9188AB", color:"#FFFFFF"}} 
-        onClick={handleSubmit} class={classes.buttons}>Post</Button>      
+        onClick={handleSubmit} class={classes.buttons}>Reply</Button>      
       </div>
     </div>
   )
