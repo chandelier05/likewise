@@ -2,9 +2,9 @@ import React, {useEffect, useState} from 'react';
 import firebase from 'firebase'
 import {Grid, Container, Box} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
-import DetailedPost from './components/DetailedPost';
-import CommentSection from './components/CommentSection';
-import CreateReply from'./components/CreateReply';
+import DetailedPost from '../../components/DetailedPost';
+import CommentSection from '../../components/CommentSection';
+import CreateReply from'../../components/CreateReply';
 import {useParams} from 'react-router-dom';
 
 import SearchBar, { TagInput } from "../../components/Searchbar/searchbar";
