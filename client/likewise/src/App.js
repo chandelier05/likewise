@@ -9,7 +9,7 @@ import PostNavigationPage from './PostNavigationPage';
 import CreatePostPage from './CreatePostPage';
 import DetailedPostPage from './DetailedPostPage';
 import HomePage from './HomePage';
-import {Switch, Route} from 'react-router-dom';
+import {Switch, Route, Redirect} from 'react-router-dom';
 
 
 export default class App extends Component {
@@ -19,15 +19,26 @@ export default class App extends Component {
     //var user = new LoginController(this.signedIn);
     this.state = {
       user: null,
-      loading: false,
+      loading: true,
       firstName: "",
       lastName: "",
-      loading: false
     }
   }
 
   handleSignIn = () => {
-   
+    var provider = new firebase.auth.GoogleAuthProvider();
+    // TODO: WHY IS THEN() NOT CALLED?
+    // guess it's the problem of the setState function?
+    var userInfo = firebase.auth().signInWithPopup(provider).then(function(result) {
+      // this.setState({user: result.user});
+    }).catch(function(error) {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // The email of the user's account used.
+        var email = error.email;
+        // The firebase.auth.AuthCredential type that was used.
+        var credential = error.credential;
+    })
   }
 
   handleSignOut = () => {
@@ -41,19 +52,20 @@ export default class App extends Component {
     this.setState({loading: true})
     this.authUnsubFunction = firebase.auth().onAuthStateChanged((firebaseUser) => {
       if (firebaseUser) {
+        console.log("setting firebase user state");
         let nameArr = firebaseUser.displayName.split(' ');
-      firebase.firestore().collection('users').doc(firebaseUser.uid).set(
-        {
-          firstName: nameArr[0],
-          lastName: nameArr[nameArr.length - 1],
-          email: firebaseUser.email,
-        }
-      ).then(() => {
-        let nameArr = firebaseUser.displayName.split(' ');
-        this.setState({user: firebaseUser, loading: false, firstName: nameArr[0], lastName: nameArr[nameArr.length - 1]});
-      }).catch((e) => {
-        console.log(e);
-      })
+        firebase.firestore().collection('users').doc(firebaseUser.uid).set(
+          {
+            firstName: nameArr[0],
+            lastName: nameArr[nameArr.length - 1],
+            email: firebaseUser.email,
+          }
+        ).then(() => {
+          let nameArr = firebaseUser.displayName.split(' ');
+          this.setState({user: firebaseUser, loading: false, firstName: nameArr[0], lastName: nameArr[nameArr.length - 1]});
+        }).catch((e) => {
+          console.log(e);
+        })
       } else {
         this.setState({user: null, loading: false});
       }
@@ -61,7 +73,7 @@ export default class App extends Component {
   }
 
   componentWillUnmount() {
-    //this.authUnsubFunction();
+    this.authUnsubFunction();
     this.setState({errorMessage: null});
   }
 
@@ -75,33 +87,47 @@ export default class App extends Component {
     }
     let signedIn = false;
     let navbar = (
-      <Navbar loggedIn={false} handleSignOut={this.handleSignOut}/>
+      <Navbar loggedIn={false} handleSignOut={this.handleSignOut} signInCallback={this.handleSignIn}/>
     );
-    if (this.state.user) {
-      navbar = <Navbar loggedIn={true} handleSignOut={this.handleSignOut}/>
-      signedIn = true;
-    }
-    return (
+    let body = (
       <div>
         <header>
           {navbar}
-          <SearchBar/>
         </header>
         <Switch>
           <Route exact path="/">
-            <HomePage isSignedIn={this.state.isSignedIn}/>
+              <HomePage/>
           </Route>
-          <Route exact path="/posts">
-            <PostNavigationPage/>
-          </Route>
-          <Route path="/createPost">
-            <CreatePostPage user={this.state.user}/>
-          </Route>
-          <Route path="/posts/:pid">
-            <DetailedPostPage user={this.state.user} firstName={this.state.firstName} lastName={this.state.lastName}/>
-          </Route>
+          <Redirect to="/"/>
         </Switch>
       </div>
     )
+    if (this.state.user) {
+      navbar = <Navbar loggedIn={true} handleSignOut={this.handleSignOut} signInCallback={this.handleSignIn}/>
+      signedIn = true;
+      body = (
+        <div>
+          <header>
+            {navbar}
+            <SearchBar/>
+          </header>
+          <Switch>
+            <Route exact path="/">
+              <HomePage/>
+            </Route>
+            <Route exact path="/posts">
+              <PostNavigationPage/>
+            </Route>
+            <Route path="/createPost">
+              <CreatePostPage user={this.state.user}/>
+            </Route>
+            <Route path="/posts/:pid">
+              <DetailedPostPage user={this.state.user} firstName={this.state.firstName} lastName={this.state.lastName}/>
+            </Route>
+          </Switch>
+        </div>
+      );
+    }
+    return body;
   }
 }

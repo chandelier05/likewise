@@ -13,21 +13,7 @@ import Paw from "../../assets/paw.png"
 export default function Navbar(props) {
     const handleLogin = (event) => {
         event.preventDefault();
-        var provider = new firebase.auth.GoogleAuthProvider();
-        // TODO: WHY IS THEN() NOT CALLED?
-        // guess it's the problem of the setState function?
-        var userInfo = firebase.auth().signInWithPopup(provider).then(function(result) {
-          // this.setState({user: result.user});
-          localStorage.setItem("userName",result.user.displayName);
-        }).catch(function(error) {
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // The email of the user's account used.
-            var email = error.email;
-            // The firebase.auth.AuthCredential type that was used.
-            var credential = error.credential;
-        })
-       // props.signInCallback();
+        props.signInCallback();
     }
 
     return (

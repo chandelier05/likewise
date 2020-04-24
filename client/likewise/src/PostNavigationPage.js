@@ -72,7 +72,6 @@ export default function PostNavigationPage(props) {
     <h1 className={classes.header}>Browse posts</h1>
       {!loading && posts.length > 0 ? 
           posts.map((item) => {
-            console.log(item);
             return <PostPreview className="postPreview" postData={item} userImg={UserPicture}/>
           })
         : 
