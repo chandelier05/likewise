@@ -83,7 +83,6 @@ export default function PostNavigationPage(props) {
       }
     </Grid>
   </Grid>   
-    </div>
 
   )
 }
