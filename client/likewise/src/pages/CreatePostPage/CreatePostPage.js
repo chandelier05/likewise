@@ -80,6 +80,7 @@ export default function CreatePostPage(props) {
     setAnchorEl(event.currentTarget);
   };
   const handleSubmit = event => {
+    event.preventDefault();
     db.collection('posts').add({
       body: postData.description,
       preview: postData.summary,
@@ -103,8 +104,8 @@ export default function CreatePostPage(props) {
     console.log(postData);
     // console.log("postdata is being modified");
   }
-  const handleClose = () => {
-    setAnchorEl(null);
+  const submitHandler = (e) => {
+    e.preventDefault();
   };
   if (redirect) {
     return (
@@ -119,7 +120,7 @@ export default function CreatePostPage(props) {
             <h1 id="createPostTitle">Create Post</h1>
           </Grid>
           <Grid item xs={12} class={classes.root}>
-            <form class={classes.form}>
+            <form class={classes.form} onSubmit={submitHandler}>
               <div class={classes.inputBlock}>
                 <label for="summary" class={classes.field}>Summary of Post</label>
                 <textarea id="createSummary" name="summary" value={postData.summary}
@@ -131,8 +132,8 @@ export default function CreatePostPage(props) {
                   class={classes.fieldInput} onChange={handleChange}></textarea>
               </div>
               <div class={classes.inputBlock}>
-                <label for="tags" class={classes.field}>Tags</label>
-                <TagsInput id="createTags" selectedTags={selectedTags} />
+                <label for="tags-inputbox" class={classes.field}>Tags</label>
+                <TagsInput id="createTags" selectedTags={selectedTags}/>
               </div>
             </form>
           </Grid>

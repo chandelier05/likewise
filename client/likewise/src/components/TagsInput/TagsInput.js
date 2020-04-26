@@ -6,8 +6,8 @@ import "./TagsInput.scss";
 const TagsInput = (props) => {
     const [tags, setTags] = React.useState([]);
     const addTags = event => {
-        let value = event.target.value.substring(0,event.target.value.length-1);
-        if (event.key === "," && value !== "") {
+        let value = event.target.value.substring(0,event.target.value.length);
+        if (event.keyCode == 13 && value !== "") {
             setTags([...tags, value]);
             props.selectedTags([...tags, value]);
             event.target.value = "";
@@ -17,8 +17,8 @@ const TagsInput = (props) => {
         setTags([...tags.filter(tag => tags.indexOf(tag) !== index)]);
     };
     return (
-        <div className="tags-input">
-            <ul id="tags">
+        <div className="tags-input" >
+            <ul className="tags">
                 {tags.map((tag, index) => (
                    <li key={index} className="tag">
                    <span className='tag-title'>{tag}</span>
@@ -33,7 +33,7 @@ const TagsInput = (props) => {
        <Tooltip title="Press , to add tags" placement="right">
        <input
                 type="text"
-                onKeyUp={event => event.key === "," ? addTags(event) : null}
+                onKeyUp={addTags} id="tags-inputbox"
             />
        </Tooltip>
         </div>
