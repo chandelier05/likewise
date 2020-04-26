@@ -4,7 +4,6 @@ import UserPicture from '../../assets/userImg.PNG';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles} from '@material-ui/core/styles';
 import firebase from 'firebase';
-
 import SearchBar, { TagInput } from "../../components/Searchbar/searchbar";
 
 const useStyles = makeStyles(theme => ({
@@ -23,7 +22,10 @@ const useStyles = makeStyles(theme => ({
     background: "rgb(136,181,225)",
     background: "linear-gradient(90deg, rgba(136,181,225,1) 0%, rgba(145,136,171,1) 25%)",
     WebkitTextFillColor: "transparent",
-    WebkitBackgroundClip: "text"
+    WebkitBackgroundClip: "text",
+    fontFamily: "Roboto",
+    fontStyle: "normal",
+    fontWeight: "900"
   }
 }))
 
@@ -68,12 +70,11 @@ export default function PostNavigationPage(props) {
     <div>
       <SearchBar/>
   <Grid container className={classes.root}>
-
     <Grid item xs={12} id="postSectionPreview">
+    <SearchBar/>
     <h1 className={classes.header}>Browse posts</h1>
       {!loading && posts.length > 0 ? 
           posts.map((item) => {
-            console.log(item);
             return <PostPreview className="postPreview" postData={item} userImg={UserPicture}/>
           })
         : 

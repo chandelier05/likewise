@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import firebase from 'firebase';
 import {Button} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
@@ -50,7 +50,7 @@ const useStyles = makeStyles(theme => ({
 export default function CreateReply(props) {
   const classes = useStyles();
   const [comment, setComment] = useState("");
-  let uid = "4nPvDFfV9rXXwCkQEBohdQUH3Mb2";
+  const _isMounted = useRef(true);
   const handleSubmit = (event) => {
     firebase.firestore().collection("posts").doc(props.postId).update({
       commentCount: props.commentCount + 1
@@ -63,7 +63,7 @@ export default function CreateReply(props) {
     const docRef = firebase.firestore().collection("comments").doc()
     let timeObject = {
       body: comment,
-      uid: uid,
+      uid: props.uid,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       firstName: props.firstName,
       lastName: props.lastName,
@@ -72,8 +72,12 @@ export default function CreateReply(props) {
     };
     docRef.set(timeObject).then(() => {
       console.log("set parent should be called!");
+      
       props.setParent();
     })
+    return () => { // ComponentWillUnmount in Class Component
+      _isMounted.current = false;
+    }
   };
   const handleCancel = event => {
     props.setParent();
@@ -83,7 +87,6 @@ export default function CreateReply(props) {
     // console.log(postData);
     // console.log("postdata is being modified");
   }
-
   return (
     <div class={classes.root}>
       <div class={classes.labelRow} id="labelRow">
