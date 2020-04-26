@@ -5,11 +5,13 @@ import 'firebase/database';
 import './App.css';
 import Navbar from './components/navbar/Navbar';
 import SearchBar from "./components/Searchbar/searchbar";
-import PostNavigationPage from './PostNavigationPage';
-import CreatePostPage from './CreatePostPage';
-import DetailedPostPage from './DetailedPostPage';
-import HomePage from './HomePage';
+import PostNavigationPage from "./pages/PostNavigationPage/PostNavigationPage";
+import CreatePostPage from "./pages/CreatePostPage/CreatePostPage";
+import DetailedPostPage from './pages/DetailedPostPage/DetailedPostPage'
+import HomePage from './pages/HomePage/HomePage';
+import TestPage from './pages/TestPage/TestPage';
 import {Switch, Route, Redirect} from 'react-router-dom';
+
 
 
 export default class App extends Component {
@@ -109,7 +111,6 @@ export default class App extends Component {
         <div>
           <header>
             {navbar}
-            <SearchBar/>
           </header>
           <Switch>
             <Route exact path="/">

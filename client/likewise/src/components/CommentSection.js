@@ -1,8 +1,9 @@
 import React, {useEffect, useState, useRef} from 'react';
 import firebase from 'firebase';
-import {Box, ListItem, ListItemText} from '@material-ui/core';
+import {Box} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import MainComment from './MainComment';
+import Comment from './Comment';
 
 //TODO change margin on replies to comments automatically depending on nested level
 const useStyles = makeStyles(theme => ({
@@ -73,9 +74,7 @@ export default function CommentSection(props) {
             commentCount={props.commentCount} posterId={item.uid}/>
           );
         }) : 
-        <ListItem button>
-          <ListItemText primary="loading" />
-        </ListItem>
+        <Comment body={"No comments... Be the first to reply!"} empty={true}/>
       }
       
     </Box>

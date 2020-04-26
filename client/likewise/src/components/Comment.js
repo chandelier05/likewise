@@ -48,19 +48,24 @@ export default function Comment(props) {
   return (
     <div className={classes.root}>
       <Grid container className={classes.post} style={{flexWrap:"noWrap"}}>
-        <Grid item xs={2} style={{margin:"0rem 1rem 0rem 0rem"}}>
+        {
+          !props.empty ? <Grid item xs={2} style={{margin:"0rem 1rem 0rem 0rem"}}>
           <UserPicture imgSrc={userImg} major={major} points={points} username={username}/>
-        </Grid>
+          </Grid> : <div></div>
+        }
         <Grid item xs={12}>
           <Box className={classes.postOutline}>
               <p>
                   {props.body}
               </p>
-              <p style={{fontSize: "0.6rem"}}>{props.timestamp}</p>
-              <div style={{display: "inline-block"}}>
-                <Button variant="outlined" style={{border: "solid 1px #9188AB", margin: "0rem 1rem", letterSpacing: "0"}} onClick={handleReply}>Reply</Button>
-                <Button variant="contained" style={{backgroundColor: "#9188AB", margin: "0rem 1rem", letterSpacing: "0"}} onClick={handleReport}>Report</Button>
-              </div>
+              {
+                !props.empty ?
+                (<div><p style={{fontSize: "0.6rem"}}>{props.timestamp}</p>
+                <div style={{display: "inline-block"}}>
+                  <Button variant="outlined" style={{border: "solid 1px #9188AB", margin: "0rem 1rem", letterSpacing: "0"}} onClick={handleReply}>Reply</Button>
+                  <Button variant="contained" style={{backgroundColor: "#9188AB", margin: "0rem 1rem", letterSpacing: "0"}} onClick={handleReport}>Report</Button>
+                </div></div>) : <div></div>
+              }
           </Box>
         </Grid>
       </Grid>

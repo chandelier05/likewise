@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import PostPreview from './components/PostPreview';
-import UserPicture from './assets/userImg.PNG';
+import PostPreview from '../../components/PostPreview';
+import UserPicture from '../../assets/userImg.PNG';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles} from '@material-ui/core/styles';
 import firebase from 'firebase';
+import SearchBar, { TagInput } from "../../components/Searchbar/searchbar";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -67,8 +68,8 @@ export default function PostNavigationPage(props) {
   }, []);
   return (
   <Grid container className={classes.root}>
-
     <Grid item xs={12} id="postSectionPreview">
+    <SearchBar/>
     <h1 className={classes.header}>Browse posts</h1>
       {!loading && posts.length > 0 ? 
           posts.map((item) => {
@@ -79,5 +80,6 @@ export default function PostNavigationPage(props) {
       }
     </Grid>
   </Grid>   
+
   )
 }
