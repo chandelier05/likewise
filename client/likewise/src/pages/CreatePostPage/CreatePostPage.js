@@ -81,16 +81,21 @@ export default function CreatePostPage(props) {
   };
   const handleSubmit = event => {
     event.preventDefault();
-    db.collection('posts').add({
+    let timestamp = firebase.firestore.FieldValue.serverTimestamp();
+    let docRef = db.collection('posts').doc();
+    let docData = {
       body: postData.description,
       preview: postData.summary,
       uid: props.user.uid,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      timestamp: timestamp,
       likes: 0,
-      tags: tags
-    }).then(() => {
+      tags: tags,
+      commentCount: 0
+    };
+    docRef.set(docData).then(() => {
       setRedirect(true);
     })
+    db.collection('users').doc(props.user.uid).collection('posts').doc(docRef.id).set(docData);
   };
   const handleCancel = event => {
     setRedirect(true);

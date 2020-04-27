@@ -11,25 +11,48 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function AccountPage(props) {
-  const tempPostData = {
-    preview: "Testing title",
-    body: "This a post I made and want to edit",
-    uid: "4nPvDFfV9rXXwCkQEBohdQUH3Mb2",
-    likes: 2,
-    timestamp: "Fri Apr 24 2020 15:00:57 GMT-0700 (Pacific Daylight Time)",
-    pid: "fake id",
-    commentCount: 0
-  }
+  const [posts, setPost] = useState([]);
+  const [load, setLoad] = useState(true);
+  const db = firebase.firestore();
+  useEffect(() => {
+    db.collection('users').doc(props.user.uid).collection('posts').get().orderBy("timestamp", "desc").then((querySnapshot) => {
+      let tempList = [];
+      querySnapshot.forEach((doc) => {
+        if (doc.metadata.hasPendingWrites) {
+          return;
+        }
+        let postObj = {
+          preview: doc.data()["preview"],
+          body: doc.data()["body"],
+          uid: doc.data()["uid"],
+          likes: doc.data()["likes"],
+          timestamp: doc.data()["timestamp"].toDate().toString(),
+          pid: doc.id,
+          commentCount: doc.data()["commentCount"]
+        };
+        tempList.push(postObj);
+      });
+      setLoad(false);
+      setPost(tempList);
+    }).catch((e) => {
+      console.log("Error getting documents: ", e);
+    });
+  }, []);
+  console.log(props.user.uid);
   return (
     <Container maxWidth="lg">
       <Grid container>
         <Grid item xs={8}>
           <h1>Posts: </h1>
-          <PostPreview postData={tempPostData}/>
+          {!load ? 
+            posts.map((item) => {
+              return (<PostPreview postData={item}/>)
+            }) : <div></div>
+          }
         </Grid>
         <Grid item xs={4}>
           <div>
-            
+
           </div>
         </Grid>
       </Grid>
