@@ -9,6 +9,7 @@ import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
 import clock from '../assets/clock.png';
 import commentBox from '../assets/commentBox.png';
+import firebase from 'firebase';
 import {
   Link
 } from "react-router-dom";
@@ -44,7 +45,9 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     border: "2px solid #9188AB",
     borderRadius: "4px",
-    flexWrap: "wrap"
+    flexWrap: "wrap",
+    zIndex: "1",
+    position: "relative"
   },
   detailRow: {
     display: 'flex',
@@ -102,15 +105,38 @@ const useStyles = makeStyles(theme => ({
     },
     fontFamily: "Roboto",
     fontSize: "1.2rem",
+    zIndex: "3"
   }
 }));
 
 export default function PostPreview(props) {
   const classes = useStyles();
   const postData = props.postData;
+  const db = firebase.firestore();
+  const handleClick = (e) => {
+    if (e.target.name === 'replyButton') {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }
+  const handleDelete = (event) => {
+    if (postData.uid == props.currentUserUid) {
+      db.collection("posts").doc(postData.pid).delete().then(() => {
+        console.log("Document deleted");
+      }).catch((e) => {
+        console.log("error removing doc in postpreview", e);
+      })
+      db.collection("users").doc(props.currentUserUid).collection('posts').doc(postData.pid).delete().then(() => {
+        console.log("Document deeted");
+      }).catch((e) => {
+        console.log("error removing doc from users in postpreview", e);
+      })
+      props.setParent(postData.pid);
+    }
+  }
   return (
     <div className={props.className}>
-      <Link to={"/posts/" + postData.pid} className={classes.cardArea}>
+      <Link to={"/posts/" + postData.pid} className={classes.cardArea} onClick={handleClick}>
         <Card className={classes.card}>
           <CardMedia
               className={classes.cover}
@@ -137,7 +163,7 @@ export default function PostPreview(props) {
             <img src={commentBox} className={classes.commentImg}/>
             <p>{postData.commentCount}</p>
           </div>
-          <input type="button" class={classes.button} value="reply"/>   
+          <button id="reply-button-post-preview" class={classes.button} onClick={handleDelete} name="replyButton">Reply</button>
         </div>
       </Link>
     </div>

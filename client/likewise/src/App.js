@@ -125,9 +125,10 @@ export default class App extends Component {
             <Route path="/posts/:pid">
               <DetailedPostPage user={this.state.user} firstName={this.state.firstName} lastName={this.state.lastName}/>
             </Route>
-            <Route path="/account/:uid">
+            <Route path="/account">
               <AccountPage user={this.state.user}/>
             </Route>
+            <Redirect to="/"/>
           </Switch>
         </div>
       );

@@ -32,7 +32,7 @@ export default function Navbar(props) {
             <div className="loginFunc">
             {
               props.loggedIn ?  
-              <Link to={"/account/" + props.uid}>
+              <Link to="/account">
                 <Button variant="contained" id="logout" size="large">Account</Button>
               </Link>
               :
