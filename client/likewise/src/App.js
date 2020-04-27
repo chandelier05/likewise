@@ -9,7 +9,7 @@ import PostNavigationPage from "./pages/PostNavigationPage/PostNavigationPage";
 import CreatePostPage from "./pages/CreatePostPage/CreatePostPage";
 import DetailedPostPage from './pages/DetailedPostPage/DetailedPostPage'
 import HomePage from './pages/HomePage/HomePage';
-import TestPage from './pages/TestPage/TestPage';
+import AccountPage from './pages/AccountPage/AccountPage';
 import {Switch, Route, Redirect} from 'react-router-dom';
 
 
@@ -105,7 +105,7 @@ export default class App extends Component {
       </div>
     )
     if (this.state.user) {
-      navbar = <Navbar loggedIn={true} handleSignOut={this.handleSignOut} signInCallback={this.handleSignIn}/>
+      navbar = <Navbar loggedIn={true} handleSignOut={this.handleSignOut} signInCallback={this.handleSignIn} uid={this.state.user.uid}/>
       signedIn = true;
       body = (
         <div>
@@ -124,6 +124,9 @@ export default class App extends Component {
             </Route>
             <Route path="/posts/:pid">
               <DetailedPostPage user={this.state.user} firstName={this.state.firstName} lastName={this.state.lastName}/>
+            </Route>
+            <Route path="/account/:uid">
+              <AccountPage user={this.state.user}/>
             </Route>
           </Switch>
         </div>

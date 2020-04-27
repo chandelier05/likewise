@@ -28,11 +28,13 @@ export default function Navbar(props) {
                 LIKEWISE
               </Typography>
             </Link>
-            <Link to="/createPost"><Button variant="contained" id="createPostHotfix" size="large">Create Post</Button></Link>
+            {props.loggedIn ? <Link to="/createPost"><Button variant="contained" id="createPostHotfix" size="large">Create Post</Button></Link> : <div></div>}
             <div className="loginFunc">
             {
               props.loggedIn ?  
-              <Button variant="contained" id="logout" size="large" onClick={props.handleSignOut}>Logout</Button>
+              <Link to={"/account/" + props.uid}>
+                <Button variant="contained" id="logout" size="large">Account</Button>
+              </Link>
               :
               <Button variant="contained" id="signin" size="large" onClick={handleLogin}>Sign In</Button>
             }

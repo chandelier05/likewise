@@ -30,7 +30,7 @@ const TagsInput = (props) => {
                </li>
            ))}
        </ul>
-       <Tooltip title="Press , to add tags" placement="right">
+       <Tooltip title="Press ENTER to add a tag!" placement="right">
        <input
                 type="text"
                 onKeyUp={addTags} id="tags-inputbox"

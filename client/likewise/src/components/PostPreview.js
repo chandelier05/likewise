@@ -119,8 +119,11 @@ export default function PostPreview(props) {
           />
           <div className={classes.postTextBox}>
               <CardContent className={classes.content}>
-                  <Typography component="p" style={{padding: "0px 10px"}}>
+                  <Typography component="h2" style={{padding: "0px 10px"}}>
                       {postData.preview}
+                  </Typography>
+                  <Typography component="p" style={{padding: "0px 10px"}}>
+                      {postData.body}
                   </Typography>
               </CardContent>
           </div>
