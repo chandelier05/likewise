@@ -19,7 +19,6 @@ export default function MainComment(props) {
   const firebase = useContext(FirebaseContext);
   const db = firebase.firestore();
   const rerenderPage = () => {
-    console.log("rerenderPage has been called")
     setMadeComment(!madeComment);
   }
   useEffect(() => {

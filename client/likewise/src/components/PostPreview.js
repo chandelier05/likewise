@@ -6,7 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import clock from '../assets/clock.png';
-import commentBox from '../assets/commentBox.png';
+import {ReactComponent as CommentBoxIcon} from '../assets/commentBoxIcon.svg';
 import 'firebase/firestore';
 import {
   Link
@@ -52,11 +52,9 @@ const useStyles = makeStyles(theme => ({
     order: 2,
     flex: '1 2 auto',
     flexDirection: 'row',
-    fontFamily: "Roboto",
     fontStyle: "italic",
     fontWeight: "normal",
     fontSize: "1.2rem",
-    
     padding: "1rem",
     alignItems: "center",
     justifyContent: "space-between"
@@ -89,19 +87,14 @@ const useStyles = makeStyles(theme => ({
     borderRadius:"6px",
     border:"2px solid #B5D0EC",
     display:"inline-block",
-    cursor:"pointer",
     color:"#000000",
     fontWeight:"bold",
     padding:"10px 31px",
     textDecoration:"none",
-    "&:hover": {
-      backgroundColor:"transparent",
-    },
     "&:active": {
       position:"relative",
       top:"1px",
     },
-    fontFamily: "Roboto",
     fontSize: "1.2rem",
     zIndex: "3"
   }
@@ -159,7 +152,7 @@ export default function PostPreview(props) {
             <p>{getDate(postData.timestamp)}</p>
           </div>
           <div className={classes.detailGroup}> 
-            <img src={commentBox} className={classes.commentImg}/>
+            <CommentBoxIcon/>
             <p>{postData.commentCount}</p>
           </div>
           <button id="reply-button-post-preview" class={classes.button} onClick={handleDelete} name="replyButton">Reply</button>
