@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import {FirebaseContext} from '../../utils/firebase';
+import 'firebase/firestore';
 import PostPreview from '../../components/PostPreview';
 import UserPicture from '../../assets/userImg.PNG';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles} from '@material-ui/core/styles';
-import firebase from 'firebase';
-import SearchBar, { TagInput } from "../../components/Searchbar/searchbar";
+import SearchBar from "../../components/Searchbar/searchbar";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -30,6 +31,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function PostNavigationPage(props) {
+  const firebase = useContext(FirebaseContext);
   const db = firebase.firestore();
   const classes = useStyles();
   const [posts, setPosts] = useState([]);

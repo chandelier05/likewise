@@ -1,7 +1,8 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import Comment from './Comment';
 import {makeStyles} from '@material-ui/core/styles';
-import firebase from 'firebase';
+import 'firebase/firestore';
+import { FirebaseContext } from '../utils/firebase';
 
 const useStyles = makeStyles(theme => ({
   commentReply: {
@@ -9,11 +10,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+// IMPLEMENT VISUAL FUNCTIONALITY OF COMMENT THREADING PAST 2 LEVELS
 export default function MainComment(props) {
   const [replies, setReplies] = useState([]);
   const [loading, setLoad] = useState(false);
   const [madeComment, setMadeComment] = useState(false);
   const classes = useStyles();
+  const firebase = useContext(FirebaseContext);
   const db = firebase.firestore();
   const rerenderPage = () => {
     console.log("rerenderPage has been called")

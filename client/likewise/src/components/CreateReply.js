@@ -1,7 +1,8 @@
-import React, {useState, useRef} from 'react';
-import firebase from 'firebase';
+import React, {useState, useRef, useContext} from 'react';
+import 'firebase/firestore';
 import {Button} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
+import {FirebaseContext} from '../utils/firebase';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -51,8 +52,10 @@ export default function CreateReply(props) {
   const classes = useStyles();
   const [comment, setComment] = useState("");
   const _isMounted = useRef(true);
+  const firebase = useContext(FirebaseContext);
+  const db = firebase.firestore();
   const handleSubmit = (event) => {
-    firebase.firestore().collection("posts").doc(props.postId).update({
+    db.collection("posts").doc(props.postId).update({
       commentCount: props.commentCount + 1
     }).then(function() {
         //console.log("Document successfully updated!");
@@ -60,7 +63,7 @@ export default function CreateReply(props) {
         // The document probably doesn't exist.
         //console.error("Error updating document: ", error);
     });
-    const docRef = firebase.firestore().collection("comments").doc()
+    const docRef = db.collection("comments").doc()
     let timeObject = {
       body: comment,
       uid: props.uid,

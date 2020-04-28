@@ -4,7 +4,6 @@ import 'firebase/auth';
 import 'firebase/database';
 import './App.css';
 import Navbar from './components/navbar/Navbar';
-import SearchBar from "./components/Searchbar/searchbar";
 import PostNavigationPage from "./pages/PostNavigationPage/PostNavigationPage";
 import CreatePostPage from "./pages/CreatePostPage/CreatePostPage";
 import DetailedPostPage from './pages/DetailedPostPage/DetailedPostPage'
@@ -75,7 +74,7 @@ export default class App extends Component {
   }
 
   componentWillUnmount() {
-    this.authUnsubFunction();
+    //this.authUnsubFunction();
     this.setState({errorMessage: null});
   }
 
