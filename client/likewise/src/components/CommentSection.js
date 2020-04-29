@@ -1,8 +1,8 @@
 import React, {useEffect, useState, useRef} from 'react';
 import firebase from 'firebase';
-import {Grid, Box, ListItem, ListItemText} from '@material-ui/core';
+import {Box} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
-import CreateReply from'./CreateReply';
+import MainComment from './MainComment';
 import Comment from './Comment';
 
 //TODO change margin on replies to comments automatically depending on nested level
@@ -49,58 +49,43 @@ export default function CommentSection(props) {
           };
           tempComments.push(comment);
         });
-        setReplies(getReplies(tempComments), handleLoading);
+        //setReplies(getReplies(tempComments, handleLoading));
         setComments(tempComments); 
       });
     } catch (error) {
       
     } finally {
+      setLoad(false);
       return () => { // ComponentWillUnmount in Class Component
         _isMounted.current = false;
       }
     }
   }, [madeComment]);
+  
   return (
     <Box>
       <h1>Replies</h1>
       {!loading && comments.length > 0 ? comments.map((item) => {
+          //console.log("testing replies inside of conditiona;")
           return (
-            <div>
-              <Comment lastName={item.firstName} firstName={item.lastName} 
-              body={item.body} timestamp={item.timestamp} parentId={item.cid} 
-              setParent={rerenderPage} uid={props.uid} timesp={props.timesp} postId={props.pid}
-              commentCount={props.commentCount}/>
-              <div>
-              {
-                !loading && replies[item.cid].length !== 0 ? replies[item.cid].map((subItem) => {
-                  return (
-                    <div className={classes.commentReply}>
-                      <Comment lastName={subItem.firstName} firstName={subItem.lastName}
-                      body={subItem.body} timestamp={subItem.timestamp} parentId={subItem.parentId} 
-                      uid={subItem.uid} timesp={props.timesp} postReply={false} setParent={rerenderPage}
-                      postId={props.pid} commentCount={props.commentCount}/>
-                    </div>
-                  )
-                }) : <div></div>
-              }
-              </div>            
-            </div>
+            <MainComment lastName={item.firstName} firstName={item.lastName} 
+            body={item.body} timestamp={item.timestamp} parentId={item.cid} 
+            setParent={rerenderPage} uid={props.uid} timesp={props.timesp} postId={props.pid}
+            commentCount={props.commentCount} posterId={item.uid}/>
           );
         }) : 
-        <ListItem button>
-          <ListItemText primary="loading" />
-        </ListItem>
+        <Comment body={"No comments... Be the first to reply!"} empty={true}/>
       }
-      <input type="button" onClick={rerenderPage} value="test"/>
+      
     </Box>
   )
 }
 
-function getReplies(comments, handleLoad) {
+const getReplies = (comments, handleLoad) => {
   let tempReplies = {};
   try {
     const db = firebase.firestore();
-    //console.log("testing rerender")
+    console.log("testing rerender")
     let promiseArr = [];
     for (let i = 0; i < comments.length; i++) {
       tempReplies[comments[i].cid] = [];
@@ -109,6 +94,9 @@ function getReplies(comments, handleLoad) {
     Promise.all(promiseArr).then((queryArr) => {
       for (let i = 0; i < queryArr.length; i++) {
         queryArr[i].forEach((doc) => {
+          // console.log("inserting data into repliesArr")
+          // console.log(doc);
+          // console.log(doc.data())
           if (doc.metadata.hasPendingWrites) {
             return;
           }
@@ -128,7 +116,7 @@ function getReplies(comments, handleLoad) {
   } catch (error) {
 
   } finally {
-    //handleLoad();
+    handleLoad();
   }
   return tempReplies;
 }

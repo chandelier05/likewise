@@ -1,19 +1,16 @@
-body{
-    font-family: Montserrat;
-font-style: normal;
-font-weight: normal;
-font-size: 14px;
-line-height: 22px;
-/* identical to box height, or 157% */
 
-
-color: #747D88;
-}
-.likewise-searchbar{
+.likewise-searchbar {
     display: flex; /* 2. display flex to the rescue */
     flex-direction: row;
     padding: 1rem;
     background: linear-gradient(193.9deg, #9188AB 1.55%, #88B5E1 95.8%);
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 22px;
+/* identical to box height, or 157% */
+    color: #747D88;
 }
 
 .likewise-tagbar{
