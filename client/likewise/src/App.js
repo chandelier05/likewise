@@ -11,6 +11,12 @@ import {UserContext} from './providers/firebaseUser';
 
 export default function App(props) {
     const user = useContext(UserContext);
+    // TODO: REPLACE WITH LOADING ANIMATION
+    if (user === "loading") {
+      return (
+        <div>I'm Loading!</div>
+      )
+    }
     let navbar = (
       <Navbar signInCallback={signInWithGoogle}/>
     );
