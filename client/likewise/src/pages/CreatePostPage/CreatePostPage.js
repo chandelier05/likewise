@@ -1,11 +1,11 @@
-import React, { useState, useContext } from 'react';
+import React, { useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {Grid, Button } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
 import SearchBar from "../../components/Searchbar/searchbar";
 import TagsInput from "../../components/TagsInput/TagsInput";
-import {FirebaseContext} from "../../utils/firebase";
-import 'firebase/firestore';
+import {firestore as db} from '../../utils/firebase';
+import firebase from 'firebase';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -57,8 +57,6 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function CreatePostPage(props) {
-  const firebase = useContext(FirebaseContext);
-  const db = firebase.firestore();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [postData, setPost] = useState({

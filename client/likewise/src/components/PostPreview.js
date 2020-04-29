@@ -1,16 +1,16 @@
-import React, {useContext} from 'react';
-import {FirebaseContext} from '../utils/firebase';
+import React from 'react';
 import { makeStyles} from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import clock from '../assets/clock.png';
+import examplePicture from '../assets/userImg.PNG';
+import UserPicture from './UserPicture';
 import {ReactComponent as CommentBoxIcon} from '../assets/commentBoxIcon.svg';
-import 'firebase/firestore';
 import {
   Link
 } from "react-router-dom";
+import {firestore as db} from '../utils/firebase';
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -40,7 +40,6 @@ const useStyles = makeStyles(theme => ({
   },
   cardArea: {
     display: "flex",
-    flexDirection: 'column',
     border: "2px solid #9188AB",
     borderRadius: "4px",
     flexWrap: "wrap",
@@ -101,10 +100,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function PostPreview(props) {
-  const firebase = useContext(FirebaseContext);
   const classes = useStyles();
   const postData = props.postData;
-  const db = firebase.firestore();
+  const userImg = examplePicture;
+  const major = "Informatics";
+  const points = 1200;
+  const username = props.firstName + " " + props.lastName;
   const handleClick = (e) => {
     if (e.target.name === 'replyButton') {
       e.preventDefault();
@@ -130,11 +131,7 @@ export default function PostPreview(props) {
     <div className={props.className}>
       <Link to={"/posts/" + postData.pid} className={classes.cardArea} onClick={handleClick}>
         <Card className={classes.card}>
-          <CardMedia
-              className={classes.cover}
-              image={props.userImg}
-              title="Picture of user"
-          />
+        <UserPicture imgSrc={userImg} major={major} points={points} username={username}/>
           <div className={classes.postTextBox}>
               <CardContent className={classes.content}>
                   <Typography component="h2" style={{padding: "0px 10px"}}>
@@ -155,7 +152,9 @@ export default function PostPreview(props) {
             <CommentBoxIcon/>
             <p>{postData.commentCount}</p>
           </div>
-          <button id="reply-button-post-preview" class={classes.button} onClick={handleDelete} name="replyButton">Reply</button>
+          {
+            <button id="reply-button-post-preview" class={classes.button} onClick={handleDelete} name="replyButton">Delete</button>
+          }
         </div>
       </Link>
     </div>

@@ -1,10 +1,9 @@
-import React, {useEffect, useState, useRef, useContext} from 'react';
-import {FirebaseContext} from '../utils/firebase';
+import React, {useEffect, useState, useRef} from 'react';
+import {firestore as db} from '../utils/firebase';
 import {Box} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import MainComment from './MainComment';
 import Comment from './Comment';
-import 'firebase/firestore';
 
 //TODO change margin on replies to comments automatically depending on nested level
 const useStyles = makeStyles(theme => ({
@@ -19,8 +18,6 @@ export default function CommentSection(props) {
   const [comments, setComments] = useState([]);
   const [loading, setLoad] = useState(false);
   const [madeComment, setMadeComment] = useState(false);
-  const firebase = useContext(FirebaseContext);
-  const db = firebase.firestore();
   const commentsList = db.collection("comments").where("parentId", "==", props.pid).orderBy("timestamp", "desc");
   const rerenderPage = () => {
     console.log("rerenderPage has been called")

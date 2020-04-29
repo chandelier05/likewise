@@ -1,8 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react';
 import Comment from './Comment';
 import {makeStyles} from '@material-ui/core/styles';
-import 'firebase/firestore';
-import { FirebaseContext } from '../utils/firebase';
+import { firestore as db } from '../utils/firebase';
 
 const useStyles = makeStyles(theme => ({
   commentReply: {
@@ -16,8 +15,6 @@ export default function MainComment(props) {
   const [loading, setLoad] = useState(false);
   const [madeComment, setMadeComment] = useState(false);
   const classes = useStyles();
-  const firebase = useContext(FirebaseContext);
-  const db = firebase.firestore();
   const rerenderPage = () => {
     setMadeComment(!madeComment);
   }

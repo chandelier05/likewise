@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
-import {FirebaseContext} from '../../utils/firebase';
-import 'firebase/firestore';
+import React, { useState, useEffect } from 'react';
+import {firestore} from '../../utils/firebase';
 import PostPreview from '../../components/PostPreview';
 import UserPicture from '../../assets/userImg.PNG';
 import Grid from '@material-ui/core/Grid';
@@ -31,8 +30,6 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function PostNavigationPage(props) {
-  const firebase = useContext(FirebaseContext);
-  const db = firebase.firestore();
   const classes = useStyles();
   const [posts, setPosts] = useState([]);
   const [loading, setLoad] = useState(false);
@@ -40,7 +37,7 @@ export default function PostNavigationPage(props) {
   // TODO: change functionality to look for most recent posts? and compile into list
   useEffect(() => {
     setLoad(true);
-    var docRef = db.collection("posts").orderBy("likes", "asc");
+    var docRef = firestore.collection("posts").orderBy("likes", "asc");
     
     docRef.get().then((QuerySnapshot) => {
       let newArr = [];

@@ -1,15 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import FirebaseProvider from './utils/firebase'
-
+import UserProvider from './providers/firebaseUser';
 import './index.css';
 import App from './App';
 //import * as serviceWorker from './serviceWorker';
 import {BrowserRouter} from 'react-router-dom';
-require('firebase/app');
-require('firebase/auth');
-require('firebase/database');
-require("firebase/firestore");
 
 
   // // Your web app's Firebase configuration
@@ -26,11 +21,11 @@ require("firebase/firestore");
   // firebase.initializeApp(firebaseConfig);
 
 ReactDOM.render(
-  <FirebaseProvider>
+  <UserProvider>
     <BrowserRouter>
       <App />
     </BrowserRouter>
-  </FirebaseProvider>
+  </UserProvider>
   , document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

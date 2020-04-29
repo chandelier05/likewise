@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
-import {FirebaseContext} from '../../utils/firebase';
+import {firestore as db} from '../../utils/firebase';
 import UserPicture from '../../assets/userImg.PNG';
 import {Grid, Container} from '@material-ui/core';
 import { makeStyles} from '@material-ui/core/styles';
 import SearchBar, { TagInput } from "../../components/Searchbar/searchbar";
 import PostPreview from '../../components/PostPreview';
-import 'firebase/firestore';
 
 const useStyles = makeStyles(theme => ({
 
@@ -15,8 +14,6 @@ export default function AccountPage(props) {
   const [posts, setPost] = useState([]);
   const [load, setLoad] = useState(true);
   const [resetChild, setChild] = useState(false);
-  const firebase = useContext(FirebaseContext);
-  const db = firebase.firestore();
   // TODO: Change so that instead of requerying firebase, we just remove the appropriate post.
   const setChildHandler = (pid) => {
     // let index = posts.findIndex(post => post.pid == pid);

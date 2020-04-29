@@ -1,8 +1,8 @@
 import React, {useState, useRef, useContext} from 'react';
-import 'firebase/firestore';
 import {Button} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
-import {FirebaseContext} from '../utils/firebase';
+import {firestore as db} from '../utils/firebase';
+import firebase from 'firebase';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -52,8 +52,6 @@ export default function CreateReply(props) {
   const classes = useStyles();
   const [comment, setComment] = useState("");
   const _isMounted = useRef(true);
-  const firebase = useContext(FirebaseContext);
-  const db = firebase.firestore();
   const handleSubmit = (event) => {
     db.collection("posts").doc(props.postId).update({
       commentCount: props.commentCount + 1
