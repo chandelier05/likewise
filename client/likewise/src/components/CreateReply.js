@@ -1,8 +1,8 @@
 import React, {useState, useRef, useContext} from 'react';
 import {Button} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
-import {firestore as db} from '../utils/firebase';
-import firebase from 'firebase';
+import {firestore as db, getTimeStamp} from '../utils/firebase';
+import {UserContext} from '../providers/firebaseUser';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -52,6 +52,7 @@ export default function CreateReply(props) {
   const classes = useStyles();
   const [comment, setComment] = useState("");
   const _isMounted = useRef(true);
+  const user = useContext(UserContext);
   const handleSubmit = (event) => {
     db.collection("posts").doc(props.postId).update({
       commentCount: props.commentCount + 1
@@ -64,8 +65,8 @@ export default function CreateReply(props) {
     const docRef = db.collection("comments").doc()
     let timeObject = {
       body: comment,
-      uid: props.uid,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      uid: user.uid,
+      timestamp: getTimeStamp(),
       firstName: props.firstName,
       lastName: props.lastName,
       cid: docRef.id,

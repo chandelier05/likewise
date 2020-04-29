@@ -47,6 +47,10 @@ export const generateUserDocument = async (user, additionalData) => {
   return getUserDocument(user.uid);
 };
 
+export const getTimeStamp = () => {
+  return firebase.firestore.FieldValue.serverTimestamp();
+}
+
 const getUserDocument = async uid => {
   if (!uid) return null;
   try {

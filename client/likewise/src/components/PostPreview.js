@@ -44,7 +44,6 @@ const useStyles = makeStyles(theme => ({
     borderRadius: "4px",
     flexWrap: "wrap",
     zIndex: "1",
-    position: "relative"
   },
   detailRow: {
     display: 'flex',
@@ -152,8 +151,8 @@ export default function PostPreview(props) {
             <CommentBoxIcon/>
             <p>{postData.commentCount}</p>
           </div>
-          {
-            <button id="reply-button-post-preview" class={classes.button} onClick={handleDelete} name="replyButton">Delete</button>
+          { postData.uid === props.currentUserUid ?
+            <button id="reply-button-post-preview" class={classes.button} onClick={handleDelete} name="replyButton">Delete</button> : <div></div>
           }
         </div>
       </Link>

@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {firestore} from '../../utils/firebase';
 import PostPreview from '../../components/PostPreview';
 import UserPicture from '../../assets/userImg.PNG';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles} from '@material-ui/core/styles';
 import SearchBar from "../../components/Searchbar/searchbar";
+import {UserContext} from '../../providers/firebaseUser';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -33,6 +34,7 @@ export default function PostNavigationPage(props) {
   const classes = useStyles();
   const [posts, setPosts] = useState([]);
   const [loading, setLoad] = useState(false);
+  const user = useContext(UserContext);
   // Similar to componentDidMount and componentDidUpdate:
   // TODO: change functionality to look for most recent posts? and compile into list
   useEffect(() => {
@@ -72,7 +74,7 @@ export default function PostNavigationPage(props) {
     <h1 className={classes.header}>Browse posts</h1>
       {!loading && posts.length > 0 ? 
           posts.map((item) => {
-            return <PostPreview className="postPreview" postData={item} userImg={UserPicture}/>
+            return <PostPreview className="postPreview" postData={item} userImg={UserPicture} currentUserUid={user.uid}/>
           })
         : 
           <h2>loading</h2>

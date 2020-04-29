@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {auth, signInWithGoogle} from "./utils/firebase";
+import {signInWithGoogle} from "./utils/firebase";
 import Navbar from './components/navbar/Navbar';
 import PostNavigationPage from "./pages/PostNavigationPage/PostNavigationPage";
 import CreatePostPage from "./pages/CreatePostPage/CreatePostPage";
@@ -9,8 +9,55 @@ import AccountPage from './pages/AccountPage/AccountPage';
 import {Switch, Route, Redirect} from 'react-router-dom';
 import {UserContext} from './providers/firebaseUser';
 
-
 export default function App(props) {
+    const user = useContext(UserContext);
+    let navbar = (
+      <Navbar signInCallback={signInWithGoogle}/>
+    );
+    let body = (
+      <div>
+        <header>
+          {navbar}
+        </header>
+        <Switch>
+          <Route exact path="/">
+              <HomePage/>
+          </Route>
+          <Redirect to="/"/>
+        </Switch>
+      </div>
+    )
+    if (user) {
+      navbar = <Navbar signInCallback={signInWithGoogle}/>
+      body = (
+        <div>
+          <header>
+            {navbar}
+          </header>
+          <Switch>
+            <Route exact path="/">
+              <HomePage/>
+            </Route>
+            <Route exact path="/posts">
+              <PostNavigationPage/>
+            </Route>
+            <Route path="/createPost">
+              <CreatePostPage/>
+            </Route>
+            <Route path="/posts/:pid">
+              <DetailedPostPage/>
+            </Route>
+            <Route path="/account">
+              <AccountPage/>
+            </Route>
+            <Redirect to="/"/>
+          </Switch>
+        </div>
+      );
+    }
+    return body;
+}
+
 
   // handleSignIn = () => {
     // var provider = new firebase.auth.GoogleAuthProvider();
@@ -63,50 +110,3 @@ export default function App(props) {
     //     </div>
     //   )
     // }
-    const user = useContext(UserContext);
-    let navbar = (
-      <Navbar signInCallback={signInWithGoogle}/>
-    );
-    let body = (
-      <div>
-        <header>
-          {navbar}
-        </header>
-        <Switch>
-          <Route exact path="/">
-              <HomePage/>
-          </Route>
-          <Redirect to="/"/>
-        </Switch>
-      </div>
-    )
-    if (user) {
-      navbar = <Navbar signInCallback={signInWithGoogle}/>
-      body = (
-        <div>
-          <header>
-            {navbar}
-          </header>
-          <Switch>
-            <Route exact path="/">
-              <HomePage/>
-            </Route>
-            <Route exact path="/posts">
-              <PostNavigationPage/>
-            </Route>
-            <Route path="/createPost">
-              <CreatePostPage user={user}/>
-            </Route>
-            <Route path="/posts/:pid">
-              <DetailedPostPage user={user}/>
-            </Route>
-            <Route path="/account">
-              <AccountPage user={user}/>
-            </Route>
-            <Redirect to="/"/>
-          </Switch>
-        </div>
-      );
-    }
-    return body;
-}

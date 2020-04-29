@@ -9,19 +9,24 @@ class UserProvider extends Component {
   };
   componentDidMount = async () => {
     auth.onAuthStateChanged(async userAuth => {
-      const user = await generateUserDocument(userAuth);
-      this.setState({ user });
+      const firebaseUser = await generateUserDocument(userAuth);
+      this.setState({ user: firebaseUser });
     });
-
-
   };
   render() {
-    const { user } = this.state;
-    return (
-      <UserContext.Provider value={user}>
-        {this.props.children}
-      </UserContext.Provider>
-    );
+    if (!this.state.user) {
+      return (
+        <UserContext.Provider value={"loading"}>
+          {this.props.children}
+        </UserContext.Provider>
+      )
+    } else {
+      return (
+        <UserContext.Provider value={this.state.user}>
+          {this.props.children}
+        </UserContext.Provider>
+      );
+    }
   }
 }
 export default UserProvider;
