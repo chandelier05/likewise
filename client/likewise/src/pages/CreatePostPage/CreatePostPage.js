@@ -1,11 +1,11 @@
-import React, { useState} from 'react';
+import React, { useState, useContext} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {Grid, Button } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
 import SearchBar from "../../components/Searchbar/searchbar";
 import TagsInput from "../../components/TagsInput/TagsInput";
-import {firestore as db} from '../../utils/firebase';
-import firebase from 'firebase';
+import {firestore as db, getTimeStamp} from '../../utils/firebase';
+import {UserContext} from '../../providers/firebaseUser';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -65,6 +65,7 @@ export default function CreatePostPage(props) {
   });
   const[tags, setTags] = useState([]);
   const [redirect, setRedirect] = useState(false);
+  const user = useContext(UserContext);
   const selectedTags = theseTags => {
     console.log(theseTags);
     setTags({
@@ -73,27 +74,28 @@ export default function CreatePostPage(props) {
     })
     console.log(tags);
   };
-
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
   const handleSubmit = event => {
     event.preventDefault();
-    let timestamp = firebase.firestore.FieldValue.serverTimestamp();
+    let timestamp = getTimeStamp();
     let docRef = db.collection('posts').doc();
     let docData = {
       body: postData.description,
       preview: postData.summary,
-      uid: props.user.uid,
+      uid: user.uid,
       timestamp: timestamp,
       likes: 0,
       tags: tags,
-      commentCount: 0
+      commentCount: 0,
+      firstName: user.firstName,
+      lastName: user.lastName
     };
     docRef.set(docData).then(() => {
       setRedirect(true);
     })
-    db.collection('users').doc(props.user.uid).collection('posts').doc(docRef.id).set(docData);
+    db.collection('users').doc(user.uid).collection('posts').doc(docRef.id).set(docData);
   };
   const handleCancel = event => {
     setRedirect(true);

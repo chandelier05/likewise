@@ -63,7 +63,7 @@ button > * {
   margin: 0rem 2rem;
 }
 
-/* DetailedPostPage */
+/* PostPreview and DetailedPostPage */
 
 .postPreview {
   margin: 2rem 2rem;
@@ -73,3 +73,13 @@ button > * {
   margin: 1.5rem 2rem 2rem;
 } 
 
+#post-preview-header {
+  font-size: 1.5rem;
+  padding: 0rem;
+  font-style: normal;
+}
+
+/* TODO: DYNAMICALLY RESIZE FOR MOBILE */
+.post-preview-resize {
+  font-size: 10px;
+}

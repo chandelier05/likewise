@@ -5,21 +5,28 @@ export const UserContext = createContext({ user: null });
 
 class UserProvider extends Component {
   state = {
-    user: null
+    user: null,
+    loading: true
   };
   componentDidMount = async () => {
     auth.onAuthStateChanged(async userAuth => {
       const firebaseUser = await generateUserDocument(userAuth);
-      this.setState({ user: firebaseUser });
+      this.setState({ user: firebaseUser, loading: false });
     });
   };
   render() {
-    if (!this.state.user) {
+    if (this.state.loading) {
       return (
         <UserContext.Provider value={"loading"}>
           {this.props.children}
         </UserContext.Provider>
       )
+    } else if (!this.state.user) {
+      return (
+        <UserContext.Provider value={"logout"}>
+          {this.props.children}
+        </UserContext.Provider>
+      );
     } else {
       return (
         <UserContext.Provider value={this.state.user}>

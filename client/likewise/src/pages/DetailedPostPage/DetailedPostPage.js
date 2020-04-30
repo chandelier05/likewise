@@ -10,9 +10,6 @@ import SearchBar, { TagInput } from "../../components/Searchbar/searchbar";
 import {firestore as db} from '../../utils/firebase';
 
 const useStyles = makeStyles(theme => ({
-  root : {
-
-  },
   summary: {
     fontWeight: "bold",
     fontSize: "1rem", 
@@ -86,11 +83,11 @@ export default function DetailedPostPage(props) {
             {!loading ? <DetailedPost setParent={handleMainReply} postData={postData}/> : <DetailedPost setParent={handleMainReply} test={true}/>}
           </Box>
           <Box>
-            {mainReply ? <CreateReply firstName={props.firstName} lastName={props.lastName} 
+            {mainReply ? <CreateReply firstName={user.firstName} lastName={user.lastName} 
             parentId={pid} setParent={handleMainReply} postId={pid} commentCount={postData.commentCount}
             uid={user.uid} /> : <div></div>}
           </Box>
-          <CommentSection pid={pid} uid={user.uid}/>
+          <CommentSection pid={pid} uid={user.uid} commentCount={postData.commentCount}/>
         </Grid>
         <Grid item xs={4}>
           {/*for scoreboard*/}

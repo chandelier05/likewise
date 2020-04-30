@@ -63,7 +63,7 @@ export default function CommentSection(props) {
           return (
             <MainComment lastName={item.firstName} firstName={item.lastName} 
             body={item.body} timestamp={item.timestamp} parentId={item.cid} 
-            setParent={rerenderPage} timesp={props.timesp} postId={props.pid}
+            setParent={rerenderPage} postId={props.pid}
             commentCount={props.commentCount} posterId={item.uid}/>
           );
         }) : 

@@ -22,7 +22,10 @@ export const firestore = firebase.firestore();
 
 const provider = new firebase.auth.GoogleAuthProvider();
 export const signInWithGoogle = () => {
-  auth.signInWithPopup(provider);
+  auth.signInWithRedirect(provider).then((result) => {
+    let nameArr = result.user.displayName.split(' ');
+    generateUserDocument(result.user, {firstName: nameArr[0], lastName: nameArr[1]});
+  });
 };
 
 export const generateUserDocument = async (user, additionalData) => {
@@ -33,6 +36,13 @@ export const generateUserDocument = async (user, additionalData) => {
 
   if (!snapshot.exists) {
     const { email, displayName, photoURL } = user;
+    let nameArr = displayName.split(' ');
+    //     firebase.firestore().collection('users').doc(firebaseUser.uid).set(
+    //       {
+    //         firstName: nameArr[0],
+    //         lastName: nameArr[nameArr.length - 1],
+    //         email: firebaseUser.email,
+    //       }
     try {
       await userRef.set({
         displayName,

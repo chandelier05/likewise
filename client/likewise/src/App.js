@@ -1,5 +1,4 @@
 import React, {useContext} from 'react';
-import {signInWithGoogle} from "./utils/firebase";
 import Navbar from './components/navbar/Navbar';
 import PostNavigationPage from "./pages/PostNavigationPage/PostNavigationPage";
 import CreatePostPage from "./pages/CreatePostPage/CreatePostPage";
@@ -17,13 +16,10 @@ export default function App(props) {
         <div>I'm Loading!</div>
       )
     }
-    let navbar = (
-      <Navbar signInCallback={signInWithGoogle}/>
-    );
     let body = (
       <div>
         <header>
-          {navbar}
+          <Navbar/>
         </header>
         <Switch>
           <Route exact path="/">
@@ -33,12 +29,11 @@ export default function App(props) {
         </Switch>
       </div>
     )
-    if (user) {
-      navbar = <Navbar signInCallback={signInWithGoogle}/>
+    if (user !== "loading" && user !== "logout") {
       body = (
         <div>
           <header>
-            {navbar}
+            <Navbar/>
           </header>
           <Switch>
             <Route exact path="/">

@@ -16,6 +16,10 @@ export default function Navbar(props) {
       event.preventDefault();
       signInWithGoogle();
   };
+  const handleSignOut = (event) => {
+    event.preventDefault();
+    auth.signOut();
+  }
   return (
     <div className="navbar">
       <AppBar position="static" className="bar page-container" style={{ background: "#FFF" }} >
@@ -28,15 +32,15 @@ export default function Navbar(props) {
               LIKEWISE
             </Typography>
           </Link>
-          {user ? <Link to="/createPost"><Button variant="contained" id="createPostHotfix" size="large">Create Post</Button></Link> : <div></div>}
+          {user !== "logout" ? <Link to="/createPost"><Button variant="contained" id="createPostHotfix" size="large">Create Post</Button></Link> : <div></div>}
           <div className="loginFunc">
           {
-            user ? 
+            user !== "logout" ? 
             <div>
               <Link to="/account">
                 <Button variant="contained" id="account" size="large">Account</Button>
               </Link>
-                <Button variant="contained" id="logout" size="large" onClick={() => auth.signOut()}>Log Out</Button>
+                <Button variant="contained" id="logout" size="large" onClick={handleSignOut}>Log Out</Button>
             </div>
             :
             <Button variant="contained" id="signin" size="large" onClick={handleLogin}>Sign In</Button>

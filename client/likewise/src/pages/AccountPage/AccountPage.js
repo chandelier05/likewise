@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import {firestore as db} from '../../utils/firebase';
-import UserPicture from '../../assets/userImg.PNG';
 import {Grid, Container} from '@material-ui/core';
 import { makeStyles} from '@material-ui/core/styles';
 import SearchBar, { TagInput } from "../../components/Searchbar/searchbar";
 import PostPreview from '../../components/PostPreview';
+import {UserContext} from '../../providers/firebaseUser';
 
 const useStyles = makeStyles(theme => ({
 
@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
 export default function AccountPage(props) {
   const [posts, setPost] = useState([]);
   const [load, setLoad] = useState(true);
-  const [resetChild, setChild] = useState(false);
+  const user = useContext(UserContext);
   // TODO: Change so that instead of requerying firebase, we just remove the appropriate post.
   const setChildHandler = (pid) => {
     // let index = posts.findIndex(post => post.pid == pid);
@@ -29,7 +29,7 @@ export default function AccountPage(props) {
     }));
   }
   useEffect(() => {
-    db.collection('users').doc(props.user.uid).collection('posts').orderBy("timestamp", "desc").get().then((querySnapshot) => {
+    db.collection('users').doc(user.uid).collection('posts').orderBy("timestamp", "desc").get().then((querySnapshot) => {
       let tempList = [];
       querySnapshot.forEach((doc) => {
         if (doc.metadata.hasPendingWrites) {
@@ -62,7 +62,7 @@ export default function AccountPage(props) {
           <h1>Posts: </h1>
           {!load ? 
             posts.map((item) => {
-              return (<PostPreview postData={item} setParent={setChildHandler} currentUserUid={props.user.uid}/>)
+              return (<PostPreview postData={item} setParent={setChildHandler} currentUserUid={user.uid} className='post-preview-resize'/>)
             }) : <div></div>
           }
         </Grid>
