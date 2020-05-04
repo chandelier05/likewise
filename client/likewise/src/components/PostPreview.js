@@ -7,6 +7,7 @@ import {
   Link
 } from "react-router-dom";
 import {firestore as db} from '../utils/firebase';
+import PostDropdown from './PostDropdown';
 
 const useStyles = makeStyles(theme => ({
   cardArea: {
@@ -69,8 +70,7 @@ const useStyles = makeStyles(theme => ({
       position:"relative",
       top:"1px",
     },
-    fontSize: "1.2em",
-    zIndex: "3"
+    fontSize: "1.2em"
   }
 }));
 
@@ -82,7 +82,7 @@ export default function PostPreview(props) {
   const points = 1200;
   const username = props.firstName + " " + props.lastName;
   const handleClick = (e) => {
-    if (e.target.name === 'replyButton') {
+    if (e.target.name === 'optionsButton' || e.target.name === 'editPostButton' || e.target.name ==='deletePostButton') {
       e.preventDefault();
       e.stopPropagation();
     }
@@ -121,7 +121,7 @@ export default function PostPreview(props) {
             </div>
             { postData.uid === props.currentUserUid ?
               <div className={classes.detailGroup}> 
-                <button id="reply-button-post-preview" class={classes.button} onClick={handleDelete} name="replyButton">Delete</button>
+                <PostDropdown handleDelete={handleDelete} pid={postData.pid}/>
               </div> : <div></div>
             }
           </div>

@@ -37,6 +37,19 @@ export default function PostNavigationPage(props) {
   const user = useContext(UserContext);
   // Similar to componentDidMount and componentDidUpdate:
   // TODO: change functionality to look for most recent posts? and compile into list
+  const setChildHandler = (pid) => {
+    // let index = posts.findIndex(post => post.pid == pid);
+    // let tempArr = [...posts];
+    // console.log(tempArr === posts);
+    // tempArr = tempArr.splice(index, 1);
+    // console.log(tempArr);
+    console.log(pid);
+    setPosts(posts.filter((post) => {
+      console.log("filtering :" + post.pid);
+      console.log(post.pid == pid);
+      return post.pid != pid;
+    }));
+  }
   useEffect(() => {
     setLoad(true);
     var docRef = firestore.collection("posts").orderBy("likes", "asc");
@@ -74,7 +87,9 @@ export default function PostNavigationPage(props) {
     <h1 className={classes.header}>Browse posts</h1>
       {!loading && posts.length > 0 ? 
           posts.map((item) => {
-            return <PostPreview className="postPreview" postData={item} userImg={UserPicture} currentUserUid={user.uid}/>
+            return <PostPreview className="postPreview" 
+              postData={item} userImg={UserPicture} 
+              currentUserUid={user.uid} setParent={setChildHandler}/>
           })
         : 
           <h2>loading</h2>
