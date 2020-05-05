@@ -2,6 +2,7 @@ body {
   margin: 0;
   padding: 0;
   width: 100%;
+  height: auto;
   font-family:  'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif!important;
@@ -67,6 +68,8 @@ button > * {
 
 .postPreview {
   margin: 2rem 2rem;
+  width: 80%;
+  height: auto;
 }
 
 .postPreview:first-of-type {
@@ -81,7 +84,9 @@ button > * {
 
 /* TODO: DYNAMICALLY RESIZE FOR MOBILE */
 .post-preview-resize {
-  font-size: 10px;
+  font-size: 8px;
+  width: 100%;
+  height: auto;
 }
 
 /*DROPDOWN CSS*/

@@ -43,7 +43,7 @@ export default function Navbar(props) {
                 <Button variant="contained" id="logout" size="large" onClick={handleSignOut}>Log Out</Button>
             </div>
             :
-            <Button variant="contained" id="signin" size="large" onClick={handleLogin}>Sign In</Button>
+            <Button variant="contained" id="signin" size="large" onClick={handleLogin}>Sign in with UW NetID</Button>
           }
           </div>
         </Toolbar>

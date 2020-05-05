@@ -8,31 +8,41 @@ import {
 } from "react-router-dom";
 import {firestore as db} from '../utils/firebase';
 import PostDropdown from './PostDropdown';
+import {ReactComponent as LikeButton} from '../assets/comment-like-button.svg';
+import DividerLine from '../assets/post-preview-line-break.svg';
 
 const useStyles = makeStyles(theme => ({
   cardArea: {
     display: "flex",
-    border: "2px solid #9188AB",
-    borderRadius: "4px",
+    border: "0.2em solid transparent",
+    borderRadius: "1em",
     zIndex: "1",
-    alignItems: 'stretch'
+    alignItems: 'stretch',
+    flexDirection: 'row',
+    background: 'linear-gradient(#fff,#fff) padding-box, linear-gradient(to right, #88B5E1, #9188AB) border-box',
+    borderImageSlice: 1
   },
   userImg: {
     width: "10em",
+    height: 'auto',
     minWidth: '15em',
     textAlign: 'center',
-    margin: '2em 2em',
+    margin: '2em 2em'
   },
   detailBox: {
     display: 'flex',
     order: 2,
-    flex: '2 0 auto',
+    flex: '2 1 auto',
     flexDirection: 'column',
     fontStyle: "italic",
     fontWeight: "normal",
     fontSize: "1.2em",
     justifyContent: 'space-between',
-    margin: '2em 2em'
+    margin: '2em 8em 2em 2em',
+    width: '46em',
+    "& h2" : {
+      flex: '1 1 5em'
+    }
   },
   utilityRow : {
     display: 'flex',
@@ -54,7 +64,8 @@ const useStyles = makeStyles(theme => ({
     width: "2em",
     height: "2em",
     textAlign: "center",
-    margin: "5% auto"
+    margin: "5% auto",
+    transform: 'scale(-1,1)'
   },
   button: {
     margin: "0em 70em 0em 0em",
@@ -71,6 +82,42 @@ const useStyles = makeStyles(theme => ({
       top:"1px",
     },
     fontSize: "1.2em"
+  },
+  likeButton : {
+    width: '5em',
+    height: '5em',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
+    border: 'none',
+    "&:>*" : {
+      pointerEvents: "none"
+    }
+  },
+  likeSection : {
+    display: 'flex',
+    order: 3,
+    flex: '1 1 7em',
+    flexDirection: 'row',
+    fontWeight: "normal",
+    fontSize: "1.2em",
+    justifyContent: 'space-evenly',
+    margin: '2em 2em',
+    alignItems: 'center'
+  },
+  dividerLine : {
+    height: '100%',
+    margin: '0em 1em'
+  },
+  likeBox : {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    fontStyle: 'italic',
+    fontWeight: 'bold',
+    lineHeight: '156%',
+    color: '#707070'
   }
 }));
 
@@ -82,7 +129,10 @@ export default function PostPreview(props) {
   const points = 1200;
   const username = props.firstName + " " + props.lastName;
   const handleClick = (e) => {
-    if (e.target.name === 'optionsButton' || e.target.name === 'editPostButton' || e.target.name ==='deletePostButton') {
+    if (
+      e.target.name === 'optionsButton' || e.target.name === 'editPostButton' 
+      || e.target.name === 'deletePostButton' || e.target.name === 'likeButton'
+    ) {
       e.preventDefault();
       e.stopPropagation();
     }
@@ -111,7 +161,7 @@ export default function PostPreview(props) {
             {postData.preview}
           </h2>
           <div className={classes.utilityRow}>
-            <div className={classes.detailGroup}> 
+            <div className={classes.detailGroup}>
               <ClockIcon className={classes.images}/>
               <p>{getDate(postData.timestamp)}</p>
             </div>
@@ -124,6 +174,15 @@ export default function PostPreview(props) {
                 <PostDropdown handleDelete={handleDelete} pid={postData.pid}/>
               </div> : <div></div>
             }
+          </div>
+        </div>
+        <div className={classes.likeSection}>
+          <img src={DividerLine} className={classes.dividerLine}/>
+          <div className={classes.likeBox}>
+            <button className={classes.likeButton} name="likeButton">
+              <LikeButton />
+            </button>
+            <p>{postData.likes}</p>
           </div>
         </div>
       </Link>
