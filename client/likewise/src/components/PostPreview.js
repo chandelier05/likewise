@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { makeStyles} from '@material-ui/core/styles';
 import {ReactComponent as ClockIcon} from '../assets/clock.svg';
 import examplePicture from '../assets/userImg.PNG';
@@ -20,11 +20,15 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'stretch',
     flexDirection: 'row',
     background: 'linear-gradient(#fff,#fff) padding-box, linear-gradient(to right, #88B5E1, #9188AB) border-box',
-    borderImageSlice: 1
+    borderImageSlice: 1,
+    boxShadow: '0px 4px 8px 0px rgba(0,0,0,0.2)',
+    '&:hover': {
+      background: 'linear-gradient(#fff,#fff) padding-box, linear-gradient(to right, #5d7a96, #585269) border-box',
+    },
   },
   userImg: {
     width: "10em",
-    height: 'auto',
+    height: '100%',
     minWidth: '15em',
     textAlign: 'center',
     margin: '2em 2em'
@@ -47,41 +51,42 @@ const useStyles = makeStyles(theme => ({
   utilityRow : {
     display: 'flex',
     flexDirection: 'row',
-    flex: '0 1 auto'
+    flex: '0 1 auto',
+    alignItems: 'center'
   },
   detailGroup: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    justifyContent: 'center',
     alignItems: 'center',
     margin: "0em 7em 0em 0em",
+    flex: '0 1 auto',
     "& p" : {
       color: "#707070",
       margin: "0em"
     },
   },
-  images: {
+  commentIcon: {
     width: "2em",
     height: "2em",
     textAlign: "center",
-    margin: "5% auto",
     transform: 'scale(-1,1)'
   },
+  clockIcon: {
+    width: "2em",
+    height: "2em",
+    textAlign: "center",
+  },
   button: {
-    margin: "0em 70em 0em 0em",
     backgroundColor:"transparent",
-    borderRadius:"6px",
-    border:"2px solid #B5D0EC",
     display:"inline-block",
     color:"#000000",
     fontWeight:"bold",
-    padding:"10px 31px",
     textDecoration:"none",
-    "&:active": {
-      position:"relative",
-      top:"1px",
+    "&:hover": {
+      backgroundColor: "#d5d5d5"
     },
-    fontSize: "1.2em"
+    fontSize: '1rem'
   },
   likeButton : {
     width: '5em',
@@ -93,6 +98,9 @@ const useStyles = makeStyles(theme => ({
     border: 'none',
     "&:>*" : {
       pointerEvents: "none"
+    },
+    '&:hover' : {
+      backgroundColor: '#ddd'
     }
   },
   likeSection : {
@@ -118,6 +126,9 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 'bold',
     lineHeight: '156%',
     color: '#707070'
+  },
+  likeIcon : {
+    transform: 'scale(1.5)'
   }
 }));
 
@@ -128,6 +139,17 @@ export default function PostPreview(props) {
   const major = "Informatics";
   const points = 1200;
   const username = props.firstName + " " + props.lastName;
+  const [numberStyle, setNumStyle] = useState({
+    color: '#707070',
+    fontSize: '1.5em'
+  });
+  const handleLikeButton = () => {
+    if (numberStyle.color === '#707070') {
+      setNumStyle({...numberStyle, color: '#40a9ff'});
+    } else {
+      setNumStyle({...numberStyle, color: '#707070'});
+    }
+  }
   const handleClick = (e) => {
     if (
       e.target.name === 'optionsButton' || e.target.name === 'editPostButton' 
@@ -162,16 +184,16 @@ export default function PostPreview(props) {
           </h2>
           <div className={classes.utilityRow}>
             <div className={classes.detailGroup}>
-              <ClockIcon className={classes.images}/>
+              <ClockIcon className={classes.clockIcon}/>
               <p>{getDate(postData.timestamp)}</p>
             </div>
             <div className={classes.detailGroup}> 
-              <CommentBoxIcon className={classes.images}/>
+              <CommentBoxIcon className={classes.commentIcon}/>
               <p>{postData.commentCount ? postData.commentCount : 0} Comments</p>
             </div>
             { postData.uid === props.currentUserUid ?
               <div className={classes.detailGroup}> 
-                <PostDropdown handleDelete={handleDelete} pid={postData.pid}/>
+                <PostDropdown handleDelete={handleDelete} pid={postData.pid} className={classes.button}/>
               </div> : <div></div>
             }
           </div>
@@ -179,10 +201,10 @@ export default function PostPreview(props) {
         <div className={classes.likeSection}>
           <img src={DividerLine} className={classes.dividerLine}/>
           <div className={classes.likeBox}>
-            <button className={classes.likeButton} name="likeButton">
-              <LikeButton />
+            <button className={classes.likeButton} name="likeButton" onClick={handleLikeButton}>
+              <LikeButton className={classes.likeIcon}/>
             </button>
-            <p>{postData.likes}</p>
+            <p style={numberStyle}>{postData.likes}</p>
           </div>
         </div>
       </Link>

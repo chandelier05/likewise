@@ -18,6 +18,10 @@ export default class Significance extends Component{
                     connect with others like you so that our UW community can help you overcome any difficulties 
                     you may be facing together. By making posts and responding with your advice,
                     opinions and experiences, we can also help those who are too afraid to speak up and share.
+
+                    Likewise was created as a capstone project, and as such will not be maintained after June 1st.
+                    We will be shutting down operations and deleting all stored personal data by June 1st.
+                    <a href='https://github.com/chandelier05/likewise' target='_blank'>You can find the repository here.</a>
                     </p>
                 </div>
                 <div className="white">

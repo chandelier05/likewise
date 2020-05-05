@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 
+
 export default function PostDropdown(props) {
   const [dropdown, setDropdown] = useState(false);
   return (
-    <div className="dropdown">
+    <div className={props.className}>
       <button className="dropbtn" name="optionsButton" onClick={() => (setDropdown(!dropdown))}>...</button>
       { dropdown ?
         <div className="dropdown-content" name={'dropdownContent' + props.pid}>
