@@ -53,7 +53,7 @@ export default function PostNavigationPage(props) {
   }
   useEffect(() => {
     setLoad(true);
-    var docRef = db.collection("posts").orderBy("likes", "asc");
+    var docRef = db.collection("posts").orderBy("likes", "desc");
     db.collection('users').doc(user.uid).collection('likedPosts').onSnapshot((querySnapshot) => {
       let tempMap = {};
       querySnapshot.forEach((doc) => {
