@@ -1,15 +1,16 @@
-import React, {useState} from 'react';
-import { makeStyles} from '@material-ui/core/styles';
+import React, {useState, useContext, useEffect} from 'react';
+import {makeStyles} from '@material-ui/core/styles';
 import {ReactComponent as ClockIcon} from '../assets/clock.svg';
 import examplePicture from '../assets/userImg.PNG';
 import {ReactComponent as CommentBoxIcon} from '../assets/commentBoxIcon.svg';
 import {
   Link
 } from "react-router-dom";
-import {firestore as db} from '../utils/firebase';
+import {firestore as db, FieldValue} from '../utils/firebase';
 import PostDropdown from './PostDropdown';
 import {ReactComponent as LikeButton} from '../assets/comment-like-button.svg';
 import DividerLine from '../assets/post-preview-line-break.svg';
+import {UserContext} from '../providers/firebaseUser';
 
 const useStyles = makeStyles(theme => ({
   cardArea: {
@@ -136,19 +137,34 @@ export default function PostPreview(props) {
   const classes = useStyles();
   const postData = props.postData;
   const userImg = examplePicture;
-  const major = "Informatics";
-  const points = 1200;
-  const username = props.firstName + " " + props.lastName;
+  const user = useContext(UserContext);
   const [numberStyle, setNumStyle] = useState({
-    color: '#707070',
+    color: (postData.liked ? '#40a9ff' : '#707070'),
     fontSize: '1.5em'
   });
+  const [liked, setLike] = useState(postData.liked);
   const handleLikeButton = () => {
-    if (numberStyle.color === '#707070') {
+    let batch = db.batch();
+    let postsDocRef =  db.collection('posts').doc(postData.pid);
+    let userDocRef = db.collection('users').doc(user.uid).collection('likedPosts').doc(postData.pid);
+    if (!liked) {
       setNumStyle({...numberStyle, color: '#40a9ff'});
+      postData.likes = postData.likes + 1;
+      batch.update(postsDocRef, {likes: FieldValue.increment(1)});
+      batch.set(userDocRef, {uid: postData.uid});
+      batch.commit().then(() => {
+        console.log("batch commited");
+      });
     } else {
       setNumStyle({...numberStyle, color: '#707070'});
+      postData.likes = postData.likes - 1;
+      batch.update(postsDocRef, {likes: FieldValue.increment(-1)});
+      batch.delete(userDocRef);
+      batch.commit().then(() => {
+        console.log("batch commited");
+      });
     }
+    setLike(!liked);
   }
   const handleClick = (e) => {
     if (
@@ -174,6 +190,9 @@ export default function PostPreview(props) {
       props.setParent(postData.pid);
     }
   }
+  useEffect(() => {
+    
+  }, []);
   return (
     <div className={props.className}>
       <Link to={"/posts/" + postData.pid} className={classes.cardArea} onClick={handleClick}>

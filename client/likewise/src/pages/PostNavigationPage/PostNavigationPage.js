@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import {firestore} from '../../utils/firebase';
+import {firestore as db} from '../../utils/firebase';
 import PostPreview from '../../components/PostPreview';
 import UserPicture from '../../assets/userImg.PNG';
 import Grid from '@material-ui/core/Grid';
@@ -34,6 +34,7 @@ export default function PostNavigationPage(props) {
   const classes = useStyles();
   const [posts, setPosts] = useState([]);
   const [loading, setLoad] = useState(false);
+  const [likedPosts, setLikedPosts] = useState([]);
   const user = useContext(UserContext);
   // Similar to componentDidMount and componentDidUpdate:
   // TODO: change functionality to look for most recent posts? and compile into list
@@ -52,8 +53,14 @@ export default function PostNavigationPage(props) {
   }
   useEffect(() => {
     setLoad(true);
-    var docRef = firestore.collection("posts").orderBy("likes", "asc");
-    
+    var docRef = db.collection("posts").orderBy("likes", "asc");
+    db.collection('users').doc(user.uid).collection('likedPosts').onSnapshot((querySnapshot) => {
+      let tempMap = {};
+      querySnapshot.forEach((doc) => {
+        tempMap[doc.id] = true;
+      });
+      setLikedPosts(tempMap);
+    });
     docRef.get().then((QuerySnapshot) => {
       let newArr = [];
       QuerySnapshot.forEach((doc) => {
@@ -66,7 +73,8 @@ export default function PostNavigationPage(props) {
               likes: doc.data()["likes"],
               timestamp: doc.data()["timestamp"].toDate().toString(),
               pid: doc.id,
-              commentCount: doc.data()["commentCount"]
+              commentCount: doc.data()["commentCount"],
+              likedPost: false
             }
           newArr.push(postData);
         } else {
@@ -74,6 +82,11 @@ export default function PostNavigationPage(props) {
           console.log("No such document!");
         }
       });
+      for (let i = 0; i < newArr.length; i++) {
+        if (likedPosts.hasOwnProperty(newArr[i].pid)) {
+          newArr[i].likedPost = true;
+        }
+      }
       setPosts(newArr);
       setLoad(false);
     }).catch(function(error) {
