@@ -34,6 +34,10 @@ export default function PostNavigationPage(props) {
   const classes = useStyles();
   const [posts, setPosts] = useState([]);
   const [loading, setLoad] = useState(false);
+  const[search, setSearch] = useState({tagSearch: "",
+                                       quarterSelect:"", 
+                                       yearInput:"",
+                                       sortSelect:""});
   // Similar to componentDidMount and componentDidUpdate:
   // TODO: change functionality to look for most recent posts? and compile into list
   useEffect(() => {
