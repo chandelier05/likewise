@@ -6,6 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles} from '@material-ui/core/styles';
 import SearchBar from "../../components/Searchbar/searchbar";
 import {UserContext} from '../../providers/firebaseUser';
+import Leaderboard from '../../components/Leaderboard/Leaderboard';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -97,7 +98,7 @@ export default function PostNavigationPage(props) {
     <div>
       <SearchBar/>
   <Grid container className={classes.root}>
-    <Grid item xs={12} id="postSectionPreview">
+    <Grid item xs={8}>
     <h1 className={classes.header}>Browse posts</h1>
       {!loading && posts.length > 0 ? 
           posts.map((item) => {
@@ -108,6 +109,9 @@ export default function PostNavigationPage(props) {
         : 
           <h2>loading</h2>
       }
+    </Grid>
+    <Grid item xs={4}>
+      <Leaderboard/>
     </Grid>
   </Grid>   
   </div>

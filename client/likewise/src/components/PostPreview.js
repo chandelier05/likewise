@@ -26,18 +26,23 @@ const useStyles = makeStyles(theme => ({
     '&:hover': {
       background: 'linear-gradient(#fff,#fff) padding-box, linear-gradient(to right, #5d7a96, #585269) border-box',
     },
+    flexWrap: 'wrap'
   },
   userImg: {
-    width: "10em",
+    maxWidth: "15em",
     height: '100%',
-    minWidth: '15em',
+    width: '100%',
+    minWidth: '10em',
     textAlign: 'center',
-    margin: '2em 2em'
+    margin: '2em 2em',
+    flex: '0 1 10em'
   },
   detailBox: {
     display: 'flex',
     order: 2,
-    flex: '2 1 auto',
+    minWidth: '5rem',
+    maxWidth: '40rem',
+    flex:' 1 1 5rem',
     flexDirection: 'column',
     fontStyle: "italic",
     fontWeight: "normal",
@@ -53,7 +58,10 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'row',
     flex: '0 1 auto',
-    alignItems: 'center'
+    alignItems: 'center',
+    minWidth: '5rem',
+    maxWidth: '40rem',
+    flex: '1 1 5rem',
   },
   detailGroup: {
     display: 'flex',
@@ -107,13 +115,15 @@ const useStyles = makeStyles(theme => ({
   likeSection : {
     display: 'flex',
     order: 3,
-    flex: '1 1 7em',
+    flex: '2 1 5em',
     flexDirection: 'row',
     fontWeight: "normal",
     fontSize: "1.2em",
     justifyContent: 'space-evenly',
     margin: '2em 2em',
-    alignItems: 'center'
+    alignItems: 'center',
+    minWidth: '5em',
+    maxWidth: '10em'
   },
   dividerLine : {
     height: '100%',

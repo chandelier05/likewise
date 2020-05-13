@@ -7,6 +7,7 @@ import HomePage from './pages/HomePage/HomePage';
 import AccountPage from './pages/AccountPage/AccountPage';
 import {Switch, Route, Redirect} from 'react-router-dom';
 import {UserContext} from './providers/firebaseUser';
+import Leaderboard from './components/Leaderboard/Leaderboard';
 
 export default function App(props) {
     const user = useContext(UserContext);
@@ -46,6 +47,9 @@ export default function App(props) {
             </Route>
             <Route path="/account">
               <AccountPage/>
+            </Route>
+            <Route path="/leaderboard">
+              <Leaderboard/>
             </Route>
             <Redirect to="/"/>
           </Switch>

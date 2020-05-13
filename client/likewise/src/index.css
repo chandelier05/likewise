@@ -61,7 +61,6 @@ button > * {
 
 .postPreview {
   margin: 2rem 2rem;
-  width: 80%;
   height: auto;
 }
 
@@ -74,6 +73,10 @@ button > * {
   padding: 0rem;
   font-style: normal;
   color: #5C5C5C;
+  display: block;
+  min-width: 5rem;
+  max-width: 40rem;
+  flex: 1 1 5rem;
 }
 
 /* TODO: DYNAMICALLY RESIZE FOR MOBILE */
@@ -132,3 +135,40 @@ button > * {
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .dropbtn {background-color: #3e8e41;}
+
+/* Leaderboard styling */
+
+#leaderboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.7rem;
+}
+
+#leaderboard-header {
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+  
+  padding: 1rem;
+  margin: 2rem;
+}
+
+#leaderboard-header::before {
+  content: '';
+  position: absolute;
+  width: 20rem;
+  height: 6rem;
+  z-index: -1;
+  background: rgb(145,136,171);
+  background: linear-gradient(90deg, rgba(145,136,171,1) 0%, rgba(136,181,225,1) 100%);
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+#leaderboard-header h2 {
+  padding: 0rem 0rem 0rem 2rem;
+  margin: 0;
+  color: #FFF;
+  font-weight: 550;
+}
