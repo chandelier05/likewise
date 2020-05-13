@@ -94,6 +94,8 @@ export default function PostNavigationPage(props) {
     });
   }, []);
   return (
+    <div>
+      <SearchBar/>
   <Grid container className={classes.root}>
     <Grid item xs={12} id="postSectionPreview">
     <SearchBar/>
@@ -109,6 +111,7 @@ export default function PostNavigationPage(props) {
       }
     </Grid>
   </Grid>   
+  </div>
 
   )
 }

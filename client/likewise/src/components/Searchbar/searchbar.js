@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Input, Menu, Select, Button } from 'antd';
+import firebase from 'firebase';
 
-import { DownOutlined, UserOutlined } from '@ant-design/icons';
+// import { DownOutlined, UserOutlined } from '@ant-design/icons';
 import './searchbar.css';
 import "antd/dist/antd.css";
 
