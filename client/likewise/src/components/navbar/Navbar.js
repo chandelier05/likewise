@@ -9,9 +9,11 @@ import Paw from "../../assets/paw.png"
 import {UserContext} from '../../providers/firebaseUser';
 import {auth} from '../../utils/firebase';
 import {signInWithGoogle} from "../../utils/firebase";
+import { useLocation } from 'react-router-dom'
 
 export default function Navbar(props) {
   const user = useContext(UserContext);
+  var location = useLocation();
   const handleLogin = (event) => {
       event.preventDefault();
       signInWithGoogle();
@@ -21,33 +23,31 @@ export default function Navbar(props) {
     auth.signOut();
   }
   return (
-    <div className="navbar">
-      <AppBar position="static" className="bar page-container" style={{ background: "#FFF" }} >
-        <Toolbar>
-          <Link to="/posts">
-            <img src={Paw} alt="Paw Icon" />
-          </Link>
-          <Link to="/">
-            <Typography variant="h5" className="title">
-              LIKEWISE
-            </Typography>
-          </Link>
-          {user !== "logout" ? <Link to="/createPost"><Button variant="contained" id="createPostHotfix" size="large">Create Post</Button></Link> : <div></div>}
-          <div className="loginFunc">
-          {
-            user !== "logout" ? 
-            <div>
-              <Link to="/account">
-                <Button variant="contained" id="account" size="large">Account</Button>
-              </Link>
-                <Button variant="contained" id="logout" size="large" onClick={handleSignOut}>Log Out</Button>
-            </div>
-            :
-            <Button variant="contained" id="signin" size="large" onClick={handleLogin}>Sign in with UW NetID</Button>
-          }
+    <AppBar position="static" className="bar page-container" style={{ background: "#FFF" }} >
+      <Toolbar>
+        <Link to="/posts">
+          <img src={Paw} alt="Paw Icon" />
+        </Link>
+        <Link to="/">
+          <Typography variant="h5" className="title">
+            LIKEWISE
+          </Typography>
+        </Link>
+        {user !== "logout" && location.pathname !== '/'? <Link to="/createPost"><Button variant="contained" id="createPostHotfix" size="large">Create Post</Button></Link> : <div></div>}
+        <div className="login-func">
+        {
+          user !== "logout" ? 
+          <div>
+            <Link to="/account">
+              <Button variant="contained" id="account" size="large">Account</Button>
+            </Link>
+              <Button variant="contained" id="logout" size="large" onClick={handleSignOut}>Log Out</Button>
           </div>
-        </Toolbar>
-      </AppBar>
-    </div>
+          :
+          <Button variant="contained" id="signin" size="large" onClick={handleLogin}>Sign in with UW NetID</Button>
+        }
+        </div>
+      </Toolbar>
+    </AppBar>
   );
 }

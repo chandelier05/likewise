@@ -12,13 +12,15 @@ h1, h2, h3, p {
     clear: both;
 }
 
-.purple{
+.purple {
     flex-grow: 1;
     background: linear-gradient(247.92deg, #88B5E1 0.6%, #9188AB 100%);
     color: #FFF;
     margin-right: auto;
     margin-left: auto;
-    padding: 20px 40px;
+    padding: 3rem 4.5rem;
+    display: flex;
+    flex-direction: column;
 }
 
 .white {
@@ -26,4 +28,46 @@ h1, h2, h3, p {
     background-color: #F6F6F2;
     color: #000000;
     padding: 20px 40px;
+}
+
+.purple h2 {
+    font-size: 1.7rem;
+    color: white;
+    font-weight: bold;
+}
+
+.purple p {
+    font-size: 1rem;
+}
+
+.join-community-row button {
+    background-color: black;
+    color: white;
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 2rem;
+    box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12);
+
+}
+.join-community-row button:hover {
+    background-color: #d5d5d5;
+}
+.join-community-row {
+    display: flex;
+    background: linear-gradient(247.92deg, #88B5E1 0.6%, #9188AB 100%);
+    color: #FFF;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 3rem 4.5rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.join-community-row h2 {
+    font-size: 1.7rem;
+    color: white;
+    font-weight: bold;
+    margin: 1rem;
+    padding: 0;
+    letter-spacing: 0.13rem;
 }

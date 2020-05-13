@@ -18,9 +18,7 @@ export default function App(props) {
     }
     let body = (
       <div>
-        <header>
-          <Navbar/>
-        </header>
+        <Navbar/>
         <Switch>
           <Route exact path="/">
               <HomePage/>
@@ -32,9 +30,7 @@ export default function App(props) {
     if (user !== "loading" && user !== "logout") {
       body = (
         <div>
-          <header>
-            <Navbar/>
-          </header>
+          <Navbar/>
           <Switch>
             <Route exact path="/">
               <HomePage/>

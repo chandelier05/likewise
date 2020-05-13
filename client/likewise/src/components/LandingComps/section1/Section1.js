@@ -31,24 +31,21 @@ function Section1(props) {
         return(
             <div className="container">
                 <div className="connect">
-                    <h1>Connect with fellow UW students and see what they're experiencing</h1>
+                    <h1 id="home-header">Connect with fellow UW students and see what they're experiencing</h1>
                     {
                         user !== "logout" ? 
-                        <div>
+                        <div className='home-buttons-row'>
                             <Button variant="contained" id="browsePosts" size="large" onClick={handleClick}>Browse Posts</Button>
                             <Button variant="contained" id="createPosts" size="large" onClick={handleCreate}>Create a Post</Button>
                         </div> : <div></div>
                     }
                 </div>
-                <div className="icons">
+                <div className="home-icons-row">
                     <img src= {feature1} alt="first feature"/>
                     <img src= {feature2} alt="first feature"/>
                     <img src= {feature3} alt="first feature"/>
-                
                 </div>
             </div>
-            
-            
         )
     }
 }

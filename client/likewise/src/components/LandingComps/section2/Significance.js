@@ -1,15 +1,24 @@
 import React, {Component} from 'react';
-import {Container, Button, Grid} from '@material-ui/core';
+import {Container} from '@material-ui/core';
+import TextLoop from 'react-text-loop';
+import {HomePageTextLoopArr} from '../../../utils/constants';
+import {signInWithGoogle} from "../../../utils/firebase";
 import './style.css';
+import Button from '@material-ui/core/Button';
 
 export default class Significance extends Component{
     //let classes = useStyles();
+    handleLogin = (event) => {
+        event.preventDefault();
+        signInWithGoogle();
+    };
+
     render(){
         return (
             <div>
                 <div className="purple">
-                        <h2> Have you ever felt <span id="changeText">sad</span>?</h2>
-                    <h3 style={{fontStyle: "italic"}}>
+                        <h2> Have you ever felt <TextLoop children={HomePageTextLoopArr}/>?</h2>
+                    <h3 style={{fontStyle: "italic", fontSize: '1.4rem'}}>
                         Many of us have too.
                     </h3>
                     <p>
@@ -39,17 +48,12 @@ export default class Significance extends Component{
                         </Container>
                     </div>
                 </div>
-                    <Grid container className="purple" style={{textAlign: "center", height: "100%"}} justify="center">
-                        <Grid item spacing={4} style={{padding: "0px 40px"}}>
-                            <h2 style={{display: "inline-flex"}}>
-                                Are you ready to start sharing?
-                            </h2>
-                        </Grid>
-                        <Grid item spacing={4} style={{padding: "10px 0px 40px"}}>
-                            <Button variant="contained" style={{display: "inline-flex",
-                                color: "#FFFFFF", backgroundColor: "#000000", padding:"1rem"}}>Join the community</Button>
-                        </Grid>
-                    </Grid>
+                <div className="join-community-row">
+                    <h2>
+                        Are you ready to start sharing?
+                    </h2>
+                    <Button onClick={this.handleLogin}>Join the community</Button>
+                </div>
             </div>
         );
     }
