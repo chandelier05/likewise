@@ -147,10 +147,12 @@ export default function PostPreview(props) {
     let batch = db.batch();
     let postsDocRef =  db.collection('posts').doc(postData.pid);
     let userDocRef = db.collection('users').doc(user.uid).collection('likedPosts').doc(postData.pid);
+    let userPostRef = db.collection('users').doc(postData.uid);
     if (!liked) {
       setNumStyle({...numberStyle, color: '#40a9ff'});
       postData.likes = postData.likes + 1;
       batch.update(postsDocRef, {likes: FieldValue.increment(1)});
+      batch.update(userPostRef, {likes: FieldValue.increment(1)});
       batch.set(userDocRef, {uid: postData.uid});
       batch.commit().then(() => {
         console.log("batch commited");
@@ -159,6 +161,7 @@ export default function PostPreview(props) {
       setNumStyle({...numberStyle, color: '#707070'});
       postData.likes = postData.likes - 1;
       batch.update(postsDocRef, {likes: FieldValue.increment(-1)});
+      batch.update(userPostRef, {likes: FieldValue.increment(-1)});
       batch.delete(userDocRef);
       batch.commit().then(() => {
         console.log("batch commited");
