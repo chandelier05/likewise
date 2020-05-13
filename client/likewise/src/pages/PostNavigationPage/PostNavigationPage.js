@@ -98,7 +98,6 @@ export default function PostNavigationPage(props) {
       <SearchBar/>
   <Grid container className={classes.root}>
     <Grid item xs={12} id="postSectionPreview">
-    <SearchBar/>
     <h1 className={classes.header}>Browse posts</h1>
       {!loading && posts.length > 0 ? 
           posts.map((item) => {
