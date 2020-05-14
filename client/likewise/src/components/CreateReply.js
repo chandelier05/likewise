@@ -1,7 +1,7 @@
 import React, {useState, useRef, useContext} from 'react';
 import {Button} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
-import {firestore as db, getTimeStamp} from '../utils/firebase';
+import {firestore as db, getTimeStamp, FieldValue} from '../utils/firebase';
 import {UserContext} from '../providers/firebaseUser';
 
 const useStyles = makeStyles(theme => ({
@@ -54,14 +54,18 @@ export default function CreateReply(props) {
   const _isMounted = useRef(true);
   const user = useContext(UserContext);
   const handleSubmit = (event) => {
-    db.collection("posts").doc(props.postId).update({
-      commentCount: props.commentCount + 1
-    }).then(function() {
-        //console.log("Document successfully updated!");
-    }).catch(function(error) {
-        // The document probably doesn't exist.
-        //console.error("Error updating document: ", error);
-    });
+    db.collection("posts").doc(props.postId).get().then((doc) => {
+      if (doc.exists && doc.data().commentCount != 0) {
+        db.collection("posts").doc(props.postId).update({
+          commentCount: FieldValue.increment(1)
+        }).then(function() {
+            //console.log("Document successfully updated!");
+        }).catch(function(error) {
+            // The document probably doesn't exist.
+            //console.error("Error updating document: ", error);
+        });
+      }
+    })
     const docRef = db.collection("comments").doc()
     let timeObject = {
       body: comment,

@@ -1,25 +1,30 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import UserPicture from './UserPicture';
 import examplePicture from '../assets/userImg.PNG';
 import {Grid, Box, Button} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import CreateReply from'./CreateReply';
 import Report from './Report';
+import {firestore as db} from '../utils/firebase';
 
 const useStyles = makeStyles(theme => ({
   root : {
-    margin: "1rem",
+    margin: "0rem 0rem 2rem",
     flexDirection: "column",
     display: "flex",
-    overflow: "auto"
+    overflow: "auto",
+    fontSize: "1.2rem"
   },
   summary: {
     fontWeight: "bold",
-    fontSize: "1rem", 
+    fontSize: "1.4rem", 
     color: "#9188AB"
   },
   postOutline: {
-    border: "1px solid #9188AB",
+    borderRadius: "0.5em",
+    border: "0.15em solid transparent",
+    background: 'linear-gradient(#fff,#fff) padding-box, linear-gradient(to right, #88B5E1, #9188AB) border-box',
+    borderImageSlice: 1,
     padding: "1rem",
     flexDirection: "row"
   },
@@ -34,10 +39,12 @@ const useStyles = makeStyles(theme => ({
 export default function Comment(props) {
   const [closeReply, setReply] = useState(true);
   const [report, setReport] = useState(false);
+  const [loading, setLoad] = useState(true);
+  const [avatarData, setAvatarData] = useState({});
+  const userRef = db.collection('users').doc(props.commentUid);
   const classes = useStyles();
   const userImg = examplePicture;
   const major = "Informatics";
-  const points = 1200;
   const username = props.firstName + " " + props.lastName;
   const handleReply = () => {
     setReply(!closeReply);
@@ -49,25 +56,44 @@ export default function Comment(props) {
   const setReportDisplay = () => {
     setReport(!report);
   };
+  useEffect(() => {
+    userRef.get().then((doc) => {
+      let tempAvatarData = {};
+      if (doc.exists) {
+        tempAvatarData.username = doc.data().firstName + ' ' + doc.data().lastName;
+        tempAvatarData.likes = doc.data().likes;
+      } else {
+        console.log('user does not exist, comment');
+      }
+      setAvatarData(tempAvatarData);
+    }).catch((e) => {
+      console.log(e);
+    })
+    setLoad(false);
+  }, [])
   return (
     <div className={classes.root}>
       <Grid container className={classes.post} style={{flexWrap:"noWrap"}}>
         {
-          !props.empty ? <Grid item xs={2} style={{margin:"0rem 1rem 0rem 0rem"}}>
-          <UserPicture imgSrc={userImg} major={major} points={points} username={username}/>
+          !loading ? <Grid item xs={2} style={{margin:"0rem 1rem 0rem 0rem"}}>
+          <UserPicture imgSrc={userImg} major={major} points={avatarData.likes} username={avatarData.username}/>
           </Grid> : <div></div>
         }
-        <Grid item xs={12}>
+        <Grid item xs={10}>
           <Box className={classes.postOutline}>
               <p>
                   {props.body}
               </p>
               {
                 !props.empty ?
-                (<div><p style={{fontSize: "0.6rem"}}>{props.timestamp}</p>
+                (<div><p style={{fontSize: "0.8rem"}}>{props.timestamp}</p>
                 <div style={{display: "inline-block"}}>
-                  <Button variant="outlined" style={{border: "solid 1px #9188AB", margin: "0rem 1rem", letterSpacing: "0"}} onClick={handleReply}>Reply</Button>
-                  <Button variant="contained" style={{backgroundColor: "#9188AB", margin: "0rem 1rem", letterSpacing: "0"}} onClick={setReportDisplay}>Report</Button>
+                  {!props.commentReply ? 
+                    <button onClick={handleReply} className='reply-button'>Reply</button>
+                    :
+                    <div></div>
+                  }
+                  <button className='report-button' onClick={setReportDisplay}>Report</button>
                 </div></div>) : <div></div>
               }
           </Box>
@@ -78,7 +104,7 @@ export default function Comment(props) {
             {
               closeReply ? <div></div> : 
               <CreateReply parentId={props.parentId} setParent={commentReply} 
-              firstName={props.firstName} lastName={props.lastName} uid={props.uid} postId={props.postId} commentCount={props.commentCount}/>
+              firstName={props.firstName} lastName={props.lastName} postId={props.postId} commentCount={props.commentCount}/>
             }
             {
               report ? <Report setParent={setReportDisplay} pid={props.postId} uid={props.uid} type="comment"/> : <div></div>

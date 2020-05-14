@@ -66,20 +66,8 @@ export default function DetailedPostPage(props) {
           [key]: data[key]
         }
       }
-      db.collection("users").doc(data.uid).get().then((doc) => {
-        if (doc.exists) {
-          data = doc.data();
-          for (const key in data) {
-            obj = {
-              ...obj,
-              [key]: data[key]
-            }
-          }
-        }
       setPostData(obj);
       setLoad(false);
-      }).catch((e) => {
-      })
     }).catch((e) => {
     })
     
@@ -88,17 +76,15 @@ export default function DetailedPostPage(props) {
     <div>
       <SearchBar/>
       <Grid container className={classes.root}>
-        <Grid item xs={8}>
-          <Box>
-            {!loading ? <DetailedPost setParent={handleMainReply} postData={postData} reportHandler={reportHandler}/> 
-            : <DetailedPost setParent={handleMainReply} test={true}/>}
-          </Box>
-          <Box>
-            {mainReply ? <CreateReply firstName={user.firstName} lastName={user.lastName} 
-            parentId={pid} setParent={handleMainReply} postId={pid} commentCount={postData.commentCount}
-            uid={user.uid} /> : <div></div>}
-            {report ? <Report setParent={reportHandler} pid={pid} uid={user.uid} type="post"/> : <div></div>}
-          </Box>
+        <Grid item xs={8} id='comment-post-section'>
+          <h1>Reflection (or Question)</h1>
+          {!loading ? <DetailedPost setParent={handleMainReply} postData={postData} reportHandler={reportHandler}/> 
+          : <div></div>}
+          {mainReply ? <CreateReply firstName={user.firstName} lastName={user.lastName} 
+          parentId={pid} setParent={handleMainReply} postId={pid} commentCount={postData.commentCount}
+          uid={user.uid} /> : <div></div>}
+          {report ? <Report setParent={reportHandler} pid={pid} uid={user.uid} type="post"/> : <div></div>}
+          <h1>Replies</h1>
           <CommentSection pid={pid} uid={user.uid} commentCount={postData.commentCount}/>
         </Grid>
         <Grid item xs={4}>

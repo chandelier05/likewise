@@ -86,6 +86,42 @@ button > * {
   height: auto;
 }
 
+.reply-button {
+  border-radius: 0.4em;
+  border: 0.1em solid transparent;
+  background: linear-gradient(#fff,#fff) padding-box, linear-gradient(to right, #88B5E1, #9188AB) border-box;
+  border-image-slice: 1;
+  color: black;
+  padding: 0rem 1rem;
+  margin: 0rem 0rem 0rem 1rem;
+}
+
+.report-button {
+  border-radius: 0.4em;
+  background: linear-gradient(to right, #88B5E1, #9188AB) border-box;
+  color: white;
+  padding: 0rem 1rem;
+  margin: 0rem 0rem 0rem 1.5rem;
+}
+
+#comment-post-section h1 {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 3rem;
+  line-height: 56px;
+  background: linear-gradient(90deg, rgba(136,181,225,1) 0%, rgba(145,136,171,1) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 1rem 0rem 3rem 6rem;
+}
+
+#comment-post-section {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+
+}
 /*DROPDOWN CSS*/
 
 /* Dropdown Button */
@@ -172,6 +208,12 @@ button > * {
   font-weight: 550;
 }
 
-#leaderboard-leaders {
+#comment-post-section h1 {
+  display: block;
+}
 
+/* PostNavigationPage */
+
+.post-navigation-container {
+  overflow: hidden;
 }

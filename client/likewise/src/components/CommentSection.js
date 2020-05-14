@@ -6,14 +6,8 @@ import MainComment from './MainComment';
 import Comment from './Comment';
 
 //TODO change margin on replies to comments automatically depending on nested level
-const useStyles = makeStyles(theme => ({
-  commentReply: {
-    marginLeft: "7rem",
-  }
-}));
 
 export default function CommentSection(props) {
-  const classes = useStyles();
   const _isMounted = useRef(true);
   const [comments, setComments] = useState([]);
   const [loading, setLoad] = useState(false);
@@ -44,7 +38,7 @@ export default function CommentSection(props) {
           };
           tempComments.push(comment);
         });
-        setComments(tempComments); 
+        setComments(tempComments);
       });
     } catch (error) {
       
@@ -57,20 +51,18 @@ export default function CommentSection(props) {
   }, [madeComment]);
   
   return (
-    <Box>
-      <h1>Replies</h1>
+    <div>
       {!loading && comments.length > 0 ? comments.map((item) => {
           return (
-            <MainComment lastName={item.firstName} firstName={item.lastName} 
+            <MainComment firstName={item.firstName} lastName={item.lastName} 
             body={item.body} timestamp={item.timestamp} parentId={item.cid} 
-            setParent={rerenderPage} postId={props.pid}
+            setParent={rerenderPage} postId={props.pid} commentUid={item.uid}
             commentCount={props.commentCount} posterId={item.uid}/>
           );
         }) : 
-        <Comment body={"No comments... Be the first to reply!"} empty={true}/>
+        <Comment body={"No comments... Be the first to reply!"} empty={true} commentUid={'placeholder'}/>
       }
-      
-    </Box>
+    </div>
   )
 }
 

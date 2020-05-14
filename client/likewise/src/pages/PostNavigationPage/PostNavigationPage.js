@@ -11,7 +11,8 @@ import Leaderboard from '../../components/Leaderboard/Leaderboard';
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    padding: "1.2rem"
+    padding: "1.2rem",
+    margin: '0rem 2rem'
   },
   postSection: {
     "&:first-child" : {
@@ -98,26 +99,25 @@ export default function PostNavigationPage(props) {
   }, []);
   console.log(posts);
   return (
-    <div>
+    <div className='post-navigation-container'>
       <SearchBar/>
-  <Grid container className={classes.root}>
-    <Grid item xs={8}>
-    <h1 className={classes.header}>Browse posts</h1>
-      {!loading && displayedPosts.length > 0 ? 
-          displayedPosts.map((item) => {
-            return <PostPreview className="postPreview" 
-              postData={item} userImg={UserPicture} 
-              currentUserUid={user.uid} setParent={setChildHandler}/>
-          })
-        : 
-          <h2>loading</h2>
-      }
-    </Grid>
-    <Grid item xs={4}>
-      <Leaderboard handleViewPosts={handleViewPosts}/>
-    </Grid>
-  </Grid>   
-  </div>
-
+      <Grid container className={classes.root}>
+        <Grid item xs={8}>
+        <h1 className={classes.header}>Browse posts</h1>
+          {!loading && displayedPosts.length > 0 ? 
+              displayedPosts.map((item) => {
+                return <PostPreview className="postPreview" 
+                  postData={item} userImg={UserPicture} 
+                  currentUserUid={user.uid} setParent={setChildHandler}/>
+              })
+            : 
+              <h2>loading</h2>
+          }
+        </Grid>
+        <Grid item xs={4}>
+          <Leaderboard handleViewPosts={handleViewPosts}/>
+        </Grid>
+      </Grid>   
+    </div>
   )
 }
