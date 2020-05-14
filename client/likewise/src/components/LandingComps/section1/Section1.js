@@ -1,9 +1,9 @@
 import React, { useState, useContext } from 'react';
 import './style.css';
 import Button from '@material-ui/core/Button';
-import feature1 from '../../../assets/Feature1.png';
-import feature2 from '../../../assets/Feature2.png';
-import feature3 from '../../../assets/Feature3.png';
+import feature1 from '../../../assets/icons for website-01.svg';
+import feature2 from '../../../assets/icons for website-02.svg';
+import feature3 from '../../../assets/icons for website-03.svg';
 import {Redirect} from 'react-router-dom';
 import {UserContext} from '../../../providers/firebaseUser';
 

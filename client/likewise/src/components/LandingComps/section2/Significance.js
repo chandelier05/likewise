@@ -46,19 +46,19 @@ export default class Significance extends Component {
                                     <Typography variant="h4">
                                     Make a posts
                                     </Typography>
-                                    <Typography styles={{fontSize:"24px"}}>
+                                    <Typography style={{fontSize:"24px"}}>
                                     Have a question or concern? Or maybe some useful advice you want to share? Make a post effortlessly.
                                     </Typography>
                                 </Grid>
                                 <Grid container item md={2}><div></div></Grid>
                                 <Grid container item md={5}><img src={landing1} alt="landing page image" className="landing"/></Grid>
                             </Grid>
-                            <Grid container item md={12} className="work" styles={{marginTop:"16px"}}>
+                            <Grid container item md={12} className="work" style={{marginTop:"16px"}}>
                                 <Grid container item md={5}>
                                 <Typography variant="h4">
                                         Then get feedback from our supportive community
                                     </Typography>
-                                    <Typography styles={{fontSize:"24px"}}>
+                                    <Typography style={{fontSize:"24px"}}>
                                     Get thoughtful responses from fellow UW students who have gone through the same experiences.
                                     </Typography>
                                 </Grid>

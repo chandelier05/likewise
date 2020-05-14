@@ -72,6 +72,10 @@ export default function DetailedPostPage(props) {
     })
     
   }, []);
+
+  const displaySearchResults = () => {
+    const query = window.searchComponent.returnState();
+  }
   return (
     <div>
       <SearchBar/>
