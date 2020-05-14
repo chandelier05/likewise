@@ -72,7 +72,7 @@ export default class Significance extends Component {
             <div>
                 <div className="purple">
                         <h2> Have you ever felt <TextLoop children={HomePageTextLoopArr}/>?</h2>
-                    <h3 style={{fontStyle: "italic", fontSize: '1.4rem'}}>
+                    <h3 style={{fontStyle: "italic", fontSize: '1.4rem', color: "white"}}>
                         Many of us have too.
                     </h3>
                     <p className="likewise-description">

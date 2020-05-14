@@ -50,27 +50,27 @@ function Section1(props) {
                     <Grid item md={3} className="icon-item">
                         <img src={feature1} alt="first feature" />
                         <div>
-                            <h4 className = "icon-title">Post</h4>
+                            <h4 className = "icon-title">Make a Post</h4>
                             <p className="icon-description">
-                                Get advice and opinions
+                                Have a question or concern? <br/> There are fellow UW students <br/> looking out for you.
                             </p>
                         </div>
                     </Grid>
                     <Grid item md={3} className="icon-item">
                         <img src={feature2} alt="first feature" />
                         <div>
-                            <h4 className = "icon-title">Respond</h4>
+                            <h4 className = "icon-title">Build a Community</h4>
                             <p className="icon-description">
-                                Give guidance to others <br/> by sharing your experiences
+                                Find others who care and want <br/> to give you guidance by sharing <br/> their advice and experiences.
                             </p>
                         </div>
                     </Grid>
                     <Grid item md={3} className="icon-item">
                         <img src={feature3} alt="first feature" />
                         <div>
-                            <h4 className = "icon-title">Explore</h4>
+                            <h4 className = "icon-title">Explore experiences</h4>
                             <p className="icon-description">
-                                Browse through existing Q and As
+                                Browse through existing Q&amp;As <br/> and find others that you can <br/> relate and connect with.
                             </p>
                         </div>
                     </Grid>
