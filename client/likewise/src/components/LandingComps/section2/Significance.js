@@ -28,7 +28,7 @@ export default class Significance extends Component{
                     you may be facing together. By making posts and responding with your advice,
                     opinions and experiences, we can also help those who are too afraid to speak up and share.
 
-                    Likewise was created as a capstone project.
+                    Likewise was created as a capstone project. 
                     <a href='https://github.com/chandelier05/likewise' target='_blank'>You can find the repository here.</a>
                     </p>
                 </div>
