@@ -2,6 +2,10 @@ import React from 'react';
 import {makeStyles, Grid, Box} from '@material-ui/core';
 import './style.css';
 import circle from "../../../assets/circle.PNG";
+import brian from "../../../assets/profiles/brian.png";
+import joanna from "../../../assets/profiles/joanna.png";
+import olivia from "../../../assets/profiles/olivia.png";
+import tiffany from "../../../assets/profiles/tiffany.png";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -16,7 +20,7 @@ export default function Footer(props) {
         <Box class={classes.root}>
             <Grid container spacing={4}>
                 <Grid item sm={2}>
-                    <h2>
+                    <h2 id="logo">
                         Likewise
                     </h2>
                 </Grid>
@@ -44,19 +48,19 @@ export default function Footer(props) {
                     </h2>
                     <Grid container spacing={6}>
                         <Grid item sm={3}>
-                            <img src={circle}/>
+                            <img src={brian} className="profile"/>
                             <p>Brian Uyeda</p>
                         </Grid>
                         <Grid item sm={3}>
-                        <img src={circle}/>
+                        <img src={tiffany} className="profile"/>
                             <p>Tiffany Lai</p>
                         </Grid>
                         <Grid item sm={3}>
-                        <img src={circle}/>
+                        <img src={joanna} className="profile"/>
                             <p>Joanna Tan</p>
                         </Grid>
                         <Grid item sm={3}>
-                        <img src={circle}/>
+                        <img src={olivia} className="profile"/>
                             <p>Olivia Tang</p>
                         </Grid>
                     </Grid>

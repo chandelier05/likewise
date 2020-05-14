@@ -54,7 +54,7 @@ export default class SearchBar extends React.Component {
           </div>
   
           <div className='likewise-quarter-select'>
-            <Select placeholder="Quarter" id="quarterSelect" onChange={this.selectOnChange} value={this.state.quarterSelect} >
+            <Select placeholder="Select a person" id="quarterSelect" onChange={this.selectOnChange} value={this.state.quarterSelect} >
               <Option value="Autumn">Autumn</Option>
               <Option value="Winter">Winter</Option>
               <Option value="Spring">Spring</Option>
