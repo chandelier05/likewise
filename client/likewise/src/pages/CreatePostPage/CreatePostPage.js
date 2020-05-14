@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import firebase from 'firebase';
-import { MenuItem, Menu, Grid, Button } from '@material-ui/core';
+import {Grid, Button } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
-
-import SearchBar, { TagInput } from "../../components/Searchbar/searchbar";
+import SearchBar from "../../components/Searchbar/searchbar";
 import TagsInput from "../../components/TagsInput/TagsInput";
+import {firestore as db, getTimeStamp} from '../../utils/firebase';
+import {UserContext} from '../../providers/firebaseUser';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -57,8 +57,6 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function CreatePostPage(props) {
-
-  const db = firebase.firestore();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [postData, setPost] = useState({
@@ -67,6 +65,7 @@ export default function CreatePostPage(props) {
   });
   const[tags, setTags] = useState([]);
   const [redirect, setRedirect] = useState(false);
+  const user = useContext(UserContext);
   const selectedTags = theseTags => {
     console.log(theseTags);
     setTags({
@@ -75,21 +74,28 @@ export default function CreatePostPage(props) {
     })
     console.log(tags);
   };
-
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
   const handleSubmit = event => {
-    db.collection('posts').add({
+    event.preventDefault();
+    let timestamp = getTimeStamp();
+    let docRef = db.collection('posts').doc();
+    let docData = {
       body: postData.description,
       preview: postData.summary,
-      uid: props.user.uid,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      uid: user.uid,
+      timestamp: timestamp,
       likes: 0,
-      tags: tags
-    }).then(() => {
+      tags: tags,
+      commentCount: 0,
+      firstName: user.firstName,
+      lastName: user.lastName
+    };
+    docRef.set(docData).then(() => {
       setRedirect(true);
     })
+    db.collection('users').doc(user.uid).collection('posts').doc(docRef.id).set(docData);
   };
   const handleCancel = event => {
     setRedirect(true);
@@ -103,8 +109,8 @@ export default function CreatePostPage(props) {
     console.log(postData);
     // console.log("postdata is being modified");
   }
-  const handleClose = () => {
-    setAnchorEl(null);
+  const submitHandler = (e) => {
+    e.preventDefault();
   };
   if (redirect) {
     return (
@@ -119,7 +125,7 @@ export default function CreatePostPage(props) {
             <h1 id="createPostTitle">Create Post</h1>
           </Grid>
           <Grid item xs={12} class={classes.root}>
-            <form class={classes.form}>
+            <form class={classes.form} onSubmit={submitHandler}>
               <div class={classes.inputBlock}>
                 <label for="summary" class={classes.field}>Summary of Post</label>
                 <textarea id="createSummary" name="summary" value={postData.summary}
@@ -131,8 +137,8 @@ export default function CreatePostPage(props) {
                   class={classes.fieldInput} onChange={handleChange}></textarea>
               </div>
               <div class={classes.inputBlock}>
-                <label for="tags" class={classes.field}>Tags</label>
-                <TagsInput id="createTags" selectedTags={selectedTags} />
+                <label for="tags-inputbox" class={classes.field}>Tags</label>
+                <TagsInput id="createTags" selectedTags={selectedTags}/>
               </div>
             </form>
           </Grid>

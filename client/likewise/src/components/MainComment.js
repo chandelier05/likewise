@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import Comment from './Comment';
 import {makeStyles} from '@material-ui/core/styles';
-import firebase from 'firebase';
+import { firestore as db } from '../utils/firebase';
 
 const useStyles = makeStyles(theme => ({
   commentReply: {
@@ -9,14 +9,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+// IMPLEMENT VISUAL FUNCTIONALITY OF COMMENT THREADING PAST 2 LEVELS
 export default function MainComment(props) {
   const [replies, setReplies] = useState([]);
   const [loading, setLoad] = useState(false);
   const [madeComment, setMadeComment] = useState(false);
   const classes = useStyles();
-  const db = firebase.firestore();
   const rerenderPage = () => {
-    console.log("rerenderPage has been called")
     setMadeComment(!madeComment);
   }
   useEffect(() => {
@@ -43,25 +42,26 @@ export default function MainComment(props) {
         };
         tempReplies.push(comment);
       });
+      console.log(tempReplies);
       setReplies(tempReplies);
       setLoad(false);
     });
   }, [madeComment]);
   return (
     <div>
-      <Comment lastName={props.firstName} firstName={props.lastName} 
+      <Comment firstName={props.firstName} lastName={props.lastName} 
       body={props.body} timestamp={props.timestamp} parentId={props.parentId} 
-      setParent={rerenderPage} posterId={props.posterId} timesp={props.timesp} postId={props.postId}
-      commentCount={props.commentCount} uid={props.uid}/>
+      setParent={rerenderPage} postId={props.postId} commentUid={props.commentUid}
+      commentCount={props.commentCount} posterId={props.posterId}/>
       <div>
         {!loading && replies.length ?
           replies.map((subItem) => {
             return (
               <div className={classes.commentReply}>
-                <Comment lastName={subItem.firstName} firstName={subItem.lastName}
+                <Comment firstName={subItem.firstName} lastName={subItem.lastName}
                 body={subItem.body} timestamp={subItem.timestamp} parentId={subItem.parentId} 
-                uid={props.uid} posterId={subItem.uid} timesp={props.timesp} postReply={false} setParent={rerenderPage}
-                postId={props.postId} commentCount={props.commentCount}/>
+                postReply={false} setParent={rerenderPage} commentUid={subItem.uid}
+                postId={props.postId} commentCount={props.commentCount} commentReply={true}/>
               </div>
             );
           })

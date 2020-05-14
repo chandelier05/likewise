@@ -23,12 +23,15 @@ const useStyles = makeStyles(theme => ({
 
 export default function UserPicture(props) {
     const classes = useStyles();
+    let points = props.points ? props.points : 0;
     return (
         <div className={classes.root}>
             <img src={props.imgSrc} className={classes.image}/>
             <p className={classes.text} style={{color: "#88B5E1"}}>{props.username}</p>
-            <p className={classes.text} style={{color: "#dddddd"}}>{props.points} POINTS</p>
-            <p className={classes.text} style={{color: "#dddddd"}}>{props.major}</p>
+            <p className={classes.text} style={{color: "#dddddd"}}>{points} POINTS</p>
+            
         </div>
     )
 }
+
+//<p className={classes.text} style={{color: "#dddddd"}}>{props.major}</p>

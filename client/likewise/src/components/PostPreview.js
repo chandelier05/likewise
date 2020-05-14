@@ -1,140 +1,241 @@
-import React from 'react';
-import { makeStyles} from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import CardActions from '@material-ui/core/CardActions';
-import Button from '@material-ui/core/Button';
-import clock from '../assets/clock.png';
-import commentBox from '../assets/commentBox.png';
+import React, {useState, useContext, useEffect} from 'react';
+import {makeStyles} from '@material-ui/core/styles';
+import {ReactComponent as ClockIcon} from '../assets/clock.svg';
+import examplePicture from '../assets/userImg.PNG';
+import {ReactComponent as CommentBoxIcon} from '../assets/commentBoxIcon.svg';
 import {
   Link
 } from "react-router-dom";
+import {firestore as db, FieldValue} from '../utils/firebase';
+import PostDropdown from './PostDropdown';
+import {ReactComponent as LikeButton} from '../assets/comment-like-button.svg';
+import DividerLine from '../assets/post-preview-line-break.svg';
+import {UserContext} from '../providers/firebaseUser';
 
 const useStyles = makeStyles(theme => ({
-  card: {
-    display: 'flex',
-    padding: "2rem 1rem",
-    '&:last-child': {
-        paddingBottom: "2rem",
-      },
-    order: 1,
-    boxShadow: "none"
-  },
-  postTextBox: {
-    display: 'flex',
-    flexDirection: 'column'
-  },
-  content: {
-    flex: '2 0 auto',
-    padding: '0rem 1rem',
-    '&:last-child': {
-        paddingBottom: '3.5rem',
-      },
-  },
-  cover: {
-    width: "5rem",
-    height: "5rem",
-    margin: "0rem 0.5rem",
-  },
   cardArea: {
     display: "flex",
-    flexDirection: 'column',
-    border: "2px solid #9188AB",
-    borderRadius: "4px",
-    flexWrap: "wrap"
+    border: "0.2em solid transparent",
+    borderRadius: "1em",
+    zIndex: "1",
+    alignItems: 'stretch',
+    flexDirection: 'row',
+    background: 'linear-gradient(#fff,#fff) padding-box, linear-gradient(to right, #88B5E1, #9188AB) border-box',
+    borderImageSlice: 1,
+    boxShadow: '0px 4px 8px 0px rgba(0,0,0,0.2)',
+    '&:hover': {
+      background: 'linear-gradient(#fff,#fff) padding-box, linear-gradient(to right, #5d7a96, #585269) border-box',
+    },
+    flexWrap: 'wrap'
   },
-  detailRow: {
+  userImg: {
+    maxWidth: "15em",
+    height: '100%',
+    width: '100%',
+    minWidth: '10em',
+    textAlign: 'center',
+    margin: '2em 2em',
+    flex: '0 1 10em'
+  },
+  detailBox: {
     display: 'flex',
     order: 2,
-    flex: '1 2 auto',
-    flexDirection: 'row',
-    fontFamily: "Roboto",
+    minWidth: '5rem',
+    maxWidth: '40rem',
+    flex:' 1 1 5rem',
+    flexDirection: 'column',
     fontStyle: "italic",
     fontWeight: "normal",
-    fontSize: "1.2rem",
-    
-    padding: "1rem",
-    alignItems: "center",
-    justifyContent: "space-between"
+    fontSize: "1.2em",
+    justifyContent: 'space-between',
+    margin: '2em 8em 2em 2em',
+    "& h2" : {
+      flex: '1 1 5em'
+    }
+  },
+  utilityRow : {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    minWidth: '5rem',
+    maxWidth: '40rem',
+    flex: '1 1 5rem',
   },
   detailGroup: {
     display: 'flex',
     flexDirection: 'row',
-    margin: "0rem 0rem 0rem 7rem",
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: "0em 7em 0em 0em",
+    flex: '0 1 auto',
     "& p" : {
-      padding: "1.25rem 0rem 0.5rem",
-      color: "#707070"
+      color: "#707070",
+      margin: "0em"
     },
   },
-  images: {
-    maxWidth: "4rem",
-    maxHeight: "4rem",
-    width: "auto",
-    height: "auto",
+  commentIcon: {
+    width: "2em",
+    height: "2em",
+    textAlign: "center",
+    transform: 'scale(-1,1)'
   },
-  commentImg: {
-    margin: "0rem 4rem",
-    maxWidth: "2rem",
-    maxHeight: "2rem",
-    width: "auto",
-    height: "auto"
+  clockIcon: {
+    width: "2em",
+    height: "2em",
+    textAlign: "center",
   },
   button: {
-    margin: "0rem 70rem 0rem 0rem",
     backgroundColor:"transparent",
-    borderRadius:"6px",
-    border:"2px solid #B5D0EC",
     display:"inline-block",
-    cursor:"pointer",
     color:"#000000",
     fontWeight:"bold",
-    padding:"10px 31px",
     textDecoration:"none",
     "&:hover": {
-      backgroundColor:"transparent",
+      backgroundColor: "#d5d5d5"
     },
-    "&:active": {
-      position:"relative",
-      top:"1px",
+    fontSize: '1rem'
+  },
+  likeButton : {
+    width: '5em',
+    height: '5em',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
+    border: 'none',
+    "&:>*" : {
+      pointerEvents: "none"
     },
-    fontFamily: "Roboto",
-    fontSize: "1.2rem",
+    '&:hover' : {
+      backgroundColor: '#ddd'
+    }
+  },
+  likeSection : {
+    display: 'flex',
+    order: 3,
+    flex: '2 1 5em',
+    flexDirection: 'row',
+    fontWeight: "normal",
+    fontSize: "1.2em",
+    justifyContent: 'space-evenly',
+    margin: '2em 2em',
+    alignItems: 'center',
+    minWidth: '5em',
+    maxWidth: '10em'
+  },
+  dividerLine : {
+    height: '100%',
+    margin: '0em 1em'
+  },
+  likeBox : {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    fontStyle: 'italic',
+    fontWeight: 'bold',
+    lineHeight: '156%',
+    color: '#707070'
+  },
+  likeIcon : {
+    transform: 'scale(1.5)'
   }
 }));
 
 export default function PostPreview(props) {
   const classes = useStyles();
   const postData = props.postData;
+  const userImg = examplePicture;
+  const user = useContext(UserContext);
+  const [numberStyle, setNumStyle] = useState({
+    color: (postData.liked ? '#40a9ff' : '#707070'),
+    fontSize: '1.5em'
+  });
+  const [liked, setLike] = useState(postData.liked);
+  const handleLikeButton = () => {
+    let batch = db.batch();
+    let postsDocRef =  db.collection('posts').doc(postData.pid);
+    let userDocRef = db.collection('users').doc(user.uid).collection('likedPosts').doc(postData.pid);
+    let userPostRef = db.collection('users').doc(postData.uid);
+    if (!liked) {
+      setNumStyle({...numberStyle, color: '#40a9ff'});
+      postData.likes = postData.likes + 1;
+      batch.update(postsDocRef, {likes: FieldValue.increment(1)});
+      batch.update(userPostRef, {likes: FieldValue.increment(1)});
+      batch.set(userDocRef, {uid: postData.uid});
+      batch.commit().then(() => {
+        console.log("batch commited");
+      });
+    } else {
+      setNumStyle({...numberStyle, color: '#707070'});
+      postData.likes = postData.likes - 1;
+      batch.update(postsDocRef, {likes: FieldValue.increment(-1)});
+      batch.update(userPostRef, {likes: FieldValue.increment(-1)});
+      batch.delete(userDocRef);
+      batch.commit().then(() => {
+        console.log("batch commited");
+      });
+    }
+    setLike(!liked);
+  }
+  const handleClick = (e) => {
+    if (
+      e.target.name === 'optionsButton' || e.target.name === 'editPostButton' 
+      || e.target.name === 'deletePostButton' || e.target.name === 'likeButton'
+    ) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }
+  const handleDelete = (event) => {
+    if (postData.uid == props.currentUserUid) {
+      db.collection("posts").doc(postData.pid).delete().then(() => {
+        console.log("Document deleted");
+      }).catch((e) => {
+        console.log("error emoving doc in postpreview", e);
+      })
+      db.collection("users").doc(props.currentUserUid).collection('posts').doc(postData.pid).delete().then(() => {
+        console.log("Document deeted");
+      }).catch((e) => {
+        console.log("error emoving doc from users in postpreview", e);
+      })
+      props.setParent(postData.pid);
+    }
+  }
+  useEffect(() => {
+    
+  }, []);
   return (
     <div className={props.className}>
-      <Link to={"/posts/" + postData.pid} className={classes.cardArea}>
-        <Card className={classes.card}>
-          <CardMedia
-              className={classes.cover}
-              image={props.userImg}
-              title="Picture of user"
-          />
-          <div className={classes.postTextBox}>
-              <CardContent className={classes.content}>
-                  <Typography component="p" style={{padding: "0px 10px"}}>
-                      {postData.preview}
-                  </Typography>
-              </CardContent>
+      <Link to={"/posts/" + postData.pid} className={classes.cardArea} onClick={handleClick}>
+        <img src={userImg} className={classes.userImg}/>
+        <div className={classes.detailBox}>
+          <h2 id="post-preview-header">
+            {postData.preview}
+          </h2>
+          <div className={classes.utilityRow}>
+            <div className={classes.detailGroup}>
+              <ClockIcon className={classes.clockIcon}/>
+              <p>{getDate(postData.timestamp)}</p>
+            </div>
+            <div className={classes.detailGroup}> 
+              <CommentBoxIcon className={classes.commentIcon}/>
+              <p>{postData.commentCount ? postData.commentCount : 0} Comments</p>
+            </div>
+            { postData.uid === props.currentUserUid ?
+              <div className={classes.detailGroup}> 
+                <PostDropdown handleDelete={handleDelete} pid={postData.pid} className={classes.button}/>
+              </div> : <div></div>
+            }
           </div>
-        </Card>
-        <div className={classes.detailRow}>
-          <div className={classes.detailGroup}> 
-            <img src={clock} className={classes.images}/>
-            <p>{getDate(postData.timestamp)}</p>
+        </div>
+        <div className={classes.likeSection}>
+          <img src={DividerLine} className={classes.dividerLine}/>
+          <div className={classes.likeBox}>
+            <button className={classes.likeButton} name="likeButton" onClick={handleLikeButton}>
+              <LikeButton className={classes.likeIcon}/>
+            </button>
+            <p style={numberStyle}>{postData.likes}</p>
           </div>
-          <div className={classes.detailGroup}> 
-            <img src={commentBox} className={classes.commentImg}/>
-            <p>{postData.commentCount}</p>
-          </div>
-          <input type="button" class={classes.button} value="reply"/>   
         </div>
       </Link>
     </div>
@@ -145,3 +246,9 @@ function getDate(timestamp) {
   let stringArr = timestamp.split(' ');
   return stringArr[1] + " " + stringArr[2] + " " + stringArr[3];
 }
+
+// width: 60vw;
+//     min-width: 360px;
+//     text-align: center;
+//     margin: 5% auto;
+//     background-color: #ccc;

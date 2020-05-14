@@ -1,25 +1,38 @@
-import React, { Component } from 'react';
-import { Container, Button, Grid, Typography } from '@material-ui/core';
-import './style.css';
+import React, {Component} from 'react';
+import {Container, Typography, Grid} from '@material-ui/core';
+import TextLoop from 'react-text-loop';
+import {HomePageTextLoopArr} from '../../../utils/constants';
+import {signInWithGoogle} from "../../../utils/firebase";
 import landing1 from "../../../assets/landing1.png";
 import landing2 from "../../../assets/landing2.png";
+import './style.css';
+import Button from '@material-ui/core/Button';
+
 
 export default class Significance extends Component {
     //let classes = useStyles();
-    render() {
+    handleLogin = (event) => {
+        event.preventDefault();
+        signInWithGoogle();
+    };
+
+    render(){
         return (
             <div>
                 <div className="purple">
-                    <h2> Have you ever felt <span id="changeText">sad</span>?</h2>
-                    <h3 style={{ fontStyle: "italic" }}>
+                        <h2> Have you ever felt <TextLoop children={HomePageTextLoopArr}/>?</h2>
+                    <h3 style={{fontStyle: "italic", fontSize: '1.4rem'}}>
                         Many of us have too.
                     </h3>
                     <p>
-                        Likewise was created to be a safe space for students at UW to share the hardships
-                        they face along with the happy experiences that they have. We want you to be able to
-                        connect with others like you so that our UW community can help you overcome any difficulties
-                        you may be facing together. By making posts and responding with your advice,
-                        opinions and experiences, we can also help those who are too afraid to speak up and share.
+                    Likewise was created to be a safe space for students at UW to share the hardships 
+                    they face along with the happy experiences that they have. We want you to be able to 
+                    connect with others like you so that our UW community can help you overcome any difficulties 
+                    you may be facing together. By making posts and responding with your advice,
+                    opinions and experiences, we can also help those who are too afraid to speak up and share.
+
+                    Likewise was created as a capstone project. 
+                    <a href='https://github.com/chandelier05/likewise' target='_blank'>You can find the repository here.</a>
                     </p>
                 </div>
                 <div className="white">
@@ -55,19 +68,12 @@ export default class Significance extends Component {
                         </Container>
                     </div>
                 </div>
-                <Grid container className="purple" style={{ textAlign: "center", height: "100%" }} justify="center">
-                    <Grid item spacing={4} style={{ padding: "0px 40px" }}>
-                        <h2 style={{ display: "inline-flex" }}>
-                            Are you ready to start sharing?
-                            </h2>
-                    </Grid>
-                    <Grid item spacing={4} style={{ padding: "10px 0px 40px" }}>
-                        <Button variant="contained" style={{
-                            display: "inline-flex",
-                            color: "#FFFFFF", backgroundColor: "#000000", padding: "1rem"
-                        }}>Join the community</Button>
-                    </Grid>
-                </Grid>
+                <div className="join-community-row">
+                    <h2>
+                        Are you ready to start sharing?
+                    </h2>
+                    <Button onClick={this.handleLogin}>Join the community</Button>
+                </div>
             </div>
         );
     }

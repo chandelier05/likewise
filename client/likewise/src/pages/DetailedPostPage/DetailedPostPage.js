@@ -1,17 +1,20 @@
-import React, {useEffect, useState} from 'react';
-import firebase from 'firebase'
+import React, {useEffect, useState, useContext} from 'react';
 import {Grid, Container, Box} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import DetailedPost from '../../components/DetailedPost';
 import CommentSection from '../../components/CommentSection';
 import CreateReply from'../../components/CreateReply';
 import {useParams} from 'react-router-dom';
-
+import {UserContext} from '../../providers/firebaseUser'; 
 import SearchBar, { TagInput } from "../../components/Searchbar/searchbar";
+import {firestore as db} from '../../utils/firebase';
+import Leaderboard from '../../components/Leaderboard/Leaderboard';
+import Report from '../../components/Report';
 
 const useStyles = makeStyles(theme => ({
-  root : {
-
+  root: {
+    flexGrow: 1,
+    padding: "1.2rem"
   },
   summary: {
     fontWeight: "bold",
@@ -28,6 +31,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function DetailedPostPage(props) {
+  const classes = useStyles();
   const [postData, setPostData] = useState({
     body: "",
     preview: "",
@@ -39,11 +43,15 @@ export default function DetailedPostPage(props) {
     commentCount: 0
   });
   const [loading, setLoad] = useState(true);
-  const db = firebase.firestore();
+  const user = useContext(UserContext);
   const [mainReply, setMainReply] = useState(false);
+  const [report, setReport] = useState(false);
   let { pid } = useParams();
   const handleMainReply = () => {
     setMainReply(!mainReply);
+  }
+  const reportHandler = () => {
+    setReport(!report);
   }
   //TO-DO: FIX BUG WHERE EMPTY COMMENT IS SHOWN BY APPENDAGING FIRST ELEMENT
   // LOOK UP HOW TO USE EVENT LISTENERS FIRESTORE (PROBABLY WILL FIX ISSUE)
@@ -58,21 +66,8 @@ export default function DetailedPostPage(props) {
           [key]: data[key]
         }
       }
-      db.collection("users").doc(data.uid).get().then((doc) => {
-        if (doc.exists) {
-          data = doc.data();
-          for (const key in data) {
-            
-            obj = {
-              ...obj,
-              [key]: data[key]
-            }
-          }
-        }
       setPostData(obj);
       setLoad(false);
-      }).catch((e) => {
-      })
     }).catch((e) => {
     })
     
@@ -80,24 +75,22 @@ export default function DetailedPostPage(props) {
   return (
     <div>
       <SearchBar/>
-    <Container maxWidth="md">
-      <Grid container>
-        <Grid item xs={8}>
-          <Box>
-            {!loading ? <DetailedPost setParent={handleMainReply} postData={postData}/> : <DetailedPost setParent={handleMainReply} test={true}/>}
-          </Box>
-          <Box>
-            {mainReply ? <CreateReply firstName={props.firstName} lastName={props.lastName} 
-            parentId={pid} setParent={handleMainReply} timesp={firebase.firestore} postId={pid} commentCount={postData.commentCount}
-            uid={props.user.uid} /> : <div></div>}
-          </Box>
-          <CommentSection pid={pid} timesp={firebase.firestore} uid={props.user.uid}/>
+      <Grid container className={classes.root}>
+        <Grid item xs={8} id='comment-post-section'>
+          <h1>Reflection (or Question)</h1>
+          {!loading ? <DetailedPost setParent={handleMainReply} postData={postData} reportHandler={reportHandler}/> 
+          : <div></div>}
+          {mainReply ? <CreateReply firstName={user.firstName} lastName={user.lastName} 
+          parentId={pid} setParent={handleMainReply} postId={pid} commentCount={postData.commentCount}
+          uid={user.uid} /> : <div></div>}
+          {report ? <Report setParent={reportHandler} pid={pid} uid={user.uid} type="post"/> : <div></div>}
+          <h1>Replies</h1>
+          <CommentSection pid={pid} uid={user.uid} commentCount={postData.commentCount}/>
         </Grid>
         <Grid item xs={4}>
-          {/*for scoreboard*/}
+          <Leaderboard/>
         </Grid>
       </Grid>
-    </Container>
     </div>
     
   );

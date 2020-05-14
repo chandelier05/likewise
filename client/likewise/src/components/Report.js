@@ -1,8 +1,7 @@
-import React, {useState, useRef, useContext} from 'react';
+import React, {useState} from 'react';
 import {Button} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
-import {firestore as db, getTimeStamp, FieldValue} from '../utils/firebase';
-import {UserContext} from '../providers/firebaseUser';
+import {firestore as db, getTimeStamp} from '../utils/firebase';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -48,57 +47,34 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function CreateReply(props) {
+export default function Report(props) {
   const classes = useStyles();
-  const [comment, setComment] = useState("");
-  const _isMounted = useRef(true);
-  const user = useContext(UserContext);
-  const handleSubmit = (event) => {
-    db.collection("posts").doc(props.postId).get().then((doc) => {
-      if (doc.exists && doc.data().commentCount != 0) {
-        db.collection("posts").doc(props.postId).update({
-          commentCount: FieldValue.increment(1)
-        }).then(function() {
-            //console.log("Document successfully updated!");
-        }).catch(function(error) {
-            // The document probably doesn't exist.
-            //console.error("Error updating document: ", error);
-        });
-      }
-    })
-    const docRef = db.collection("comments").doc()
-    let timeObject = {
-      body: comment,
-      uid: user.uid,
-      timestamp: getTimeStamp(),
-      firstName: props.firstName,
-      lastName: props.lastName,
-      cid: docRef.id,
-      parentId: props.parentId
-    };
-    docRef.set(timeObject).then(() => {
-      //console.log("set parent should be called!");
-      props.setParent();
-    })
-    return () => { // ComponentWillUnmount in Class Component
-      _isMounted.current = false;
-    }
-  };
-  const handleCancel = event => {
+  const [summary, setSummary] = useState("");
+  const handleCancel = () => {
     props.setParent();
-  };
+  }
+  const handleSubmit = () => {
+    db.collection('reports').add({
+      summary: summary,
+      uid: props.uid,
+      timestamp: getTimeStamp(),
+      pid: props.pid,
+      type: props.type
+    })
+    props.setParent();
+  }
   const handleChange = (event) => {
-    setComment(event.target.value);
+    setSummary(event.target.value);
     // console.log(postData);
     // console.log("postdata is being modified");
   }
   return (
     <div class={classes.root}>
       <div class={classes.labelRow} id="labelRow">
-        <label for="replyBox" class={classes.label}>Create reply</label>
+        <label for="replyBox" class={classes.label}>Create Report</label>
       </div>
       <div class={classes.row}>
-        <textarea id="replyBox" name="replyBox" class={classes.fieldInput} value={comment} onChange={handleChange}></textarea>
+        <textarea id="replyBox" name="replyBox" class={classes.fieldInput} value={summary} onChange={handleChange}></textarea>
       </div>
       <div class={classes.rowButton} >
         <div class={classes.buttons} style={{width: "10rem" }}>
@@ -107,7 +83,7 @@ export default function CreateReply(props) {
         <Button variant="outlined" style={{border: "solid 1px #9188AB", backgroundColor:"#FFFFFF"}} 
         onClick={handleCancel} class={classes.buttons}>Cancel</Button>
         <Button variant="contained" style={{border: "solid 1px #9188AB", backgroundColor: "#9188AB", color:"#FFFFFF"}} 
-        onClick={handleSubmit} class={classes.buttons}>Reply</Button>      
+        onClick={handleSubmit} class={classes.buttons}>Report</Button>      
       </div>
     </div>
   )

@@ -9,6 +9,7 @@ a {
 
 .navbar {
     background: white;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
 
 .menuButton {
@@ -26,11 +27,16 @@ a {
     padding-left: 1rem;
 }
 
-#loginfunc Button {
-    position: absolute;
-    height: 25px;
-    left: 18px;
-    right: 19px;
+.login-func {
+    justify-content: flex-end;
+    display: flex;
+    
+    flex: 1 0 auto;
+    margin: 0rem 2rem;
+}
+
+.login-func button:first-child {
+    margin: 0rem 2rem;
 }
 
 .bar {
