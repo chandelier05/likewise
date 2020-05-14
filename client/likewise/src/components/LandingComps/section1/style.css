@@ -1,4 +1,34 @@
+.icon-item{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
 
+.icon-title{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 182.7%;
+    /* or 37px */
+
+    text-align: center;
+
+    color: #5C5C5C;
+
+}
+
+.icon-description{
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+    text-align: center;
+
+    color: #5C5C5C;
+}
 .connect{
     background: linear-gradient(247.92deg, #88B5E1 0.6%, #9188AB 100%);
     height: 608px;
@@ -34,7 +64,8 @@
     flex-basis: 100%;
     flex: 1;
     justify-content: center;
-    margin: 7rem 0rem;
+    margin-top: 1.5rem;
+    margin-bottom: 2.5rem;
 }
 
 .home-icons-row img {
