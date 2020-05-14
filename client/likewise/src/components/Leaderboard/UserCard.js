@@ -14,7 +14,6 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'row',
     background: 'linear-gradient(#fff,#fff) padding-box, linear-gradient(to right, #88B5E1, #9188AB) border-box',
     borderImageSlice: 1,
-    boxShadow: '0px 4px 8px 0px rgba(0,0,0,0.2)',
     flexWrap: 'wrap',
     margin: '1rem'
   },

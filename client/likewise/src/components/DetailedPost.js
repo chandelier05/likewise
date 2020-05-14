@@ -37,6 +37,9 @@ export default function DetailedPost(props) {
     const handleClick = () => {
       props.setParent();
     };
+    const handleReport = () => {
+      props.reportHandler();
+    }
     // TO-DO replace empty div with loading screen
     if (props.test) {
       return (
@@ -62,7 +65,7 @@ export default function DetailedPost(props) {
               </p>
               <p className={classes.timestamp}>{timestamp}</p>
               <Button variant="outlined" style={{border: "solid 1px #9188AB", margin: "0rem 1rem"}} onClick={handleClick}>Reply</Button>
-              <Button variant="contained" style={{backgroundColor: "#9188AB", margin: "0rem 1rem"}}>Report</Button>
+              <Button variant="contained" style={{backgroundColor: "#9188AB", margin: "0rem 1rem"}} onClick={handleReport}>Report</Button>
             </Box>
             </Grid>
           </Grid>

@@ -8,8 +8,14 @@ import {useParams} from 'react-router-dom';
 import {UserContext} from '../../providers/firebaseUser'; 
 import SearchBar, { TagInput } from "../../components/Searchbar/searchbar";
 import {firestore as db} from '../../utils/firebase';
+import Leaderboard from '../../components/Leaderboard/Leaderboard';
+import Report from '../../components/Report';
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1,
+    padding: "1.2rem"
+  },
   summary: {
     fontWeight: "bold",
     fontSize: "1rem", 
@@ -25,6 +31,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function DetailedPostPage(props) {
+  const classes = useStyles();
   const [postData, setPostData] = useState({
     body: "",
     preview: "",
@@ -38,9 +45,13 @@ export default function DetailedPostPage(props) {
   const [loading, setLoad] = useState(true);
   const user = useContext(UserContext);
   const [mainReply, setMainReply] = useState(false);
+  const [report, setReport] = useState(false);
   let { pid } = useParams();
   const handleMainReply = () => {
     setMainReply(!mainReply);
+  }
+  const reportHandler = () => {
+    setReport(!report);
   }
   //TO-DO: FIX BUG WHERE EMPTY COMMENT IS SHOWN BY APPENDAGING FIRST ELEMENT
   // LOOK UP HOW TO USE EVENT LISTENERS FIRESTORE (PROBABLY WILL FIX ISSUE)
@@ -76,24 +87,24 @@ export default function DetailedPostPage(props) {
   return (
     <div>
       <SearchBar/>
-    <Container maxWidth="md">
-      <Grid container>
+      <Grid container className={classes.root}>
         <Grid item xs={8}>
           <Box>
-            {!loading ? <DetailedPost setParent={handleMainReply} postData={postData}/> : <DetailedPost setParent={handleMainReply} test={true}/>}
+            {!loading ? <DetailedPost setParent={handleMainReply} postData={postData} reportHandler={reportHandler}/> 
+            : <DetailedPost setParent={handleMainReply} test={true}/>}
           </Box>
           <Box>
             {mainReply ? <CreateReply firstName={user.firstName} lastName={user.lastName} 
             parentId={pid} setParent={handleMainReply} postId={pid} commentCount={postData.commentCount}
             uid={user.uid} /> : <div></div>}
+            {report ? <Report setParent={reportHandler} pid={pid} uid={user.uid} type="post"/> : <div></div>}
           </Box>
           <CommentSection pid={pid} uid={user.uid} commentCount={postData.commentCount}/>
         </Grid>
         <Grid item xs={4}>
-          {/*for scoreboard*/}
+          <Leaderboard/>
         </Grid>
       </Grid>
-    </Container>
     </div>
     
   );
