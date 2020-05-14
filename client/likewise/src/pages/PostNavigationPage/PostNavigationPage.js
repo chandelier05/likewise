@@ -34,23 +34,24 @@ const useStyles = makeStyles(theme => ({
 export default function PostNavigationPage(props) {
   const classes = useStyles();
   const [posts, setPosts] = useState([]);
+  const [displayedPosts, setDisplayPosts] = useState([]);
   const [loading, setLoad] = useState(false);
   const [likedPosts, setLikedPosts] = useState([]);
   const user = useContext(UserContext);
   // Similar to componentDidMount and componentDidUpdate:
   // TODO: change functionality to look for most recent posts? and compile into list
   const setChildHandler = (pid) => {
-    // let index = posts.findIndex(post => post.pid == pid);
-    // let tempArr = [...posts];
-    // console.log(tempArr === posts);
-    // tempArr = tempArr.splice(index, 1);
-    // console.log(tempArr);
     console.log(pid);
     setPosts(posts.filter((post) => {
       console.log("filtering :" + post.pid);
       console.log(post.pid == pid);
       return post.pid != pid;
     }));
+    setDisplayPosts(posts);
+  }
+  const handleViewPosts = (uid) => {
+      console.log(uid);
+      setDisplayPosts(posts.filter(item => item.uid === uid));
   }
   useEffect(() => {
     setLoad(true);
@@ -89,19 +90,21 @@ export default function PostNavigationPage(props) {
         }
       }
       setPosts(newArr);
+      setDisplayPosts(newArr);
       setLoad(false);
     }).catch(function(error) {
       console.log("Error getting document:", error);
     });
   }, []);
+  console.log(posts);
   return (
     <div>
       <SearchBar/>
   <Grid container className={classes.root}>
     <Grid item xs={8}>
     <h1 className={classes.header}>Browse posts</h1>
-      {!loading && posts.length > 0 ? 
-          posts.map((item) => {
+      {!loading && displayedPosts.length > 0 ? 
+          displayedPosts.map((item) => {
             return <PostPreview className="postPreview" 
               postData={item} userImg={UserPicture} 
               currentUserUid={user.uid} setParent={setChildHandler}/>
@@ -111,7 +114,7 @@ export default function PostNavigationPage(props) {
       }
     </Grid>
     <Grid item xs={4}>
-      <Leaderboard/>
+      <Leaderboard handleViewPosts={handleViewPosts}/>
     </Grid>
   </Grid>   
   </div>

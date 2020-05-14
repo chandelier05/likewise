@@ -15,29 +15,27 @@ const useStyles = makeStyles(theme => ({
     background: 'linear-gradient(#fff,#fff) padding-box, linear-gradient(to right, #88B5E1, #9188AB) border-box',
     borderImageSlice: 1,
     boxShadow: '0px 4px 8px 0px rgba(0,0,0,0.2)',
-    '&:hover': {
-      background: 'linear-gradient(#fff,#fff) padding-box, linear-gradient(to right, #5d7a96, #585269) border-box',
-    },
-    width: '34rem',
+    flexWrap: 'wrap',
     margin: '1rem'
   },
   userImg: {
-    width: "4rem",
+    maxWidth: "9em",
     height: '100%',
-    minWidth: '8rem',
+    width: '100%',
     textAlign: 'center',
-    margin: '2em 2em'
+    margin: '1em 1em',
+    flex: '0 1 4em'
   },
   detailBox: {
     order: 2,
-    flex: '2 1 auto',
+    minWidth: '5rem',
+    maxWidth: '40rem',
+    flex:' 1 1 5rem',
     flexDirection: 'column',
     fontStyle: "italic",
     fontWeight: "normal",
     fontSize: "1.2em",
-    justifyContent: 'space-between',
-    margin: '2em 8em 2em 2em',
-    width: '46em',
+    margin: '1em',
     "& h2" : {
       flex: '1 1 5em'
     }
@@ -45,8 +43,11 @@ const useStyles = makeStyles(theme => ({
   utilityRow : {
     display: 'flex',
     flexDirection: 'row',
-    flex: '0 1 auto',
+    minWidth: '5rem',
+    maxWidth: '40rem',
+    flex: '1 1 5rem',
     alignItems: 'center',
+    justifyContent: 'space-between'
   },
   detailGroup: {
     display: 'flex',
@@ -86,7 +87,8 @@ const useStyles = makeStyles(theme => ({
     border: 'none',
     textDecoration:"none",
     "&:hover": {
-      backgroundColor: "#d5d5d5"
+      background: 'rgb(90,85,106)',
+      background: 'linear-gradient(90deg, rgba(90,85,106,1) 0%, rgba(94,129,163,1) 100%)'
     },
     background: 'rgb(145,136,171)',
     background: 'linear-gradient(90deg, rgba(145,136,171,1) 0%, rgba(136,181,225,1) 100%)',
@@ -108,15 +110,15 @@ return (
     <img src={userImg} className={classes.userImg}/>
     <div className={classes.detailBox}>
       <h2 className={classes.username}>
-        Username
+        {props.displayName}
       </h2>
       <div className={classes.utilityRow}>
         <div className={classes.detailGroup}>
           <img src={Paw} className={classes.paw}/>
-          <p>TEMP LIKES</p>
+          <p>{props.likes}</p>
         </div>
         <div className={classes.detailGroup2}> 
-          <button className={classes.button}>View posts</button>
+          <button className={classes.button} onClick={() => {props.handleViewPosts(props.uid)}}>View posts</button>
         </div>
       </div>
     </div>

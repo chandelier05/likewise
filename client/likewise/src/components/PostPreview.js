@@ -49,7 +49,6 @@ const useStyles = makeStyles(theme => ({
     fontSize: "1.2em",
     justifyContent: 'space-between',
     margin: '2em 8em 2em 2em',
-    width: '46em',
     "& h2" : {
       flex: '1 1 5em'
     }
@@ -57,7 +56,6 @@ const useStyles = makeStyles(theme => ({
   utilityRow : {
     display: 'flex',
     flexDirection: 'row',
-    flex: '0 1 auto',
     alignItems: 'center',
     minWidth: '5rem',
     maxWidth: '40rem',
