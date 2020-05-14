@@ -226,7 +226,7 @@ export default function PostNavigationPage(props) {
     //results = sortSearchResults(results, posts.sortSelect);
     console.log("results: ", results );
     console.log("allposts: ", allPosts);
-    setPosts(results);
+    setDisplayPosts(results);
     setLoad(false);
   }
 
