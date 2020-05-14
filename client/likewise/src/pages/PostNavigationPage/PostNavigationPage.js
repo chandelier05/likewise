@@ -224,7 +224,7 @@ export default function PostNavigationPage(props) {
 
   return (
     <div>
-      <SearchBar ref={(searchComponent) => {window.searchComponent = searchComponent}} onSubmit={displaySearchResults} />
+      <SearchBar ref={(searchComponent) => {window.searchComponent = searchComponent}} onSubmit={displaySearchResults} tagSearch = {""} quarterSelect = {""} yearInput = {2020} sortSelect = {"ID"}/>
       <Grid container className={classes.root}>
         <Grid item xs={12} id="postSectionPreview">
           <h1 className={classes.header}>Browse posts</h1>

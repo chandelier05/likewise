@@ -8,10 +8,10 @@ export default class SearchBar extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      tagSearch: "",
-      quarterSelect: "",
-      yearInput: 2020,
-      sortSelect: "ID",
+      tagSearch: this.props.tagSearch,
+      quarterSelect: this.props.quarterSelect,
+      yearInput: this.props.yearInput,
+      sortSelect: this.props.sortSelect,
     }
   }
  
