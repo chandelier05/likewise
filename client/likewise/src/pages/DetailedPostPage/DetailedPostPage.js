@@ -77,9 +77,13 @@ export default function DetailedPostPage(props) {
     })
     
   }, []);
+
+  const displaySearchResults = () => {
+    const query = window.searchComponent.returnState();
+  }
   return (
     <div>
-      <SearchBar/>
+      <SearchBar ref={(searchComponent) => {window.searchComponent = searchComponent}} onSubmit={displaySearchResults}/>
     <Container maxWidth="md">
       <Grid container>
         <Grid item xs={8}>

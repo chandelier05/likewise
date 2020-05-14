@@ -67,13 +67,14 @@ export default function CreatePostPage(props) {
   });
   const[tags, setTags] = useState([]);
   const [redirect, setRedirect] = useState(false);
-  const selectedTags = theseTags => {
-    console.log(theseTags);
-    setTags({
-      ...tags,
-      theseTags
-    })
+  
+  const selectedTags = tags => {
     console.log(tags);
+    tags.map((thisTag) => {
+      setTags({
+        ...tags, 
+      });
+    })
   };
 
   const handleClick = event => {
@@ -103,6 +104,14 @@ export default function CreatePostPage(props) {
     console.log(postData);
     // console.log("postdata is being modified");
   }
+
+  //redirect to postnavigationpage and save the state of searchComponent
+  const displaySearchResults = () => {
+    
+
+  }
+
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -113,7 +122,7 @@ export default function CreatePostPage(props) {
   } else {
     return (
       <div>
-        <SearchBar />
+        <SearchBar ref={(searchComponent) => {window.searchComponent = searchComponent}} onSubmit={displaySearchResults} />
         <Grid container style={{ flexDirection: "column" }}>
           <Grid item xs={12} class={classes.title}>
             <h1 id="createPostTitle">Create Post</h1>
