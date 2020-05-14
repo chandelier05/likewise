@@ -256,17 +256,22 @@ export default function PostNavigationPage(props) {
     <div>
       <SearchBar ref={(searchComponent) => {window.searchComponent = searchComponent}} onSubmit={displaySearchResults} tagSearch = {""} quarterSelect = {""} yearInput = {2020} sortSelect = {"ID"}/>
       <Grid container className={classes.root}>
-        <Grid item xs={12} id="postSectionPreview">
-          <h1 className={classes.header}>Browse posts</h1>
-          {!loading && posts.length > 0 ?
-            posts.map((item) => {
-              return <PostPreview className="postPreview" postData={item} userImg={UserPicture} />
-            })
-            :
-            <h2>loading</h2>
+        <Grid item xs={8}>
+        <h1 className={classes.header}>Browse posts</h1>
+          {!loading && displayedPosts.length > 0 ? 
+              displayedPosts.map((item) => {
+                return <PostPreview className="postPreview" 
+                  postData={item} userImg={UserPicture} 
+                  currentUserUid={user.uid} setParent={setChildHandler}/>
+              })
+            : 
+              <h2>loading</h2>
           }
         </Grid>
-      </Grid>
+        <Grid item xs={4}>
+          <Leaderboard handleViewPosts={handleViewPosts}/>
+        </Grid>
+      </Grid>   
     </div>
 
   )
