@@ -7,7 +7,9 @@ import { makeStyles} from '@material-ui/core/styles';
 import SearchBar from "../../components/Searchbar/searchbar";
 import {UserContext} from '../../providers/firebaseUser';
 import Leaderboard from '../../components/Leaderboard/Leaderboard';
+import Fade from "react-reveal/Fade";
 import _ from 'lodash';
+import moment from 'moment';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -201,14 +203,14 @@ export default function PostNavigationPage(props) {
 
       //if tag search and quarterSelect have been filled out
       if (query.tagSearch != "" && query.quarterSelect != ""){
-        return  _.includes(post.tags, query.tagSearch) && isDateBetween && date.getFullYear() == query.yearInput;
+        return  _.includes(post.tags, query.tagSearch.toLowerCase()) && isDateBetween && date.getFullYear() == query.yearInput;
 
       } //if quarterSelect not and tagSearch is
       else if (query.tagSearch != ""){
         console.log("post year: ",date.getFullYear());
         console.log("query year: ", query.yearInput);
 
-        return  _.includes(post.tags, query.tagSearch) && (date.getFullYear() == query.yearInput);
+        return  _.includes(post.tags, query.tagSearch.toLowerCase()) && (date.getFullYear() == query.yearInput);
 
       }//if tagSearch is not and quarterSelect is
       else if (query.quarterSelect != ""){
@@ -223,7 +225,8 @@ export default function PostNavigationPage(props) {
       }
     });
     //sort doesn't work yet
-    //results = sortSearchResults(results, posts.sortSelect);
+    console.log("pre-results; ", results);
+    results = sortSearchResults(results, query.sortSelect);
     console.log("results: ", results );
     console.log("allposts: ", allPosts);
     setDisplayPosts(results);
@@ -233,20 +236,18 @@ export default function PostNavigationPage(props) {
   //sorts results in posts
   //doesn't work yet
   const sortSearchResults = (results, sort) => {
-    console.log(sort);
+    console.log("this is sort", sort);
     let sortedResults = [];
     if( sort == "ID"){
-      sortedResults = _.sortBy(results, [function(o) {return o.pid}]);
+      sortedResults = _.orderBy(results, o => o.pid, 'desc');
       console.log("sortBy: ", sortedResults );
       
     }else if( sort == "Likes"){
-      sortedResults = _.sortBy(results, [function(o) {return o.likes}]);
+      sortedResults = _.orderBy(results, o => o.likes, 'desc');
       console.log("sortBy: ", sortedResults );
       
-    }else if( sort == "Date"){
-      sortedResults = _.sortBy(results, [function(o)
-                                          {let date = new Date(o.timestamp); 
-                                          return date;}]);
+    }else if( sort == "Time"){
+      sortedResults = _.orderBy(results, o => new moment(o.timestamp), 'desc');
       console.log("sortBy: ", sortedResults );
     }
     return sortedResults;
@@ -255,6 +256,7 @@ export default function PostNavigationPage(props) {
   return (
     <div>
       <SearchBar ref={(searchComponent) => {window.searchComponent = searchComponent}} onSubmit={displaySearchResults} tagSearch = {""} quarterSelect = {""} yearInput = {2020} sortSelect = {"ID"}/>
+     <Fade>
       <Grid container className={classes.root}>
         <Grid item xs={8}>
         <h1 className={classes.header}>Browse posts</h1>
@@ -272,6 +274,7 @@ export default function PostNavigationPage(props) {
           <Leaderboard handleViewPosts={handleViewPosts}/>
         </Grid>
       </Grid>   
+      </Fade>
     </div>
 
   )

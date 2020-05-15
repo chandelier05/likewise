@@ -8,7 +8,7 @@ const TagsInput = (props) => {
     const addTags = event => {
         let value = event.target.value.substring(0,event.target.value.length);
         if (event.keyCode == 13 && value !== "") {
-            setTags([...tags, value]);
+            setTags([...tags, value.toLowerCase()]);
             props.selectedTags([...tags, value]);
             event.target.value = "";
         }

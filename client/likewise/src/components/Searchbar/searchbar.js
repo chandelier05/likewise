@@ -73,7 +73,7 @@ export default class SearchBar extends React.Component {
               <Select defaultValue="ID" id="sortSelect" value={this.state.sortSelect} onChange={this.sortOnChange}>
                 <Option value={"ID"}>Default (by ID)</Option>
                 <Option value={"Likes"}>Likes</Option>
-                <Option value={"Time"}>Major</Option>
+                <Option value={"Time"}>Time</Option>
               </Select>
             </div>
           </div>
