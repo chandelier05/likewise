@@ -21,18 +21,20 @@ export default function AccountPage(props) {
     // console.log(tempArr === posts);
     // tempArr = tempArr.splice(index, 1);
     // console.log(tempArr);
-    console.log(pid);
+    //console.log(pid);
     setPost(posts.filter((post) => {
-      console.log("filtering :" + post.pid);
-      console.log(post.pid == pid);
+      // console.log("filtering :" + post.pid);
+      // console.log(post.pid == pid);
       return post.pid != pid;
     }));
   }
+  // TODO: PENDINGWRITES ISSUE WITH EDIT POST
   useEffect(() => {
-    db.collection('users').doc(user.uid).collection('posts').orderBy("timestamp", "desc").get().then((querySnapshot) => {
+    db.collection('users').doc(user.uid).collection('posts').orderBy("timestamp", "desc").onSnapshot((querySnapshot) => {
       let tempList = [];
       querySnapshot.forEach((doc) => {
         if (doc.metadata.hasPendingWrites) {
+          console.log('pendingwrites')
           return;
         }
         let postObj = {
@@ -44,32 +46,26 @@ export default function AccountPage(props) {
           pid: doc.id,
           commentCount: doc.data()["commentCount"]
         };
+        console.log(doc.data()["body"])
         tempList.push(postObj);
-        console.log(postObj.pid == "H0zAR2oDmowBk2Al1zy1");
+        //console.log(postObj.pid == "H0zAR2oDmowBk2Al1zy1");
       });
       setLoad(false);
       setPost(tempList);
-    }).catch((e) => {
-      console.log("Error getting documents: ", e);
-    });
-    console.log("useEffect called");
+    })
+    //console.log("useEffect called");
   }, []);
   console.log(posts);
   return (
     <Container maxWidth="lg">
       <Grid container>
-        <Grid item xs={8}>
-          <h1>Posts: </h1>
+        <Grid item xs={12}>
+          <h1 className='account-page-header'>Posts: </h1>
           {!load ? 
             posts.map((item) => {
               return (<PostPreview postData={item} setParent={setChildHandler} currentUserUid={user.uid} className='post-preview-resize'/>)
             }) : <div></div>
           }
-        </Grid>
-        <Grid item xs={4}>
-          <div>
-
-          </div>
         </Grid>
       </Grid>
     </Container>

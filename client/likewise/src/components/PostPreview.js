@@ -11,6 +11,8 @@ import PostDropdown from './PostDropdown';
 import {ReactComponent as LikeButton} from '../assets/comment-like-button.svg';
 import DividerLine from '../assets/post-preview-line-break.svg';
 import {UserContext} from '../providers/firebaseUser';
+import EditPost from './EditPost';
+import {PostPreviewIgnoreNames} from '../utils/constants';
 
 const useStyles = makeStyles(theme => ({
   cardArea: {
@@ -26,7 +28,8 @@ const useStyles = makeStyles(theme => ({
     '&:hover': {
       background: 'linear-gradient(#fff,#fff) padding-box, linear-gradient(to right, #5d7a96, #585269) border-box',
     },
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    justifyContent: 'space-between'
   },
   userImg: {
     maxWidth: "15em",
@@ -151,6 +154,7 @@ export default function PostPreview(props) {
     fontSize: '1.5em'
   });
   const [liked, setLike] = useState(postData.liked);
+  const [edit, setEdit] = useState(false);
   const handleLikeButton = () => {
     let batch = db.batch();
     let postsDocRef =  db.collection('posts').doc(postData.pid);
@@ -178,12 +182,12 @@ export default function PostPreview(props) {
     setLike(!liked);
   }
   const handleClick = (e) => {
-    if (
-      e.target.name === 'optionsButton' || e.target.name === 'editPostButton' 
-      || e.target.name === 'deletePostButton' || e.target.name === 'likeButton'
-    ) {
-      e.preventDefault();
-      e.stopPropagation();
+    for (let i = 0; i < PostPreviewIgnoreNames.length; i++) {
+      if(e.target.name === PostPreviewIgnoreNames[i]) {
+        e.preventDefault();
+        e.stopPropagation();
+        break;
+      }
     }
   }
   const handleDelete = (event) => {
@@ -201,12 +205,38 @@ export default function PostPreview(props) {
       props.setParent(postData.pid);
     }
   }
+  const handleEdit = (event) => {
+    setEdit(!edit);
+  }
+  const handleSubmitEdit = (description) => {
+    db.collection('posts').doc(postData.pid).update({
+      body: description
+    })
+    .then(function() {
+        console.log("Document successfully updated!");
+    })
+    .catch(function(error) {
+        // The document probably doesn't exist.
+        console.error("Error updating document: ", error);
+    });
+    db.collection('users').doc(user.uid).collection('posts').doc(postData.pid).update({
+      body: description
+    })
+    .then(function() {
+        console.log("Document successfully updated!");
+        window.location.reload(false);
+    })
+    .catch(function(error) {
+        // The document probably doesn't exist.
+        console.error("Error updating document: ", error);
+    });
+    setEdit(!edit);
+  }
   useEffect(() => {
-    
   }, []);
   return (
     <div className={props.className}>
-      <Link to={"/posts/" + postData.pid} className={classes.cardArea} onClick={handleClick}>
+      <Link to={"/posts/" + postData.pid} className={classes.cardArea} onClick={handleClick} name="cardLinkArea">
         <img src={userImg} className={classes.userImg}/>
         <div className={classes.detailBox}>
           <h2 id="post-preview-header">
@@ -223,10 +253,11 @@ export default function PostPreview(props) {
             </div>
             { postData.uid === props.currentUserUid ?
               <div className={classes.detailGroup}> 
-                <PostDropdown handleDelete={handleDelete} pid={postData.pid} className={classes.button}/>
+                <PostDropdown handleDelete={handleDelete} pid={postData.pid} className={classes.button} handleEdit={handleEdit}/>
               </div> : <div></div>
             }
           </div>
+          {edit ? <EditPost description={postData.body} handleSubmitEdit={handleSubmitEdit} handleEdit={handleEdit} pid={postData.pid}/> : <div></div>}
         </div>
         <div className={classes.likeSection}>
           <img src={DividerLine} className={classes.dividerLine}/>
@@ -237,7 +268,9 @@ export default function PostPreview(props) {
             <p style={numberStyle}>{postData.likes}</p>
           </div>
         </div>
+        
       </Link>
+      
     </div>
   )
 }

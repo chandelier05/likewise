@@ -6,6 +6,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import CreateReply from'./CreateReply';
 import Report from './Report';
 import {firestore as db} from '../utils/firebase';
+import {UserContext} from '../providers/firebaseUser';
 
 const useStyles = makeStyles(theme => ({
   root : {
@@ -32,7 +33,8 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     flexDirection: "row"
   },
-  reply: {
+  emptyDiv: {
+    margin: '0rem 0rem 0rem 6.5rem'
   }
 }));
 
@@ -40,12 +42,14 @@ export default function Comment(props) {
   const [closeReply, setReply] = useState(true);
   const [report, setReport] = useState(false);
   const [loading, setLoad] = useState(true);
-  const [avatarData, setAvatarData] = useState({});
+  const [avatarData, setAvatarData] = useState({
+    username: "deleted"
+  });
+  const user = useContext(UserContext);
   const userRef = db.collection('users').doc(props.commentUid);
   const classes = useStyles();
   const userImg = examplePicture;
   const major = "Informatics";
-  const username = props.firstName + " " + props.lastName;
   const handleReply = () => {
     setReply(!closeReply);
   }
@@ -56,16 +60,29 @@ export default function Comment(props) {
   const setReportDisplay = () => {
     setReport(!report);
   };
+  const deleteComment = () => {
+    db.collection('comments').doc(props.cid).update({
+      body : "deleted",
+      firstName: "delete",
+      uid: "delete",
+      lastName: " " ,
+      deleted: "TRUE"
+    }).then(() => {
+      window.location.reload(false);
+    })
+  }
   useEffect(() => {
     userRef.get().then((doc) => {
       let tempAvatarData = {};
-      if (doc.exists) {
-        tempAvatarData.username = doc.data().firstName + ' ' + doc.data().lastName;
-        tempAvatarData.likes = doc.data().likes;
-      } else {
-        console.log('user does not exist, comment');
+      if (!props.deleted) {
+        if (doc.exists) {
+          tempAvatarData.username = doc.data().firstName + ' ' + doc.data().lastName;
+          tempAvatarData.likes = doc.data().likes;
+        } else {
+          console.log('user does not exist, comment');
+        }
+        setAvatarData(tempAvatarData);
       }
-      setAvatarData(tempAvatarData);
     }).catch((e) => {
       console.log(e);
     })
@@ -75,9 +92,9 @@ export default function Comment(props) {
     <div className={classes.root}>
       <Grid container className={classes.post} style={{flexWrap:"noWrap"}}>
         {
-          !loading ? <Grid item xs={2} style={{margin:"0rem 1rem 0rem 0rem"}}>
-          <UserPicture imgSrc={userImg} major={major} points={avatarData.likes} username={avatarData.username}/>
-          </Grid> : <div></div>
+          !loading && !props.empty ? <Grid item xs={2} style={{margin:"0rem 1rem 0rem 0rem"}}>
+          <UserPicture imgSrc={userImg} major={major} points={avatarData.likes} username={avatarData.username} deleted={props.deleted}/>
+          </Grid> : <div className={classes.emptyDiv}></div>
         }
         <Grid item xs={10}>
           <Box className={classes.postOutline}>
@@ -86,15 +103,22 @@ export default function Comment(props) {
               </p>
               {
                 !props.empty ?
-                (<div><p style={{fontSize: "0.8rem"}}>{props.timestamp}</p>
-                <div style={{display: "inline-block"}}>
-                  {!props.commentReply ? 
-                    <button onClick={handleReply} className='reply-button'>Reply</button>
-                    :
-                    <div></div>
+                <div>
+                  <p style={{fontSize: "0.8rem"}}>{props.timestamp}</p>
+                  {
+                    !props.deleted ? 
+                    <div style={{display: "inline-block"}}>
+                    {
+                      !props.commentReply ? 
+                      <button onClick={handleReply} className='reply-button'>Reply</button>
+                      :
+                      <div></div>
+                    }
+                    <button className='report-button' onClick={setReportDisplay}>Report</button>
+                    {user.uid === props.commentUid ? <button className='delete-button' onClick={deleteComment}>Delete</button> : <div></div>}
+                    </div> : <div></div>
                   }
-                  <button className='report-button' onClick={setReportDisplay}>Report</button>
-                </div></div>) : <div></div>
+                </div> : <div></div>
               }
           </Box>
         </Grid>

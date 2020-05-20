@@ -8,13 +8,15 @@ import AccountPage from './pages/AccountPage/AccountPage';
 import {Switch, Route, Redirect} from 'react-router-dom';
 import {UserContext} from './providers/firebaseUser';
 import Leaderboard from './components/Leaderboard/Leaderboard';
-
+import ReactLoading from 'react-loading';
 export default function App(props) {
     const user = useContext(UserContext);
-    // TODO: REPLACE WITH LOADING ANIMATION
     if (user === "loading") {
       return (
-        <div>I'm Loading!</div>
+        <div id='loading-div-outer'>
+        <ReactLoading type={"spin"} color={"#88B5E1"} height={667} width={375} className="loading-div"/>
+        <h1>Loading...</h1>
+      </div>
       )
     }
     let body = (

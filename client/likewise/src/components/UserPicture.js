@@ -28,8 +28,9 @@ export default function UserPicture(props) {
         <div className={classes.root}>
             <img src={props.imgSrc} className={classes.image}/>
             <p className={classes.text} style={{color: "#88B5E1"}}>{props.username}</p>
-            <p className={classes.text} style={{color: "#dddddd"}}>{points} POINTS</p>
-            
+            {!props.deleted ? <p className={classes.text} style={{color: "#dddddd"}}>{points} POINTS</p>
+                : 
+            <div></div>}
         </div>
     )
 }

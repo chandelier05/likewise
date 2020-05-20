@@ -77,6 +77,8 @@ export default function CreateReply(props) {
       parentId: props.parentId
     };
     docRef.set(timeObject).then(() => {
+      window.location.reload(false);
+
       //console.log("set parent should be called!");
       props.setParent();
     })
@@ -92,6 +94,7 @@ export default function CreateReply(props) {
     // console.log(postData);
     // console.log("postdata is being modified");
   }
+  console.log(props.firstName)
   return (
     <div class={classes.root}>
       <div class={classes.labelRow} id="labelRow">

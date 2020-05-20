@@ -72,11 +72,12 @@ export default function DetailedPostPage(props) {
     })
     
   }, []);
+  console.log(user.firstName)
   return (
     <div>
       <SearchBar/>
       <Grid container className={classes.root}>
-        <Grid item xs={8} id='comment-post-section'>
+        <Grid item xs={10} id='comment-post-section'>
           <h1>Reflection (or Question)</h1>
           {!loading ? <DetailedPost setParent={handleMainReply} postData={postData} reportHandler={reportHandler}/> 
           : <div></div>}
@@ -86,9 +87,6 @@ export default function DetailedPostPage(props) {
           {report ? <Report setParent={reportHandler} pid={pid} uid={user.uid} type="post"/> : <div></div>}
           <h1>Replies</h1>
           <CommentSection pid={pid} uid={user.uid} commentCount={postData.commentCount}/>
-        </Grid>
-        <Grid item xs={4}>
-          <Leaderboard/>
         </Grid>
       </Grid>
     </div>

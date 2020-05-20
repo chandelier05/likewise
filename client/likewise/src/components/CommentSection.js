@@ -28,14 +28,28 @@ export default function CommentSection(props) {
             return;
           }
           var data = doc.data();
-          var comment = {
-            cid: doc.id,
-            timestamp: data["timestamp"].toDate().toString(),
-            body: data["body"],
-            firstName: data["firstName"],
-            lastName: data["lastName"],
-            uid: data["uid"]
-          };
+          var comment = {};
+          if (data['deleted'] === 'TRUE') {
+            comment = {
+              cid: doc.id,
+              timestamp: data["timestamp"].toDate().toString(),
+              body: data["body"],
+              firstName: data["firstName"],
+              lastName: data["lastName"],
+              uid: data["uid"],
+              deleted: true
+            };
+          } else {
+            comment = {
+              cid: doc.id,
+              timestamp: data["timestamp"].toDate().toString(),
+              body: data["body"],
+              firstName: data["firstName"],
+              lastName: data["lastName"],
+              uid: data["uid"],
+              deleted: false
+            };
+          }
           tempComments.push(comment);
         });
         setComments(tempComments);
@@ -49,15 +63,15 @@ export default function CommentSection(props) {
       }
     }
   }, [madeComment]);
-  
+  //console.log(comments);
   return (
-    <div>
+    <div className="comment-section-box">
       {!loading && comments.length > 0 ? comments.map((item) => {
           return (
             <MainComment firstName={item.firstName} lastName={item.lastName} 
             body={item.body} timestamp={item.timestamp} parentId={item.cid} 
             setParent={rerenderPage} postId={props.pid} commentUid={item.uid}
-            commentCount={props.commentCount} posterId={item.uid}/>
+            commentCount={props.commentCount} posterId={item.uid} deleted={item.deleted}/>
           );
         }) : 
         <Comment body={"No comments... Be the first to reply!"} empty={true} commentUid={'placeholder'}/>

@@ -38,7 +38,9 @@ export default function MainComment(props) {
           body: data["body"],
           firstName: data["firstName"],
           lastName: data["lastName"],
-          uid: data["uid"]
+          uid: data["uid"],
+          parentId: data['parentId'],
+          deleted: data["deleted"]
         };
         tempReplies.push(comment);
       });
@@ -47,21 +49,22 @@ export default function MainComment(props) {
       setLoad(false);
     });
   }, [madeComment]);
+ // console.log(props.firstName + " " + props.body)
   return (
     <div>
       <Comment firstName={props.firstName} lastName={props.lastName} 
       body={props.body} timestamp={props.timestamp} parentId={props.parentId} 
       setParent={rerenderPage} postId={props.postId} commentUid={props.commentUid}
-      commentCount={props.commentCount} posterId={props.posterId}/>
+      commentCount={props.commentCount} posterId={props.posterId} cid={props.parentId} deleted={props.deleted}/>
       <div>
         {!loading && replies.length ?
           replies.map((subItem) => {
             return (
               <div className={classes.commentReply}>
                 <Comment firstName={subItem.firstName} lastName={subItem.lastName}
-                body={subItem.body} timestamp={subItem.timestamp} parentId={subItem.parentId} 
+                body={subItem.body} timestamp={subItem.timestamp} parentId={subItem.parentId} cid={subItem.cid}
                 postReply={false} setParent={rerenderPage} commentUid={subItem.uid}
-                postId={props.postId} commentCount={props.commentCount} commentReply={true}/>
+                postId={props.postId} commentCount={props.commentCount} commentReply={true} deleted={subItem.deleted}/>
               </div>
             );
           })
