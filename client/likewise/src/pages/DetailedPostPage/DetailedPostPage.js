@@ -6,7 +6,7 @@ import CommentSection from '../../components/CommentSection';
 import CreateReply from'../../components/CreateReply';
 import {useParams} from 'react-router-dom';
 import {UserContext} from '../../providers/firebaseUser'; 
-import SearchBar, { TagInput } from "../../components/Searchbar/searchbar";
+import SearchBar, { BackBar } from "../../components/Searchbar/searchbar";
 import {firestore as db} from '../../utils/firebase';
 import Leaderboard from '../../components/Leaderboard/Leaderboard';
 import Report from '../../components/Report';
@@ -78,9 +78,9 @@ export default function DetailedPostPage(props) {
   }
   return (
     <div>
-      <SearchBar/>
+      <BackBar/>
       <Grid container className={classes.root}>
-        <Grid item xs={8} id='comment-post-section'>
+        <Grid item xs={12} s={8} md={8} id='comment-post-section'>
           <h1>Reflection (or Question)</h1>
           {!loading ? <DetailedPost setParent={handleMainReply} postData={postData} reportHandler={reportHandler}/> 
           : <div></div>}
@@ -91,7 +91,7 @@ export default function DetailedPostPage(props) {
           <h1>Replies</h1>
           <CommentSection pid={pid} uid={user.uid} commentCount={postData.commentCount}/>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs = {0} s={4} md={4} style={{display:"flex", justifyItems: "center"}}>
           <Leaderboard/>
         </Grid>
       </Grid>

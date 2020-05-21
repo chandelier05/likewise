@@ -1,5 +1,8 @@
 import React, { Component, useState } from "react";
 import { Input, Select, Button, InputNumber } from 'antd';
+import {Button as MButton} from '@material-ui/core';
+import {ArrowLeftOutlined} from '@ant-design/icons';
+import { Redirect } from 'react-router-dom';
 import './searchbar.css';
 import "antd/dist/antd.css";
 const { Option } = Select;
@@ -81,6 +84,29 @@ export default class SearchBar extends React.Component {
       )
   }
   
+}
+
+export function BackBar(props){
+
+  const[redirect, setRedirect] = useState(false);
+
+  const handleButton = () => {
+    setRedirect(true);
+  }
+
+  if (redirect){
+    return(
+      <Redirect to="/posts" />
+    )
+  }else{
+    return(
+      <div className="likewise-searchbar">
+        <MButton onClick={handleButton} size="large" className="redirect-button">
+        <ArrowLeftOutlined style={{color: "white", width: "100%"}} />
+        </MButton>
+      </div>
+    )
+  }
 }
 
 

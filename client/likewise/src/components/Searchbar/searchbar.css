@@ -62,3 +62,8 @@
 .likewise-sort-select{
     margin-left: 75px;
 }
+
+.redirect-button{
+    border-radius: 2px;
+    background-color: black;
+}
