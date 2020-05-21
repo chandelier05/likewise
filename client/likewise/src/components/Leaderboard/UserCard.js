@@ -15,7 +15,8 @@ const useStyles = makeStyles(theme => ({
     background: 'linear-gradient(#fff,#fff) padding-box, linear-gradient(to right, #88B5E1, #9188AB) border-box',
     borderImageSlice: 1,
     flexWrap: 'wrap',
-    margin: '1rem'
+    margin: '1rem',
+    justifyContent: 'space-between'
   },
   userImg: {
     maxWidth: "9em",
@@ -44,7 +45,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'row',
     minWidth: '5rem',
     maxWidth: '40rem',
-    flex: '1 1 5rem',
+    flex: '1 1 auto',
     alignItems: 'center',
     justifyContent: 'space-between'
   },
@@ -65,7 +66,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    margin: "0em 0em 0em 5em",
+    margin: "0em 0em 0em 4em",
     flex: '0 1 auto',
     "& p" : {
       color: "#707070",

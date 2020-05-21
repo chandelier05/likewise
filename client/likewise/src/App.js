@@ -9,8 +9,32 @@ import {Switch, Route, Redirect} from 'react-router-dom';
 import {UserContext} from './providers/firebaseUser';
 import Leaderboard from './components/Leaderboard/Leaderboard';
 import ReactLoading from 'react-loading';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+
 export default function App(props) {
     const user = useContext(UserContext);
+    const [open, setOpen] = React.useState(false);
+    const handleClose = () => {
+      setOpen(!open);
+    };
+    let uwEmailError = (
+      user === 'no-uw-email' ? 
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Error! Please sign in with an approved University of Washington email.
+          </DialogContentText>
+        </DialogContent>
+      </Dialog>
+      : <div></div>
+    )
     if (user === "loading") {
       return (
         <div id='loading-div-outer'>
@@ -28,6 +52,7 @@ export default function App(props) {
           </Route>
           <Redirect to="/"/>
         </Switch>
+        {uwEmailError}
       </div>
     )
     if (user !== "loading" && user !== "logout") {

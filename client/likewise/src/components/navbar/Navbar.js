@@ -16,7 +16,7 @@ export default function Navbar(props) {
   var location = useLocation();
   const handleLogin = (event) => {
       event.preventDefault();
-      signInWithGoogle();
+      console.log(signInWithGoogle());
   };
   const handleSignOut = (event) => {
     event.preventDefault();

@@ -227,7 +227,10 @@ button > * {
   flex-direction: column;
   align-items: center;
   font-size: 0.7rem;
+  position: fixed;
+  margin: 0rem 0rem 0rem 3rem;
 }
+
 
 #leaderboard-header {
   flex-direction: row;

@@ -81,7 +81,7 @@ export default function DetailedPostPage(props) {
       <SearchBar/>
       <Grid container className={classes.root}>
         <Grid item xs={10} id='comment-post-section'>
-          <h1>Reflection (or Question)</h1>
+          <h1>{postData.preview}</h1>
           {!loading ? <DetailedPost setParent={handleMainReply} postData={postData} reportHandler={reportHandler}/> 
           : <div></div>}
           {mainReply ? <CreateReply firstName={user.firstName} lastName={user.lastName} 

@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
     border: "0.15em solid transparent",
     background: 'linear-gradient(#fff,#fff) padding-box, linear-gradient(to right, #88B5E1, #9188AB) border-box',
     borderImageSlice: 1,
-    padding: "1rem",
+    padding: "2rem",
     flexDirection: "row"
   },
   post: {
@@ -83,9 +83,6 @@ export default function DetailedPost(props) {
             </Grid>
             <Grid item xs={10}>
             <Box className={classes.postOutline}>
-              <h2 className={classes.summary}>
-                {props.postData.preview}
-              </h2>
               <p>
                 {props.postData.body}
               </p>

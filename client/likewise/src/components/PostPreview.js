@@ -73,19 +73,23 @@ const useStyles = makeStyles(theme => ({
     flex: '0 1 auto',
     "& p" : {
       color: "#707070",
-      margin: "0em"
+      margin: "0em 0.7em",
+      display: "block",
+      flex: "1 1 auto"
     },
   },
   commentIcon: {
     width: "2em",
     height: "2em",
     textAlign: "center",
-    transform: 'scale(-1,1)'
+    transform: 'scale(-1,1)',
+    flex: "1 0 auto"
   },
   clockIcon: {
     width: "2em",
     height: "2em",
     textAlign: "center",
+    flex: "1 0 auto"
   },
   button: {
     backgroundColor:"transparent",
@@ -96,7 +100,8 @@ const useStyles = makeStyles(theme => ({
     "&:hover": {
       backgroundColor: "#d5d5d5"
     },
-    fontSize: '1rem'
+    fontSize: '1rem',
+    flex: "1 1 auto"
   },
   likeButton : {
     width: '5em',

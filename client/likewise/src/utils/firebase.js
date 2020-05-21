@@ -24,8 +24,14 @@ export const FieldValue = firebase.firestore.FieldValue;
 const provider = new firebase.auth.GoogleAuthProvider();
 export const signInWithGoogle = () => {
   auth.signInWithRedirect(provider).then((result) => {
-    let nameArr = result.user.displayName.split(' ');
-    generateUserDocument(result.user, {firstName: nameArr[0], lastName: nameArr[1]});
+    if (!result.user) {
+      return false;
+    } else {
+      console.log(result.user.providerData);
+      let nameArr = result.user.displayName.split(' ');
+      generateUserDocument(result.user, {firstName: nameArr[0], lastName: nameArr[1], likes: 0});
+      return true;
+    }
   });
 };
 
