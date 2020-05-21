@@ -2,6 +2,7 @@ import { Container } from "@material-ui/core";
 import classNames from "classnames";
 import React, { useState, useEffect }from "react";
 import styles from './Banner.module.scss';
+import {PushpinOutlined} from '@ant-design/icons';
 
 export default function Banner(props){
     const [isVisible, setVisibility] = useState("isVisible" in props ? props.isVisible : true);
@@ -45,7 +46,7 @@ function ShutDownBanner() {
     return (
         <Banner>
             <div className={styles.covidBannerText}>
-            Likewise will be suspending all operations by June 1st, 2020 (all personal data will be destroyed)
+            <PushpinOutlined /> &nbsp; Likewise will be suspending all operations by June 1st, 2020 (all personal data will be destroyed)
             </div>
         </Banner>
     )

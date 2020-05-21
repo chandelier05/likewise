@@ -6,7 +6,7 @@ import CommentSection from '../../components/CommentSection';
 import CreateReply from'../../components/CreateReply';
 import {useParams} from 'react-router-dom';
 import {UserContext} from '../../providers/firebaseUser'; 
-import SearchBar, { TagInput } from "../../components/Searchbar/searchbar";
+import SearchBar, { BackBar } from "../../components/Searchbar/searchbar";
 import {firestore as db} from '../../utils/firebase';
 import Leaderboard from '../../components/Leaderboard/Leaderboard';
 import Report from '../../components/Report';
@@ -78,7 +78,7 @@ export default function DetailedPostPage(props) {
   }
   return (
     <div>
-      <SearchBar/>
+      <BackBar/>
       <Grid container className={classes.root}>
         <Grid item xs={10} id='comment-post-section'>
           <h1>{postData.preview}</h1>

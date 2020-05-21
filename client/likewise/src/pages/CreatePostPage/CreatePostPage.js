@@ -2,7 +2,7 @@ import React, { useState, useContext} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {Grid, Button } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
-import SearchBar from "../../components/Searchbar/searchbar";
+import SearchBar, {BackBar} from "../../components/Searchbar/searchbar";
 import TagsInput from "../../components/TagsInput/TagsInput";
 import {firestore as db, getTimeStamp} from '../../utils/firebase';
 import {UserContext} from '../../providers/firebaseUser';
@@ -120,7 +120,7 @@ export default function CreatePostPage(props) {
   } else {
     return (
       <div>
-        <SearchBar ref={(searchComponent) => {window.searchComponent = searchComponent}}  />
+        <BackBar/>
         <Grid container style={{ flexDirection: "column" }}>
           <Grid item xs={12} class={classes.title}>
             <h1 id="createPostTitle">Create Post</h1>
